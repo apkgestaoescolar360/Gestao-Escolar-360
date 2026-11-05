@@ -5,8 +5,8 @@
 /* Ligação ao Supabase (opcional): preencha UMA vez antes de publicar. Se este dispositivo ainda não tiver servidor
    configurado, a app usa estes valores. Use apenas o URL do projecto e a chave Publishable/anon (NUNCA a service_role/secret). */
 (function () {
-    var URL_SUPABASE = "https://jdhtxzibdqqrzgimupyj.supabase.co";   /* ex.: https://abcdefghijk.supabase.co */
-    var CHAVE_PUBLICA = "sb_publishable_-EXCqzbpIHWczqB3x4nOSg_Ml4FwvBG";  /* ex.: sb_publishable_... ou a anon public (eyJ...) */
+    var URL_SUPABASE = "https://hncnqvrhofsfadoeduso.supabase.co";   /* ex.: https://abcdefghijk.supabase.co */
+    var CHAVE_PUBLICA = "sb_publishable_MjS8H0eadTgtTf7EoG49oQ_4ANmU4zo";  /* ex.: sb_publishable_... ou a anon public (eyJ...) */
     if (!URL_SUPABASE || !CHAVE_PUBLICA || /service_role|sb_secret_/.test(CHAVE_PUBLICA)) return;
     try {
         var c = JSON.parse(localStorage.getItem('ge360_srv_cfg') || 'null');
