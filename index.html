@@ -6054,13 +6054,46 @@ function admView() {
             var alunos = pautasEscola.reduce(function (n, p) { return n + (p.dados && Array.isArray(p.dados.alunos) ? p.dados.alunos.length : 0); }, 0);
             return '<div style="border:1px solid #d5dbe6;border-radius:12px;padding:10px;margin-bottom:8px"><b>' + esc(x.nome) + '</b><div class="mu sm">Código: ' + esc(x.codigo) + ' · ' + (x.ativa ? 'Activa' : 'SUSPENSA') + admAnoTxt(x) + '</div>' +
                 '<div class="mu sm" style="margin-top:6px">Professores: ' + prof + ' · Secretaria: ' + sec + ' · Pautas: ' + pautasEscola.length + ' · Registos de alunos: ' + alunos + '</div>' +
-                '<div style="display:flex;gap:6px;margin-top:8px"><button class="btn" style="flex:1" data-act="admAtivo" data-id="' + esc(x.id) + '" data-on="' + (x.ativa ? '0' : '1') + '">' + (x.ativa ? 'Suspender' : 'Reactivar') + '</button>' +
-                '<button class="btn" style="flex:1" data-act="admSenha" data-id="' + esc(x.id) + '">Redefinir senha da Escola</button></div>' +
+                '<div style="display:flex;gap:6px;margin-top:8px"><button class="btn pri" style="flex:1" data-act="admConsultar" data-id="' + esc(x.id) + '" data-nome="' + esc(x.nome) + '">Consultar dados</button><button class="btn" style="flex:1" data-act="admAtivo" data-id="' + esc(x.id) + '" data-on="' + (x.ativa ? '0' : '1') + '">' + (x.ativa ? 'Suspender' : 'Reactivar') + '</button></div>' +
+                '<div style="display:flex;gap:6px;margin-top:6px"><button class="btn" style="flex:1" data-act="admSenha" data-id="' + esc(x.id) + '">Redefinir senha da Escola</button></div>' +
                 '<div style="display:flex;gap:6px;margin-top:6px"><button class="btn" style="flex:1" data-act="admCodigo" data-id="' + esc(x.id) + '">Atribuir código de recuperação</button><button class="btn" style="flex:1" data-act="admRenovar" data-id="' + esc(x.id) + '">Novas credenciais</button></div>' +
                 '<div style="display:flex;gap:6px;margin-top:6px"><button class="btn" style="flex:1;color:#b3261e" data-act="admEliminar" data-id="' + esc(x.id) + '">Eliminar contas e senhas</button></div></div>';
         }).join('') || 'Ainda não há escolas.');
     }).catch(function (e) { var l = $('#adm_l'); if (l) l.textContent = srvErro(e); });
 }
+
+/* Consulta detalhada de dados da escola pelo Administrador Geral */
+A.admConsultar = function(d){
+  if(!(SESSAO&&SESSAO.perfil==='admin_geral'&&SESSAO.remoto)){toast('A consulta exige sessão válida de Administrador Geral.');return;}
+  var eid=String(d.id||''), nome=String(d.nome||'Escola');
+  if(!eid){toast('Identificador da escola inválido.');return;}
+  gate.innerHTML='<div class="gb" style="max-width:760px;max-height:94vh;overflow:auto"><button class="btn" data-act="admVoltar">← Voltar às escolas</button><h1 style="margin-top:12px">Consulta da escola</h1><h3>'+esc(nome)+'</h3><div id="adm_consulta_box" class="sm">A consultar dados autorizados no servidor…</div></div>';
+  gate.className='on';
+  Promise.all([
+    srvApi('GET','/rest/v1/escolas?select=*&id=eq.'+encodeURIComponent(eid)),
+    srvApi('GET','/rest/v1/perfis?select=user_id,nome,email,papel,ativo,atribuicoes,ficha,criado_em&escola_id=eq.'+encodeURIComponent(eid)+'&order=nome'),
+    srvApi('GET','/rest/v1/pautas?select=id,dados,versao,apagada,atualizado&escola_id=eq.'+encodeURIComponent(eid)+'&order=atualizado.desc'),
+    srvApi('GET','/rest/v1/anos_lectivos?select=*&order=inicio.desc')
+  ]).then(function(rs){
+    var out=$('#adm_consulta_box'); if(!out)return;
+    if(!rs[0].ok||!rs[1].ok||!rs[2].ok){out.innerHTML='<div style="padding:12px;border:1px solid #fca5a5;border-radius:10px;color:#991b1b"><b>Falha na consulta.</b><p>Escolas: '+rs[0].st+' · Perfis: '+rs[1].st+' · Pautas: '+rs[2].st+'. Verifique a sessão e as políticas RLS do Supabase.</p></div>';return;}
+    var e=(rs[0].j||[])[0]||{}, users=rs[1].j||[], ps=(rs[2].j||[]).filter(function(p){return !p.apagada;}), anos=rs[3].ok?(rs[3].j||[]):[];
+    var professores=users.filter(function(u){return u.papel==='professor';}), secret=users.filter(function(u){return u.papel==='secretaria';});
+    var alunos=[], turmas={}, disciplinas={};
+    ps.forEach(function(p){var x=p.dados||{};var cl=x.classe||x.c||'';var lst=Array.isArray(x.disciplinas)?x.disciplinas:(Array.isArray(x.ds)?x.ds:[]);if(!lst.length&&(x.disciplina||x.disc))lst=[x.disciplina||x.disc];var key=(cl?cl+'.ª classe':'Classe n/d')+' · Turma '+(x.turma||x.tm||'n/d')+(x.ano?' · '+x.ano:'');turmas[key]=true;(x.alunos||[]).forEach(function(a){alunos.push({a:a,p:p,d:x});});lst.forEach(function(n){if(n)disciplinas[String(n)]=true;});});
+    var ano=anos.find(function(a){return a.id===e.ano_id;});
+    function card(t,v){return '<div style="background:#f4f6fa;padding:10px;border-radius:10px"><span class="mu sm">'+t+'</span><div style="font-size:21px;font-weight:700">'+v+'</div></div>';}
+    var html='<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0">'+card('Professores',professores.length)+card('Secretaria',secret.length)+card('Pautas',ps.length)+card('Alunos (registos)',alunos.length)+'</div>'+
+      '<section style="border:1px solid #d7deea;border-radius:12px;padding:12px;margin:10px 0"><h3>Identificação</h3><p><b>Código:</b> '+esc(e.codigo||'—')+'<br><b>Estado:</b> '+(e.ativa?'Activa':'Suspensa')+'<br><b>Ano lectivo:</b> '+esc(ano?ano.ano:'não associado')+'<br><b>Registada em:</b> '+esc(e.criada_em||'—')+'</p></section>'+
+      '<section style="border:1px solid #d7deea;border-radius:12px;padding:12px;margin:10px 0"><h3>Utilizadores</h3>'+users.map(function(u){return '<div style="padding:8px 0;border-bottom:1px solid #e5e7eb"><b>'+esc(u.nome)+'</b> · '+esc(u.papel)+' · '+(u.ativo?'Activo':'Suspenso')+'<br><span class="mu sm">'+esc(u.email||'Sem email')+'</span></div>';}).join('')+'</section>'+
+      '<section style="border:1px solid #d7deea;border-radius:12px;padding:12px;margin:10px 0"><h3>Turmas / disciplinas encontradas nas pautas</h3><p>'+Object.keys(turmas).map(esc).join('<br>')+'</p><p><b>Disciplinas:</b><br>'+Object.keys(disciplinas).map(esc).join('<br>')+'</p></section>'+
+      '<section style="border:1px solid #d7deea;border-radius:12px;padding:12px;margin:10px 0"><h3>Alunos registados nas pautas</h3><div style="overflow:auto"><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left">Nº</th><th style="text-align:left">Nome</th><th style="text-align:left">Turma</th><th style="text-align:left">Sexo</th></tr></thead><tbody>'+
+      alunos.map(function(o,i){return '<tr><td style="padding:5px;border-bottom:1px solid #eee">'+esc(o.a.num||i+1)+'</td><td style="padding:5px;border-bottom:1px solid #eee">'+esc(o.a.nome||'—')+'</td><td style="padding:5px;border-bottom:1px solid #eee">'+esc(((o.d.classe||o.d.c)?(o.d.classe||o.d.c)+'.ª ':'')+(o.d.turma||o.d.tm||'—'))+'</td><td style="padding:5px;border-bottom:1px solid #eee">'+esc(o.a.sexo||'—')+'</td></tr>';}).join('')+'</tbody></table></div></section>'+
+      '<section style="border:1px solid #d7deea;border-radius:12px;padding:12px;margin:10px 0"><h3>Pautas e sincronização</h3>'+ps.map(function(p){var x=p.dados||{};return '<div style="padding:8px;border-bottom:1px solid #eee"><b>'+esc((x.classe||x.c)?(x.classe||x.c)+'.ª classe':'Classe')+' · Turma '+esc(x.turma||x.tm||'—')+' · '+(Array.isArray(x.disciplinas)?x.disciplinas.length:0)+' disciplinas</b><br><span class="mu sm">ID '+esc(p.id)+' · versão '+esc(p.versao)+' · actualizado '+esc(p.atualizado||'—')+' · '+((x.alunos||[]).length)+' alunos</span></div>';}).join('')+'</section>';
+    out.innerHTML=html;
+  }).catch(function(err){var out=$('#adm_consulta_box');if(out)out.textContent='Erro: '+srvErro(err);});
+};
+
 A.admNova = function () {
     gate.innerHTML = gBox('<p class="mu sm" style="line-height:1.45;margin:0 0 10px">O Administrador cria a conta da Escola e define as credenciais iniciais. Depois, a Escola poderá criar e gerir as contas dos professores e da Secretaria da própria escola.</p><label>Nome da escola</label><input id="a_nome" autocomplete="off"><label>Código da escola (minúsculas, números e hífen)</label><input id="a_cod" autocapitalize="off" autocomplete="off"><label>Nome de utilizador da Escola</label><input id="a_adj" autocomplete="off">' + (window.geZipCampo ? window.geZipCampo() : '') + '<label>Palavra-passe inicial (mínimo 8 caracteres)</label><input id="a_pw" type="password" autocomplete="new-password">' + gMsg() +
         '<button class="btn pri blk" style="margin-top:6px" data-act="admCriar">Criar escola</button>');
@@ -13666,7 +13699,7 @@ html:root:root #gate .gb{max-height:none!important;overflow:visible!important}
     }
     function blocosPrint(t) { var r = '', i = 0, k; while ((k = t.indexOf('@media print{', i)) >= 0) { var j = k + 13, d = 1; while (j < t.length && d > 0) { var ch = t.charAt(j); if (ch === '{') d++; else if (ch === '}') d--; j++; } r += t.slice(k + 13, j - 1); i = j; } return r; }
     function css() { var base = '', pr = ''; Array.prototype.forEach.call(document.getElementsByTagName('style'), function (s) { var t = s.textContent; if (t.indexOf('#printArea') >= 0) { base += t; pr += blocosPrint(t); } }); return base + pr + '#printArea{display:block!important;position:static!important;visibility:visible!important}'; }
-    function esc(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+    function esc(t) { return String(t == null ? '' : t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;').replace(/'/g, '&#39;'); }
     function aviso(m) { try { toast(m); } catch (x) { } }
     function medir(pg, html, cb) {
         var cw = Math.round((pg.w - 2 * pg.m) * PX), fr = document.createElement('iframe');
