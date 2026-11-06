@@ -5,8 +5,8 @@
 /* Ligação ao Supabase (opcional): preencha UMA vez antes de publicar. Se este dispositivo ainda não tiver servidor
    configurado, a app usa estes valores. Use apenas o URL do projecto e a chave Publishable/anon (NUNCA a service_role/secret). */
 (function () {
-    var URL_SUPABASE = "https://hncnqvrhofsfadoeduso.supabase.co";   /* ex.: https://abcdefghijk.supabase.co */
-    var CHAVE_PUBLICA = "sb_publishable_MjS8H0eadTgtTf7EoG49oQ_4ANmU4zo";  /* ex.: sb_publishable_... ou a anon public (eyJ...) */
+    var URL_SUPABASE = "https://dsagxqjbfsslsnbokaib.supabase.co";   /* ex.: https://abcdefghijk.supabase.co */
+    var CHAVE_PUBLICA = "sb_publishable_S5ECv9lebSg5jmFnb4UAgw_5lQu0RNR";  /* ex.: sb_publishable_... ou a anon public (eyJ...) */
     if (!URL_SUPABASE || !CHAVE_PUBLICA || /service_role|sb_secret_/.test(CHAVE_PUBLICA)) return;
     try {
         var c = JSON.parse(localStorage.getItem('ge360_srv_cfg') || 'null');
@@ -1306,6 +1306,24 @@ function vHome() {
         (storeOK ? '' : '<div class=\"note\">O armazenamento local não está disponível neste ambiente. Os dados podem não permanecer depois de fechar a página. Faça uma cópia de segurança antes de sair.</div>') +
         "<p class=\"dash-foot\">Gestão Escolar 360° · Apoio: 875321732 · Criado por Izaque Alberto Saíde</p>";
 }
+/* ---------- ESCOLAS DENTRO DA PASTA DO ANO: cor própria por escola ---------- */
+var escAb = {};
+var ESC_HUES = [212, 6, 142, 280, 36, 184, 328, 74, 250, 54, 160, 302];
+function escLista() {
+    return Array.from(new Set(S.pautas.map(function (p) { return (p.escola && String(p.escola).trim()) || 'Escola sem nome'; })))
+        .sort(function (a, b) { return a.localeCompare(b, 'pt'); });
+}
+function escHue(n) {
+    if (window.geEscHue) return window.geEscHue(n);
+    var i = escLista().indexOf(n); if (i < 0) i = 0;
+    return ESC_HUES[i % ESC_HUES.length];
+}
+function escKey(ano, n) { return String(ano) + '|' + n; }
+function escIni(n) {
+    var w = String(n).replace(/\b(da|de|do|das|dos|e)\b/gi, ' ').split(/\s+/).filter(function (x) { return /[A-Za-zÀ-ÿ0-9]/.test(x); });
+    var r = (w[0] ? w[0].charAt(0) : '') + (w[1] ? w[1].charAt(0) : '');
+    return (r || String(n).charAt(0) || '?').toUpperCase();
+}
 /* ---------- LISTA DE PAUTAS ---------- */
 function vPautas(mode) {
     var stats = mode === 'stats';
@@ -1319,25 +1337,42 @@ function vPautas(mode) {
         body = anos.map(function (ano) {
             var aberta = ui.pastas[ano] !== undefined ? !!ui.pastas[ano] : ano === anoRec;
             var lista = S.pautas.filter(function (p) { return String(p.ano || 'Sem ano') === ano; });
-            var cards = '<div class="ds-stack tw-mt-2 tw-mb-2">' + lista.map(function (p) {
+            var cardTurma = function (p) {
                 var acao = stats ? 'openStats' : 'openPauta', tn = tipoNome(p);
                 return '<div class="ds-rowcard">' +
                     '<button type="button" class="ds-rowcard__main" data-act="' + acao + '" data-id="' + p.id + '">' +
                     '<span class="ds-rowcard__title">' + p.classe + 'ª Classe, turma ' + esc(p.turma) + '</span>' +
-                    '<span class="ds-rowcard__meta">' + esc(p.escola) + (p.turno ? ', turno ' + esc(p.turno).toLowerCase() : '') + '</span>' +
+                    (p.turno ? '<span class="ds-rowcard__meta">Turno ' + esc(p.turno).toLowerCase() + '</span>' : '') +
                     '<span class="ds-badges">' + (tn ? '<span class="ds-badge">' + tn + '</span>' : '') +
                     '<span class="ds-badge">' + p.alunos.length + (p.alunos.length === 1 ? ' aluno' : ' alunos') + '</span><span class="ds-badge">' + p.disciplinas.length + (p.disciplinas.length === 1 ? ' disciplina' : ' disciplinas') + '</span></span>' +
                     '</button>' +
                     (stats ? '' : '<button type="button" class="ds-iconbtn" data-act="printMenu" data-id="' + p.id + '" aria-label="Imprimir">' + ic('print', 20) + '</button>' +
                         '<button type="button" class="ds-iconbtn ds-iconbtn--danger" data-act="delPauta" data-id="' + p.id + '" aria-label="Eliminar pauta">' + ic('trash', 20) + '</button>') +
                     '</div>';
-            }).join('') + '</div>';
+            };
+            /* escolas inscritas nesta pasta (uma sub-pasta por escola, cada uma com a sua cor) */
+            var escolas = Array.from(new Set(lista.map(function (p) { return (p.escola && String(p.escola).trim()) || 'Escola sem nome'; })))
+                .sort(function (a, b) { return a.localeCompare(b, 'pt'); });
+            var escHTML = escolas.map(function (en) {
+                var lt = lista.filter(function (p) { return ((p.escola && String(p.escola).trim()) || 'Escola sem nome') === en; });
+                var na = lt.reduce(function (x, q) { return x + q.alunos.length; }, 0);
+                var ch = escKey(ano, en), ab = escAb[ch] !== undefined ? !!escAb[ch] : escolas.length === 1;
+                var ini = escIni(en);
+                return '<div class="esc-folder" style="--h:' + escHue(en) + '">' +
+                    '<button type="button" class="esc-head" data-act="pastaEsc" data-ano="' + esc(ano) + '" data-esc="' + esc(en) + '" aria-expanded="' + (ab ? 'true' : 'false') + '">' +
+                    '<span class="esc-mark" aria-hidden="true">' + esc(ini) + '</span>' +
+                    '<span class="esc-body"><span class="esc-name">' + esc(en) + '</span>' +
+                    '<span class="esc-meta">' + lt.length + (lt.length === 1 ? ' turma' : ' turmas') + ' · ' + na + (na === 1 ? ' aluno' : ' alunos') + '</span></span></button>' +
+                    (ab ? '<div class="esc-turmas ds-stack">' + lt.map(cardTurma).join('') + '</div>' : '') +
+                    '</div>';
+            }).join('');
+            var cards = '<div class="esc-list">' + escHTML + '</div>';
             var nal = lista.reduce(function (x, q) { return x + q.alunos.length; }, 0);
-            return '<section class="year-folder ds-root tw-mb-4">' +
+            return '<section class="year-folder ds-root tw-mb-4' + (aberta ? ' is-open' : '') + '">' +
                 '<button type="button" class="ds-folder" data-act="pastaAno" data-ano="' + esc(ano) + '" aria-expanded="' + (aberta ? 'true' : 'false') + '">' +
                 '<span class="ds-folder__icon" aria-hidden="true">' + (aberta ? '📂' : '📁') + '</span>' +
                 '<span class="ds-folder__body"><span class="ds-folder__title">Ano lectivo ' + esc(ano) + '</span>' +
-                '<span class="ds-folder__meta">' + lista.length + (lista.length === 1 ? ' turma' : ' turmas') + ' · ' + nal + (nal === 1 ? ' aluno' : ' alunos') + ' nesta pasta</span></span></button>' +
+                '<span class="ds-folder__meta">' + escolas.length + (escolas.length === 1 ? ' escola' : ' escolas') + ' · ' + lista.length + (lista.length === 1 ? ' turma' : ' turmas') + ' · ' + nal + (nal === 1 ? ' aluno' : ' alunos') + '</span></span></button>' +
                 (aberta ? cards : '') + '</section>';
         }).join('');
     } else {
@@ -1706,6 +1741,7 @@ function afterAlunoChange() { if (cur().v === 'pauta')
 else
     render(); }
 var A = {
+    pastaEsc: function (d) { var k = escKey(d.ano, d.esc), n = Array.from(new Set(S.pautas.filter(function (p) { return String(p.ano || 'Sem ano') === String(d.ano); }).map(function (p) { return (p.escola && String(p.escola).trim()) || 'Escola sem nome'; }))), atual = escAb[k] !== undefined ? !!escAb[k] : n.length === 1; escAb[k] = !atual; render(); },
     pastaAno: function (d) { ui.pastas = ui.pastas || {}; var a = String(d.ano), rec = (function () { var l = Array.from(new Set(S.pautas.map(function (p) { return String(p.ano || 'Sem ano'); }))).filter(function (x) { return x !== 'Sem ano'; }).sort(function (x, y) { return (+x || 0) - (+y || 0); }); return l.pop(); })(); var atual = ui.pastas[a] !== undefined ? !!ui.pastas[a] : a === rec; ui.pastas[a] = !atual; render(); },
     back: back,
     closeModal: closeModal,
@@ -1717,7 +1753,7 @@ var A = {
     statsPick: function () { S.pautas.length === 1 ? go('stats', { id: S.pautas[0].id }) : go('pautas', { mode: 'stats' }); },
     backup: function () { go('backup'); },
     settings: function () { go('settings'); },
-    openPauta: function (d) { ui = { di: 0, q: '', sort: 'num', tab: 'pauta' }; go('pauta', { id: d.id }); },
+    openPauta: function (d) { var pst = ui && ui.pastas; ui = { di: 0, q: '', sort: 'num', tab: 'pauta', pastas: pst }; go('pauta', { id: d.id }); },
     openStats: function (d) { go('stats', { id: d.id }); },
     goStats: function (d) { go('stats', { id: d.id }); },
     editPauta: function () { openForm(curP().id); },
@@ -6031,7 +6067,7 @@ function admView() {
     gate.className = 'on';
     Promise.all([
         srvApi('GET', '/rest/v1/escolas?select=id,nome,codigo,ativa,ano_id,anos:anos_lectivos!escolas_ano_id_fkey(ano,inicio,fim,encerrado)&order=criada_em'),
-        srvApi('GET', '/rest/v1/perfis?select=escola_id,papel,ativo'),
+        srvApi('GET', '/rest/v1/perfis?select=escola_id,papel,ativo,nome'),
         srvLerPautas('escola_id,dados,apagada')
     ]).then(function (rs) {
         var l = $('#adm_l'); if (!l) return;
@@ -6046,18 +6082,27 @@ function admView() {
             '<div style="background:#f3f5f9;border-radius:10px;padding:10px"><div class="mu sm">Escolas activas</div><b style="font-size:20px">' + ativas + '</b></div>' +
             '<div style="background:#f3f5f9;border-radius:10px;padding:10px"><div class="mu sm">Contas nas escolas</div><b style="font-size:20px">' + utilizadores + '</b></div>' +
             '<div style="background:#f3f5f9;border-radius:10px;padding:10px"><div class="mu sm">Registos de alunos nas pautas</div><b style="font-size:20px">' + totalAlunos + '</b></div></div><h3 style="font-size:16px;margin:8px 0">Dados por escola</h3>';
-        l.innerHTML = resumo + (escolas.map(function (x) {
+        l.innerHTML = resumo + (escolas.map(function (x, ix) {
             var px = perfis.filter(function (u) { return u.escola_id === x.id; });
             var prof = px.filter(function (u) { return u.papel === 'professor'; }).length;
             var sec = px.filter(function (u) { return u.papel === 'secretaria'; }).length;
             var pautasEscola = pautas.filter(function (p) { return p.escola_id === x.id && !p.apagada; });
             var alunos = pautasEscola.reduce(function (n, p) { return n + (p.dados && Array.isArray(p.dados.alunos) ? p.dados.alunos.length : 0); }, 0);
-            return '<div style="border:1px solid #d5dbe6;border-radius:12px;padding:10px;margin-bottom:8px"><b>' + esc(x.nome) + '</b><div class="mu sm">Código: ' + esc(x.codigo) + ' · ' + (x.ativa ? 'Activa' : 'SUSPENSA') + admAnoTxt(x) + '</div>' +
+            return '<div class="rs-esc" data-c="' + (ix % 5) + '" style="border:1px solid #d5dbe6;border-radius:12px;padding:10px;margin-bottom:8px"><b>' + esc(x.nome) + '</b><div class="mu sm">Código: ' + esc(x.codigo) + ' · ' + (x.ativa ? 'Activa' : 'SUSPENSA') + admAnoTxt(x) + '</div>' +
                 '<div class="mu sm" style="margin-top:6px">Professores: ' + prof + ' · Secretaria: ' + sec + ' · Pautas: ' + pautasEscola.length + ' · Registos de alunos: ' + alunos + '</div>' +
-                '<div style="display:flex;gap:6px;margin-top:8px"><button class="btn pri" style="flex:1" data-act="admConsultar" data-id="' + esc(x.id) + '" data-nome="' + esc(x.nome) + '">Consultar dados</button><button class="btn" style="flex:1" data-act="admAtivo" data-id="' + esc(x.id) + '" data-on="' + (x.ativa ? '0' : '1') + '">' + (x.ativa ? 'Suspender' : 'Reactivar') + '</button></div>' +
-                '<div style="display:flex;gap:6px;margin-top:6px"><button class="btn" style="flex:1" data-act="admSenha" data-id="' + esc(x.id) + '">Redefinir senha da Escola</button></div>' +
-                '<div style="display:flex;gap:6px;margin-top:6px"><button class="btn" style="flex:1" data-act="admCodigo" data-id="' + esc(x.id) + '">Atribuir código de recuperação</button><button class="btn" style="flex:1" data-act="admRenovar" data-id="' + esc(x.id) + '">Novas credenciais</button></div>' +
-                '<div style="display:flex;gap:6px;margin-top:6px"><button class="btn" style="flex:1;color:#b3261e" data-act="admEliminar" data-id="' + esc(x.id) + '">Eliminar contas e senhas</button></div></div>';
+                '<div class="rs-acoes">' +
+                '<button class="btn pri" data-act="admEscola" data-id="' + esc(x.id) + '">Ver dados</button>' +
+                '<button class="btn" data-act="admAtivo" data-id="' + esc(x.id) + '" data-on="' + (x.ativa ? '0' : '1') + '">' + (x.ativa ? 'Suspender' : 'Reactivar') + '</button>' +
+                '<button type="button" class="btn rs-tg" data-p="cred" aria-expanded="false">Credenciais <i aria-hidden="true">▾</i></button>' +
+                '<button type="button" class="btn rs-tg" data-p="contas" aria-expanded="false">Conta da escola (' + px.length + ') <i aria-hidden="true">▾</i></button></div>' +
+                '<section class="rs-pn" data-p="cred" hidden>' +
+                '<button class="btn" data-act="admSenha" data-id="' + esc(x.id) + '">Redefinir senha</button>' +
+                '<button class="btn" data-act="admCodigo" data-id="' + esc(x.id) + '">Atribuir código de recuperação</button>' +
+                '<button class="btn" data-act="admRenovar" data-id="' + esc(x.id) + '">Novas credenciais</button>' +
+                '<button class="btn dan rs-conta-del" data-act="admEliminar" data-id="' + esc(x.id) + '">Eliminar escola</button></section>' +
+                '<section class="rs-pn rs-pn-l" data-p="contas" hidden>' +
+                (px.length ? px.map(function (u) { var pl = u.papel === 'adjunto' ? 'Escola (Director-adjunto)' : u.papel === 'professor' ? 'Professor' : u.papel === 'secretaria' ? 'Secretaria' : esc(u.papel || 'Conta'); return '<div class="rs-ct"><b>' + esc(u.nome || 'Sem nome') + '</b><span class="mu sm">' + pl + ' · ' + (u.ativo === false ? 'Inactiva' : 'Activa') + '</span></div>'; }).join('') : '<div class="mu sm">Ainda não há contas criadas nesta escola.</div>') +
+                '</section></div>';
         }).join('') || 'Ainda não há escolas.');
     }).catch(function (e) { var l = $('#adm_l'); if (l) l.textContent = srvErro(e); });
 }
@@ -6770,7 +6815,7 @@ function consEscolas() {
     var E = CE.get().escolas, ks = Object.keys(E), R = CE.stats({});
     return '<div class="bx"><b>Registar escola</b><div class="fl" style="margin-top:8px"><input type="text" id="ce_nome" placeholder="Nome da escola"><input type="text" id="ce_dist" placeholder="Distrito"><button class="btn pri" data-ca="regEsc">Registar</button></div></div>' +
         (ks.length ? ks.map(function (k) { var e = E[k], g = R.esc[k], np = Object.keys(e.pautas).length;
-            return '<div class="bx"><b>' + esc(e.nome) + '</b> <span class="mu sm">· ' + esc(e.dist || 'sem distrito') + ' · ' + (np ? 'dados de ' + cD(e.ult) : '<span class="er">sem dados</span>') + '</span>' +
+            return '<div class="bx ge-esc-bx" data-sh="' + (window.geEscHue ? window.geEscHue(e.nome) : 212) + '"><b>' + esc(e.nome) + '</b> <span class="mu sm">· ' + esc(e.dist || 'sem distrito') + ' · ' + (np ? 'dados de ' + cD(e.ult) : '<span class="er">sem dados</span>') + '</span>' +
                 (g ? '<div class="cg" style="margin-top:8px">' + cCard(g.n, 'Alunos') + cCard(g.M, 'Feminino') + cCard(g.pos + '/' + g.neg, 'Aprov./Reprov.') + cCard(cP(CE.pct(g)), 'Aproveitamento') + '</div><div class="mu sm">Apenas estatísticas: nomes de alunos não são guardados nem mostrados.</div>' : '') +
                 '<div style="margin-top:8px"><button class="btn" data-ca="dist" data-id="' + esc(k) + '">Definir distrito</button></div></div>'; }).join('') : '<div class="bx mu">Nenhuma escola. Registe uma ou importe backups.</div>');
 }
@@ -10530,7 +10575,7 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
                 ((rs[1].ok && rs[1].j) || []).forEach(function (e) { if (!cards[e.id]) return; if (e.ano_id && anos.some(function (a) { return a.id === e.ano_id; })) (por[e.ano_id] = por[e.ano_id] || []).push(e.id); else sem.push(e.id); });
                 var box = document.createElement('div'); box.id = 'adm_pastas';
                 function pasta(tit, sub, ids, aberta, ano) {
-                    var d = document.createElement('details'); d.open = aberta; d.style.cssText = 'border:1px solid #c5cddd;border-radius:12px;margin:10px 0;padding:0 10px 10px;background:#fafbfd';
+                    var d = document.createElement('details'); d.open = aberta; d.className = 'rs-pasta'; d.setAttribute('data-fc', String(box.children.length % 5)); d.style.cssText = 'border:1px solid #c5cddd;border-radius:12px;margin:10px 0;padding:0 10px 10px;background:#fafbfd';
                     var s = document.createElement('summary'); s.style.cssText = 'cursor:pointer;font-weight:700;padding:10px 0;font-size:15px'; s.innerHTML = '📁 ' + esc(tit) + ' <span class="mu sm" style="font-weight:400">· ' + esc(sub) + ' · ' + ids.length + ' escola(s) inscrita(s)</span>'; d.appendChild(s);
                     if (!ids.length) { var v = document.createElement('div'); v.className = 'mu sm'; v.textContent = 'Nenhuma escola inscrita neste ano lectivo.'; d.appendChild(v); }
                     ids.forEach(function (id) { d.appendChild(cards[id]); });
@@ -10540,7 +10585,7 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
                 anos.forEach(function (a, i) { var est = a.encerrado || h > a.fim ? 'terminado' : h < a.inicio ? 'por começar' : 'a decorrer'; pasta('Ano lectivo ' + a.ano, fmtD(a.inicio) + ' a ' + fmtD(a.fim) + ' (' + est + ')', por[a.id] || [], i === 0, a); });
                 if (sem.length) pasta('Sem ano lectivo', 'escolas por inscrever', sem, true);
                 var first = Object.keys(cards)[0], ref = first ? cards[first] : null;
-                if (ref && ref.parentNode === l) l.insertBefore(box, ref); else l.appendChild(box);
+                var wrp = l.querySelector('.ao-cards'); if (wrp && wrp.parentNode) wrp.parentNode.insertBefore(box, wrp); else if (ref && ref.parentNode === l) l.insertBefore(box, ref); else l.appendChild(box);
                 /* os cartões movidos para as pastas já não estão como filhos directos de #adm_l */
             }).catch(function () { });
         }
@@ -16399,8 +16444,7 @@ html:root:root #gate .ao-row .btn{flex:1;margin:0!important;min-height:40px;bord
             var st = null; if (ss) { st = document.createElement('div'); st.className = 'ao-ss'; st.innerHTML = ss; }
             c.insertBefore(hd, c.firstChild); if (st) hd.insertAdjacentElement('afterend', st);
             if (nm) nm.classList.add('ao-hide'); [].forEach.call(mus, function (m) { m.classList.add('ao-hide'); });
-            var tg = document.createElement('button'); tg.type = 'button'; tg.className = 'ao-tg'; tg.innerHTML = '<span>Gerir conta da escola</span><i aria-hidden="true">▾</i>'; tg.setAttribute('aria-expanded', 'false');
-            (st || hd).insertAdjacentElement('afterend', tg);
+            /* alternador «Gerir conta da escola» retirado: os botões ficam sempre visíveis numa só linha */
         }
         /* botões «Ver todos os dados» (injectados mais tarde por outro módulo) e linhas de gestão */
         var ad = c.querySelector('[data-act="admEscola"]');
@@ -16461,7 +16505,7 @@ html:root:root #gate .ao-row .btn{flex:1;margin:0!important;min-height:40px;bord
             var none = document.createElement('div'); none.className = 'ao-none'; none.textContent = 'Nenhuma escola corresponde à pesquisa.'; wrap.insertAdjacentElement('afterend', none);
         }
         var wr = L.querySelector('.ao-cards');
-        cards.forEach(function (c) { orgCard(c); if (wr && c.parentNode !== wr) wr.appendChild(c); });
+        cards.forEach(function (c) { orgCard(c); if (wr && c.parentNode !== wr && !c.closest('#adm_pastas')) wr.appendChild(c); });
         if (wr) filtrar(gb);
     }
     function agenda() { if (agendado) return; agendado = 1; (window.requestAnimationFrame || setTimeout)(function () { agendado = 0; try { orgGate(); } catch (e) { try { console.error('Painel (organização):', e); } catch (x) { } } if (obsG) obsG.takeRecords(); }); }
@@ -17162,5 +17206,541 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 </script>
 
+
+<style id="redesign-profissional">
+/* ===== REDESIGN PROFISSIONAL — complementar (não altera lógica) =====
+   Nota: sem @layer de propósito. CSS em camadas perde sempre contra o CSS
+   existente (sem camada, com !important). Usa-se html:root:root para vencer. */
+
+/* 1. TOKENS */
+:root{
+ --ds-brand-primary:#0038ff;--ds-brand-secondary:#2a56ff;--ds-brand-accent:#d6e3ff;
+ --ds-dark-bg:#0b132b;--ds-dark-primary:#39ff88;
+ --ds-space-1:.25rem;--ds-space-2:.5rem;--ds-space-3:.75rem;--ds-space-4:1rem;--ds-space-6:1.5rem;--ds-space-8:2rem;
+ --ds-radius-sm:.5rem;--ds-radius-md:.75rem;--ds-radius-lg:1rem;--ds-radius-xl:1.5rem;--ds-radius-full:999px;
+ --ds-shadow-sm:0 1px 2px rgba(10,31,122,.05);--ds-shadow-md:0 6px 18px rgba(10,31,122,.08);--ds-shadow-lg:0 16px 40px rgba(10,31,122,.12);
+ --ds-text-xs:.8125rem;--ds-text-sm:.875rem;--ds-text-base:1rem;--ds-text-lg:1.125rem;
+ --ds-text-xl:clamp(1.25rem,1.1rem + .8vw,1.5rem);--ds-text-2xl:clamp(1.5rem,1.2rem + 1.4vw,2rem);
+ --ds-ease-out:cubic-bezier(.2,.8,.2,1);--ds-ease-spring:cubic-bezier(.34,1.56,.64,1);
+ --ds-dur-fast:.15s;--ds-dur-normal:.25s;--ds-dur-slow:.4s;--ds-touch:2.75rem;
+}
+html[data-theme="dark"]{--ds-shadow-sm:0 1px 2px rgba(0,0,0,.4);--ds-shadow-md:0 6px 18px rgba(0,0,0,.35);--ds-shadow-lg:0 16px 40px rgba(0,0,0,.5)}
+
+@media screen{
+/* 2. BASE: tipografia e números */
+html:root:root body{line-height:1.55;-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}
+html:root:root h1,html:root:root h2,html:root:root h3{letter-spacing:-.02em;text-wrap:balance}
+html:root:root table,html:root:root .kp,html:root:root .dash-kpi strong,html:root:root input[type=number]{font-variant-numeric:tabular-nums}
+html:root:root td,html:root:root th{font-size:max(13px,.8125rem)}
+html:root:root .tile b,html:root:root .tile span.s{overflow:hidden;text-overflow:ellipsis}
+html:root:root{overflow-x:clip}
+
+/* 3. ACESSIBILIDADE: foco visível 3px */
+html:root:root :is(a,button,input,select,textarea,summary,[tabindex]:not([tabindex="-1"])):focus-visible{
+ outline:3px solid var(--ds-brand-secondary)!important;outline-offset:2px!important;border-radius:var(--ds-radius-sm)}
+html[data-theme="dark"]:root:root :is(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline-color:var(--ds-dark-primary)!important}
+
+/* 4. BOTÕES: hierarquia, estados, alvo mínimo */
+html:root:root .btn,html:root:root .ibtn{min-height:var(--ds-touch);transition:transform var(--ds-dur-fast) var(--ds-ease-out),box-shadow var(--ds-dur-normal) var(--ds-ease-out),background-color var(--ds-dur-normal)}
+html:root:root .ibtn{min-width:var(--ds-touch)}
+html:root:root .btn:active,html:root:root .ibtn:active,html:root:root .tile:active{transform:scale(.97)}
+html:root:root .btn:disabled,html:root:root .btn[aria-disabled=true]{opacity:.5;cursor:not-allowed;box-shadow:none}
+html:root:root .btn[aria-busy=true]{position:relative;color:transparent!important;pointer-events:none}
+html:root:root .btn[aria-busy=true]::after{content:"";position:absolute;inset:50% auto auto 50%;width:18px;height:18px;margin:-9px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:rs-spin .7s linear infinite;color:#fff}
+html:root:root .btn.pri{box-shadow:var(--ds-shadow-md)}
+html:root:root .btn.danger,html:root:root .btn.del,html:root:root .btn[data-act*="del"]{--rs-d:#b42335}
+@keyframes rs-spin{to{transform:rotate(360deg)}}
+@media (hover:hover){html:root:root .tile:hover,html:root:root .card:hover{transform:translateY(-2px)}}
+html:root:root .tile,html:root:root .card{position:relative;transition:transform var(--ds-dur-normal) var(--ds-ease-out),box-shadow var(--ds-dur-normal)}
+
+/* 5. VIDRO FOSCO (só ecrã) */
+html:root:root .top{-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%)}
+html:root:root .sheet{-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%)}
+html.rs-scrolled:root:root .top{box-shadow:var(--ds-shadow-md)}
+
+/* 6. SPOTLIGHT no cursor (CSS vars --mx/--my vêm do JS) */
+@media (hover:hover){
+html:root:root .tile::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;
+ background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(0,56,255,.10),transparent 60%)}
+html:root:root .tile:hover::before{opacity:1}
+html[data-theme="dark"]:root:root .tile::before{background:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(57,255,136,.12),transparent 60%)}}
+
+/* 7. MODAIS: bottom sheet (telemóvel) / centrado (resto) */
+html:root:root .sheet{max-height:min(88vh,88dvh);overflow:auto;overscroll-behavior:contain}
+@media (max-width:767.98px){
+ html:root:root #modal .ov{align-items:flex-end!important;padding:0!important}
+ html:root:root #modal .sheet{width:100%!important;max-width:none!important;border-radius:var(--ds-radius-xl) var(--ds-radius-xl) 0 0!important;padding-bottom:calc(var(--ds-space-4) + env(safe-area-inset-bottom,0px))!important;animation:rs-up .35s var(--ds-ease-spring)}
+ html:root:root input,html:root:root select,html:root:root textarea{font-size:16px!important;min-height:48px}
+ html:root:root .btn{min-height:48px}
+ html:root:root .sheet .btn.blk,html:root:root .sheet .btn.pri{width:100%}
+}
+@media (min-width:768px){
+ html:root:root #modal .ov{align-items:center!important}
+ html:root:root #modal .sheet{max-width:min(760px,92vw)!important;border-radius:var(--ds-radius-xl)!important;animation:rs-pop var(--ds-dur-normal) var(--ds-ease-out)}
+}
+@media (min-width:1024px){html:root:root #modal .sheet{max-width:640px!important}}
+@keyframes rs-up{from{transform:translateY(100%)}to{transform:none}}
+@keyframes rs-pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+html:root:root #modal .ov{animation:rs-fade .2s ease-out}
+@keyframes rs-fade{from{opacity:0}to{opacity:1}}
+
+/* 8. LARGURAS MÁXIMAS */
+@media (min-width:1024px){html:root:root #app:not(.wide){max-width:1400px}}
+@media (min-width:1600px){html:root:root #app{max-width:1600px}html:root:root .dash-section .grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* 9. TELEMÓVEL EM PAISAGEM */
+@media (orientation:landscape) and (max-height:520px){
+ html.rs-short:root:root #rsnav{display:none!important}
+ html.rs-short:root:root #app{padding-top:calc(var(--ds-space-3)*.6)!important;padding-bottom:calc(var(--ds-space-3)*.6)!important}
+ html.rs-short:root:root .top{position:static!important;min-height:0}
+ html.rs-short:root:root #modal .ov{align-items:center!important}
+ html.rs-short:root:root #modal .sheet{max-width:min(760px,92vw)!important;border-radius:var(--ds-radius-lg)!important;max-height:94dvh}
+ html.rs-short:root:root .dash-section .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* 10. DESEMPENHO */
+html.rs-hidden *,html.rs-hidden *::before,html.rs-hidden *::after{animation-play-state:paused!important}
+html.mo-lite:root:root .top,html.mo-lite:root:root .sheet{-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+@media (prefers-reduced-motion:reduce){html:root:root *,html:root:root *::before,html:root:root *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{.tile::before{display:none!important}}
+</style>
+<!-- Redesign: sem HTML adicional. O JavaScript abaixo cria/ajusta tudo dinamicamente (o menu inferior #rsnav já existe). -->
+
+<script id="redesign-profissional-js">
+(function(){"use strict";
+var de=document.documentElement,raf=window.requestAnimationFrame||function(f){return setTimeout(f,16)};
+
+/* 1. Classes de dispositivo e orientação no <html> */
+function classes(){
+ var w=innerWidth,h=innerHeight,L=w>h;
+ var m=w<768,t=w>=768&&w<1024,d=w>=1024;
+ [['rs-mobile',m],['rs-tablet',t],['rs-desktop',d],['rs-landscape',L],['rs-portrait',!L],['rs-short',h<=520],['rs-xl',w>=1600]]
+  .forEach(function(p){de.classList.toggle(p[0],p[1])});
+}
+var tm=null,lastO=null;
+function onChange(){
+ clearTimeout(tm);
+ tm=setTimeout(function(){
+  var o=innerWidth>innerHeight;
+  classes();
+  if(lastO!==null&&o!==lastO){ /* rodou: fecha menu aberto e reinicia a transição */
+   try{if(typeof menuFecha==='function')menuFecha()}catch(e){}
+   de.classList.remove('rs-rot');void de.offsetWidth;de.classList.add('rs-rot');
+  }
+  lastO=o;
+ },120);
+}
+classes();lastO=innerWidth>innerHeight;
+addEventListener('resize',onChange);addEventListener('orientationchange',onChange);
+try{screen.orientation&&screen.orientation.addEventListener&&screen.orientation.addEventListener('change',onChange)}catch(e){}
+
+/* 2. Spotlight: actualiza --mx/--my por requestAnimationFrame */
+if(matchMedia('(hover:hover)').matches){
+ var pend=null,px=0,py=0;
+ document.addEventListener('pointermove',function(e){
+  var t=e.target.closest&&e.target.closest('.tile');if(!t)return;
+  px=e.clientX;py=e.clientY;pend=t;
+  if(pend._r)return;pend._r=1;
+  raf(function(){var r=t.getBoundingClientRect();t.style.setProperty('--mx',(px-r.left)+'px');t.style.setProperty('--my',(py-r.top)+'px');t._r=0});
+ },{passive:true});
+}
+
+/* 3. Cabeçalho com sombra ao rolar */
+var sc=false;
+addEventListener('scroll',function(){if(sc)return;sc=true;raf(function(){de.classList.toggle('rs-scrolled',scrollY>8);sc=false})},{passive:true});
+
+/* 4. Desempenho: pausa com a aba oculta; modo leve em dispositivos fracos */
+document.addEventListener('visibilitychange',function(){de.classList.toggle('rs-hidden',document.visibilityState==='hidden')});
+if((navigator.deviceMemory&&navigator.deviceMemory<4)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<4))de.classList.add('mo-lite');
+
+/* 5. Modais: foco preso, Esc e devolução do foco */
+var back=null,modal=document.getElementById('modal');
+function sheet(){return modal&&modal.querySelector('.sheet')}
+function focusables(s){return Array.prototype.filter.call(s.querySelectorAll('a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'),function(e){return e.offsetParent!==null})}
+if(modal&&window.MutationObserver){
+ new MutationObserver(function(){
+  var s=sheet();
+  if(s){
+   if(!back)back=document.activeElement;
+   document.body.classList.add('dopen');
+   if(!s.contains(document.activeElement)){s.setAttribute('tabindex','-1');var f=focusables(s)[0];(f||s).focus({preventScroll:true})}
+  }else{document.body.classList.remove('dopen');if(back&&back.focus){try{back.focus({preventScroll:true})}catch(e){}}back=null}
+ }).observe(modal,{childList:true});
+}
+document.addEventListener('keydown',function(e){
+ var s=sheet();if(!s)return;
+ if(e.key==='Tab'){
+  var f=focusables(s);if(!f.length)return;
+  var a=f[0],z=f[f.length-1];
+  if(e.shiftKey&&(document.activeElement===a||!s.contains(document.activeElement))){e.preventDefault();z.focus()}
+  else if(!e.shiftKey&&(document.activeElement===z||!s.contains(document.activeElement))){e.preventDefault();a.focus()}
+ }else if(e.key==='Escape'){
+  setTimeout(function(){if(sheet()&&typeof closeModal==='function')closeModal()},0);
+ }
+});
+
+/* 6. Acessibilidade: nome acessível em botões só com ícone */
+function aria(){
+ document.querySelectorAll('button:not([aria-label]),a:not([aria-label])').forEach(function(b){
+  if(!(b.textContent||'').trim()&&b.title)b.setAttribute('aria-label',b.title);
+ });
+ var t=document.getElementById('toast');if(t&&!t.getAttribute('aria-live'))t.setAttribute('aria-live','polite');
+}
+var at=null;
+new MutationObserver(function(){clearTimeout(at);at=setTimeout(aria,200)}).observe(document.body,{childList:true,subtree:true});
+aria();
+})();
+</script>
+
+<style id="redesign-parte2">
+/* ===== REDESIGN PARTE 2 — ecrãs: transições, login, painel, pauta/tabelas, formulários, menu ===== */
+@media screen{
+/* 1. TRANSIÇÃO ENTRE ECRÃS: cascata (só opacity + transform) */
+@keyframes rs-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes rs-x{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+html:root:root #app.rs-enter>*,html:root:root #app.rs-enter .card,html:root:root #app.rs-enter .tile,html:root:root #app.rs-enter .dash-kpis>*{animation:rs-in var(--ds-dur-slow,.4s) var(--ds-ease-out,cubic-bezier(.2,.8,.2,1)) both}
+html:root:root #app.rs-enter>:nth-child(2),html:root:root #app.rs-enter .tile:nth-child(2){animation-delay:40ms}
+html:root:root #app.rs-enter>:nth-child(3),html:root:root #app.rs-enter .tile:nth-child(3){animation-delay:80ms}
+html:root:root #app.rs-enter>:nth-child(4),html:root:root #app.rs-enter .tile:nth-child(4){animation-delay:120ms}
+html:root:root #app.rs-enter>:nth-child(5),html:root:root #app.rs-enter .tile:nth-child(5){animation-delay:160ms}
+html:root:root #app.rs-enter>:nth-child(n+6),html:root:root #app.rs-enter .tile:nth-child(n+6){animation-delay:200ms}
+html:root:root #sres.rs-enter{animation:rs-x .25s var(--ds-ease-out,ease-out)}
+html:root:root .seg button{transition:background-color .25s,color .25s,box-shadow .25s}
+html:root:root .seg button.on,html:root:root .seg button[aria-pressed=true]{box-shadow:var(--ds-shadow-sm)}
+
+/* 2. LOGIN / ECRÃ DO DISPOSITIVO (#app.dev) */
+html:root:root #app.dev{max-width:min(420px,100%);margin-inline:auto}
+@media (min-width:1024px){html:root:root #app.dev{max-width:900px}}
+html:root:root #app.dev .card{border-radius:var(--ds-radius-xl);box-shadow:var(--ds-shadow-lg);-webkit-backdrop-filter:blur(16px) saturate(180%);backdrop-filter:blur(16px) saturate(180%)}
+html:root:root #app.dev .btn.pri{min-height:52px;font-size:var(--ds-text-lg);width:100%}
+html[data-theme="dark"]:root:root #app.dev .card{border:1px solid rgba(57,255,136,.35);background:rgba(11,19,43,.75)}
+
+/* 3. PAINEL INICIAL: KPIs e cartões de ação */
+html:root:root .dash-kpis{display:grid;gap:var(--ds-space-3);grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:1024px){html:root:root .dash-kpis{grid-template-columns:repeat(4,minmax(0,1fr))}}
+html:root:root .dash-section{display:grid;gap:var(--ds-space-3);grid-template-columns:minmax(0,1fr)}
+@media (min-width:768px){html:root:root .dash-section{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1024px){html:root:root .dash-section{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1600px){html:root:root .dash-section{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+/* 4. TABELAS: cabeçalho fixo, hover, colunas fixas, números tabulares */
+html:root:root .tw{max-width:100%;overflow:auto;-webkit-overflow-scrolling:touch}
+@media (min-width:768px){
+ html:root:root .tw{max-height:calc(100dvh - 190px)}
+ html:root:root .tw thead th,html:root:root .tw tr:first-child>th{position:sticky;top:0;z-index:3;background:var(--rs-bg,#eef3ff)}
+ html:root:root .tw.rs-sticky tr>:first-child{position:sticky;left:0;z-index:2;background:var(--rs-bg2,#fff)}
+ html:root:root .tw.rs-sticky tr>:nth-child(2){position:sticky;left:var(--c1w,44px);z-index:2;background:var(--rs-bg2,#fff)}
+ html:root:root .tw.rs-sticky tr:first-child>:first-child,html:root:root .tw.rs-sticky tr:first-child>:nth-child(2){z-index:4;background:var(--rs-bg,#eef3ff)}
+}
+html[data-theme="dark"]{--rs-bg:#14214a;--rs-bg2:#0b132b}
+@media (hover:hover){html:root:root .tw tbody tr:hover>td,html:root:root .tw tr:not(:first-child):hover>td{background-color:rgba(0,56,255,.06)}
+ html[data-theme="dark"]:root:root .tw tr:not(:first-child):hover>td{background-color:rgba(57,255,136,.08)}}
+/* Telemóvel: tabelas pequenas viram cartões verticais (classe posta pelo JS) */
+@media (max-width:767.98px){
+ html:root:root .tw.rs-cards{max-height:none;overflow:visible}
+ html:root:root .tw.rs-cards table,html:root:root .tw.rs-cards tbody{display:block;width:100%}
+ html:root:root .tw.rs-cards tr:first-child:has(th),html:root:root .tw.rs-cards thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ html:root:root .tw.rs-cards tr{display:block;margin:0 0 var(--ds-space-3);padding:var(--ds-space-2) var(--ds-space-3);border:1px solid var(--line,#c9d8ff);border-radius:var(--ds-radius-lg);box-shadow:var(--ds-shadow-sm)}
+ html:root:root .tw.rs-cards td{display:flex;justify-content:space-between;gap:var(--ds-space-3);padding:var(--ds-space-2) 0;border:0;text-align:right}
+ html:root:root .tw.rs-cards td::before{content:attr(data-label);flex:none;font-weight:600;color:var(--muted,#5b6b99);text-align:left}
+}
+
+/* 5. FORMULÁRIOS */
+html:root:root #app label{display:block;margin:var(--ds-space-4) 0 var(--ds-space-1);font-weight:600;font-size:var(--ds-text-sm)}
+html:root:root #app label:has(+ :is(input,select,textarea)[required])::after{content:" *";color:#b42335}
+html:root:root #app :is(input,select,textarea){min-height:var(--ds-touch);border-radius:var(--ds-radius-md);transition:border-color .2s,box-shadow .2s}
+html:root:root #app :is(input,select,textarea):user-invalid{border-color:#b42335!important;box-shadow:0 0 0 3px rgba(180,35,53,.15)}
+@media (max-width:767.98px){
+ html:root:root #app.rs-form .card>.row:last-child{position:sticky;bottom:calc(72px + env(safe-area-inset-bottom,0px));z-index:5;padding:var(--ds-space-3);margin-inline:calc(var(--ds-space-3)*-1);background:var(--rs-bg2,#fff);border-top:1px solid var(--line,#c9d8ff);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+ html:root:root #app.rs-form .card>.row:last-child .btn{flex:1}
+}
+
+/* 6. MENU LATERAL: tooltip (trilho/tablet) e estados */
+html:root:root #side button{min-height:var(--ds-touch);transition:background-color .2s,transform .15s}
+@media (hover:hover){html:root:root #side button:hover:not(.on){background:rgba(255,255,255,.14)}}
+html:root:root #side button.on{background:#fff;color:#0a1f7a}
+html[data-theme="dark"]:root:root #side button.on{background:#39ff88;color:#0b132b}
+@media (min-width:768px) and (max-width:1023.98px){
+ html:root:root body.side #side button{position:relative}
+ html:root:root body.side #side button:hover::after,html:root:root body.side #side button:focus-visible::after{content:attr(data-tip);position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:8px;padding:6px 10px;border-radius:8px;background:#0b132b;color:#fff;font-size:13px;white-space:nowrap;pointer-events:none;z-index:60}
+}
+}
+@media (prefers-reduced-motion:reduce){html:root:root #app *,html:root:root #sres{animation:none!important}}
+@media print{#app.rs-enter *{animation:none!important}.tw.rs-cards tr{display:table-row!important}.tw.rs-cards td::before{display:none!important}}
+</style>
+
+<script id="redesign-parte2-js">
+(function(){"use strict";
+var app=document.getElementById('app'),side=document.getElementById('side');
+if(!app)return;
+var sig='',tm=null,lite=function(){return document.documentElement.classList.contains('mo-lite')};
+
+/* 1. Transição entre ecrãs: só quando o ecrã muda (não a cada tecla) */
+function enter(){
+ var h=app.querySelector('h1,h2,.top');
+ var s=app.className+'|'+(h?(h.textContent||'').slice(0,40):'');
+ if(s===sig)return;sig=s;
+ if(lite())return;
+ app.classList.remove('rs-enter');void app.offsetWidth;app.classList.add('rs-enter');
+ clearTimeout(tm);tm=setTimeout(function(){app.classList.remove('rs-enter')},700);
+}
+
+/* 2. Tabelas: data-label para o modo cartão; colunas fixas só em tabelas largas */
+function tabelas(){
+ app.querySelectorAll('.tw').forEach(function(w){
+  var t=w.querySelector('table');if(!t||w.dataset.rs)return;
+  var head=t.querySelector('tr');if(!head)return;
+  var th=[].map.call(head.children,function(c){return(c.textContent||'').trim()});
+  var n=th.length;
+  if(n<=7){
+   t.querySelectorAll('tr').forEach(function(r,i){if(i)[].forEach.call(r.children,function(c,j){c.setAttribute('data-label',th[j]||'')})});
+   w.classList.add('rs-cards');
+  }else{
+   w.classList.add('rs-sticky');
+   var c=head.children[0];if(c)w.style.setProperty('--c1w',c.getBoundingClientRect().width+'px');
+  }
+  w.dataset.rs='1';
+ });
+}
+
+/* 3. Formulários e menu lateral */
+function extras(){
+ app.classList.toggle('rs-form',!!app.querySelector('[data-in="f"]'));
+ if(side)side.querySelectorAll('button').forEach(function(b){
+  var s=b.querySelector('span');if(s&&!b.dataset.tip){b.dataset.tip=s.textContent.trim();if(!b.title)b.title=b.dataset.tip}
+ });
+}
+
+/* 4. Observa mudanças de ecrã (só leitura/apresentação) */
+var pend=null;
+function run(){pend=null;enter();tabelas();extras()}
+new MutationObserver(function(){if(!pend)pend=requestAnimationFrame(run)}).observe(app,{childList:true,subtree:true});
+if(side)new MutationObserver(extras).observe(side,{childList:true});
+addEventListener('orientationchange',function(){app.querySelectorAll('.tw[data-rs]').forEach(function(w){delete w.dataset.rs});setTimeout(tabelas,150)});
+
+/* 5. Transição circular de tema (View Transitions); sem suporte, o tema muda normalmente */
+document.addEventListener('click',function(e){
+ var b=e.target.closest&&e.target.closest('.side-theme,[data-act="tema"],[data-act="theme"],[data-act="toggleTheme"]');
+ if(!b||!document.startViewTransition||lite()||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ var x=e.clientX,y=e.clientY,r=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+ var vt=document.startViewTransition(function(){});
+ vt.ready.then(function(){document.documentElement.animate({clipPath:['circle(0 at '+x+'px '+y+'px)','circle('+r+'px at '+x+'px '+y+'px)']},{duration:350,easing:'cubic-bezier(.2,.8,.2,1)',pseudoElement:'::view-transition-new(root)'})}).catch(function(){});
+},true);
+run();
+})();
+</script>
+
+<style id="redesign-conta-cor">
+/* Botões da escola: uma só linha, lado a lado (2x2 em ecrãs estreitos) */
+html:root:root #gate .rs-acoes{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:8px!important;margin:0!important}
+html:root:root #gate .ao-sc .rs-acoes .btn{width:auto!important;min-width:0;margin:0!important;min-height:40px;padding:6px 10px;border-radius:12px!important;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;line-height:1.2}
+html:root:root #gate .ao-sc .rs-acoes .btn:not(.pri){background:transparent!important;color:var(--ao-ink,inherit)!important;border:1px solid var(--ao-ln,var(--line,#c9d8ff))!important}
+.rs-tg i{font-style:normal;transition:transform .2s}
+.rs-tg[aria-expanded="true"] i{transform:rotate(180deg)}
+.rs-tg[aria-expanded="true"]{box-shadow:inset 0 0 0 2px var(--esc,currentColor)}
+.rs-pn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding-top:8px;border-top:1px dashed var(--ao-ln,var(--line,#c9d8ff))}
+.rs-pn[hidden]{display:none}
+.rs-pn .btn{min-height:40px;font-size:13px;border-radius:12px}
+.rs-conta-del{color:#b42335!important;border-color:#b42335!important}
+.rs-pn-l{grid-template-columns:1fr}
+.rs-ct{display:flex;flex-direction:column;gap:2px;padding:8px 10px;border:1px solid var(--ao-ln,var(--line,#c9d8ff));border-radius:10px}
+@media (max-width:360px){.rs-pn{grid-template-columns:1fr}}
+/* Quadro de cada escola: branco / cinza alternados (botões mantêm a cor do tema) */
+html{--rs-w:#ffffff;--rs-g:#e9edf3;--rs-wl:#ced6e3}
+html[data-theme="dark"]{--rs-w:#111c3d;--rs-g:#1d2a52;--rs-wl:#33427a}
+html:root:root #gate .rs-esc:nth-of-type(odd),html:root:root #gate .rs-esc.ao-sc:nth-of-type(odd){background:var(--rs-w)!important;background-image:none!important}
+html:root:root #gate .rs-esc:nth-of-type(even),html:root:root #gate .rs-esc.ao-sc:nth-of-type(even){background:var(--rs-g)!important;background-image:none!important}
+html:root:root #gate .rs-esc{border:1px solid var(--rs-wl)!important;border-radius:16px!important}
+html:root:root #gate .rs-esc.sus{border-left:4px solid var(--ao-no,#d1344f)!important}
+html:root:root #gate .ao-sc .rs-acoes .btn:not(.pri){color:var(--ao-br,var(--brand,#0038ff))!important;border:1px solid var(--ao-br,var(--brand,#0038ff))!important}
+html:root:root #gate .ao-sc .rs-acoes .btn.rs-tg[aria-expanded="true"]{box-shadow:inset 0 0 0 2px var(--ao-br,var(--brand,#0038ff))}
+html:root:root #gate .rs-pn .btn.rs-conta-del{color:#b42335!important;border:1px solid #b42335!important;background:transparent!important}
+#adm_l .ao-cards:empty{display:none}
+/* Pastas de ano lectivo: cada ano com a sua cor (alterna entre 5 tons do tema) */
+html:root:root #gate .rs-pasta{--pc:#0038ff;--pc-bg:#e8efff;border:2px solid var(--pc)!important;background:var(--pc-bg)!important;border-radius:16px!important}
+html:root:root #gate .rs-pasta[data-fc="1"]{--pc:#6a2fc4;--pc-bg:#f0e9ff}
+html:root:root #gate .rs-pasta[data-fc="2"]{--pc:#00796b;--pc-bg:#e1f5f1}
+html:root:root #gate .rs-pasta[data-fc="3"]{--pc:#006d9c;--pc-bg:#e1f0f8}
+html:root:root #gate .rs-pasta[data-fc="4"]{--pc:#3b2fd6;--pc-bg:#eae9ff}
+html[data-theme="dark"]:root:root #gate .rs-pasta{--pc:#39ff88;--pc-bg:rgba(57,255,136,.08)}
+html[data-theme="dark"]:root:root #gate .rs-pasta[data-fc="1"]{--pc:#c58bff;--pc-bg:rgba(197,139,255,.09)}
+html[data-theme="dark"]:root:root #gate .rs-pasta[data-fc="2"]{--pc:#2de2e6;--pc-bg:rgba(45,226,230,.08)}
+html[data-theme="dark"]:root:root #gate .rs-pasta[data-fc="3"]{--pc:#b6ff3c;--pc-bg:rgba(182,255,60,.08)}
+html[data-theme="dark"]:root:root #gate .rs-pasta[data-fc="4"]{--pc:#7ab8ff;--pc-bg:rgba(122,184,255,.09)}
+#gate .rs-pasta>summary{color:var(--pc);padding:12px 0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+#gate .rs-pasta>summary .mu{color:inherit;opacity:.8}
+#gate .rs-pasta>.ao-sc,#gate .rs-pasta>.rs-esc{margin:0 0 10px!important}
+@media (prefers-reduced-motion:reduce){.rs-tg i{transition:none}}
+</style>
+<script id="redesign-conta-cor-js">
+(function(){"use strict";
+/* Abre/fecha «Credenciais» e «Conta da escola» (um painel de cada vez, por escola) */
+document.addEventListener('click',function(e){
+ var b=e.target.closest&&e.target.closest('.rs-tg');if(!b)return;
+ var c=b.closest('.rs-esc');if(!c)return;
+ var p=b.getAttribute('data-p'),abre=b.getAttribute('aria-expanded')!=='true';
+ [].forEach.call(c.querySelectorAll('.rs-tg'),function(t){t.setAttribute('aria-expanded','false')});
+ [].forEach.call(c.querySelectorAll('.rs-pn'),function(n){n.hidden=true});
+ if(abre){b.setAttribute('aria-expanded','true');var n=c.querySelector('.rs-pn[data-p="'+p+'"]');if(n)n.hidden=false}
+},true);
+})();
+</script>
+<style id="ge-elegante">
+/* ===== Visual elegante: pastas do ano, escolas coloridas e efeitos ===== */
+@property --ge-ang{syntax:"<angle>";inherits:false;initial-value:0deg}
+
+/* Pasta do ano lectivo */
+.year-folder{position:relative}
+.year-folder .ds-folder{position:relative;overflow:hidden;gap:14px;padding:16px 18px;border:1px solid var(--ds-border);border-radius:20px;
+  background:linear-gradient(135deg,var(--ds-surface) 0%,var(--ds-primary-soft) 140%);
+  box-shadow:0 1px 2px rgba(10,31,122,.06),0 10px 26px -12px rgba(10,31,122,.28);
+  transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,border-color .28s}
+.year-folder .ds-folder::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);transform:translateX(-120%);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.year-folder .ds-folder:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(10,31,122,.08),0 18px 34px -14px rgba(10,31,122,.42)}
+.year-folder .ds-folder:hover::before{transform:translateX(120%)}
+.year-folder .ds-folder:active{transform:translateY(0) scale(.992)}
+.year-folder .ds-folder__icon{display:grid;place-items:center;width:52px;height:52px;border-radius:16px;font-size:1.65rem;
+  background:linear-gradient(145deg,var(--ds-primary),var(--ds-brand-500,#2a56ff));box-shadow:0 8px 18px -6px rgba(0,56,255,.55),inset 0 1px 0 rgba(255,255,255,.35);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.year-folder .ds-folder:hover .ds-folder__icon{transform:rotate(-6deg) scale(1.07)}
+.year-folder .ds-folder__title{font-size:1.2rem;letter-spacing:-.015em}
+.year-folder.is-open>.ds-folder{border-color:var(--ds-border-strong);box-shadow:0 0 0 3px rgba(0,56,255,.10),0 14px 30px -14px rgba(10,31,122,.4)}
+
+/* Escolas dentro da pasta (cada uma com a sua cor via --h) */
+.esc-list{display:flex;flex-direction:column;gap:12px;margin:12px 0 4px 14px;padding-left:14px;position:relative;animation:escIn .38s cubic-bezier(.2,.8,.2,1) both}
+.esc-list::before{content:"";position:absolute;left:0;top:6px;bottom:18px;width:2px;border-radius:2px;background:linear-gradient(var(--ds-border-strong),transparent)}
+.esc-folder{--c:hsl(var(--h) 72% 42%);--c2:hsl(calc(var(--h) + 24) 80% 55%);--soft:hsl(var(--h) 90% 96%);--line:hsl(var(--h) 70% 82%);
+  position:relative;border-radius:20px;border:1px solid var(--line);background:linear-gradient(160deg,var(--soft),var(--ds-surface) 78%);
+  box-shadow:0 10px 24px -16px hsl(var(--h) 70% 30% / .55);overflow:hidden}
+.esc-folder::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,var(--c),var(--c2))}
+.esc-folder::after{content:"";position:absolute;right:-40px;top:-40px;width:130px;height:130px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,hsl(var(--h) 90% 60% / .22),transparent 70%);transition:transform .5s ease}
+.esc-folder:hover::after{transform:scale(1.35)}
+.esc-head{position:relative;z-index:1;display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px 14px 20px;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.esc-mark{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:15px;font-weight:800;font-size:1.02rem;letter-spacing:.02em;color:#fff;
+  background:linear-gradient(145deg,var(--c),var(--c2));box-shadow:0 8px 16px -6px hsl(var(--h) 80% 38% / .65),inset 0 1px 0 rgba(255,255,255,.4);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.esc-head:hover .esc-mark{transform:scale(1.08) rotate(-4deg)}
+.esc-body{flex:1;min-width:0}
+.esc-name{display:block;font-weight:750;font-size:1.06rem;line-height:1.25;color:var(--c);overflow-wrap:anywhere}
+.esc-meta{display:block;margin-top:3px;font-size:.84rem;color:var(--ds-text-muted)}
+.esc-head::after{content:"";flex:none;width:.55rem;height:.55rem;border-right:2.5px solid var(--c);border-bottom:2.5px solid var(--c);transform:rotate(-45deg);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+.esc-head[aria-expanded="true"]::after{transform:rotate(45deg)}
+.esc-head:focus-visible{outline:3px solid var(--c);outline-offset:-3px;border-radius:18px}
+.esc-turmas{position:relative;z-index:1;padding:2px 12px 14px 20px;animation:escIn .34s cubic-bezier(.2,.8,.2,1) both}
+.esc-turmas .ds-rowcard{position:relative;border-color:var(--line);border-radius:16px;background:var(--ds-surface);
+  box-shadow:0 1px 2px rgba(10,31,122,.05);transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s,border-color .22s}
+.esc-turmas .ds-rowcard::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:var(--c)}
+.esc-turmas .ds-rowcard:hover{transform:translateX(3px);border-color:var(--c);box-shadow:0 12px 22px -14px hsl(var(--h) 70% 30% / .6)}
+.esc-turmas .ds-rowcard__main:hover .ds-rowcard__title{color:var(--c)}
+.esc-turmas .ds-badge{background:hsl(var(--h) 85% 94%);color:hsl(var(--h) 70% 30%)}
+.esc-turmas .ds-rowcard:nth-child(2){animation-delay:.04s}.esc-turmas .ds-rowcard:nth-child(3){animation-delay:.08s}.esc-turmas .ds-rowcard:nth-child(n+4){animation-delay:.12s}
+.esc-turmas .ds-rowcard{animation:escIn .34s cubic-bezier(.2,.8,.2,1) both}
+@keyframes escIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+/* Modo escuro */
+html[data-theme="dark"] .esc-folder{--c:hsl(var(--h) 90% 66%);--c2:hsl(calc(var(--h) + 24) 85% 58%);--soft:hsl(var(--h) 40% 13%);--line:hsl(var(--h) 55% 30%);box-shadow:0 12px 26px -14px #000}
+html[data-theme="dark"] .esc-mark{color:#07101f;text-shadow:none}
+html[data-theme="dark"] .esc-turmas .ds-rowcard{background:rgba(7,13,32,.7)}
+html[data-theme="dark"] .esc-turmas .ds-badge{background:hsl(var(--h) 45% 20%);color:hsl(var(--h) 90% 76%)}
+html[data-theme="dark"] .year-folder .ds-folder{background:linear-gradient(135deg,var(--ds-surface),rgba(57,255,136,.08) 140%)}
+html[data-theme="dark"] .year-folder .ds-folder__icon{background:linear-gradient(145deg,#39ff88,#16b862);box-shadow:0 8px 18px -6px rgba(57,255,136,.5)}
+html[data-theme="dark"] .year-folder .ds-folder::before{background:linear-gradient(105deg,transparent 35%,rgba(57,255,136,.18) 50%,transparent 65%)}
+
+/* Polimento geral: painel inicial, cartões e botões */
+.dash-hero{position:relative;overflow:hidden}
+.dash-hero::after{content:"";position:absolute;inset:-40%;pointer-events:none;
+  background:conic-gradient(from var(--ge-ang),transparent 0 70%,rgba(255,255,255,.14) 80%,transparent 90%);animation:geSpin 14s linear infinite}
+@keyframes geSpin{to{--ge-ang:360deg}}
+html:root:root .tile{transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s,border-color .28s}
+html:root:root .tile:hover{transform:translateY(-4px)}
+html:root:root .tile:active{transform:translateY(-1px) scale(.99)}
+html:root:root .tile .ib{transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+html:root:root .tile:hover .ib{transform:scale(1.1) rotate(-5deg)}
+html:root:root .card{border-radius:18px;transition:box-shadow .25s,border-color .25s}
+html:root:root .btn,html:root:root .ibtn,html:root:root .chip{transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s,background-color .2s,border-color .2s}
+html:root:root .btn:hover,html:root:root .ibtn:hover{transform:translateY(-1px)}
+html:root:root .btn:active,html:root:root .ibtn:active{transform:scale(.96)}
+html:root:root .top h2{letter-spacing:-.025em}
+@supports (backdrop-filter:blur(4px)){html:root:root .sheet,html:root:root .modal-card{backdrop-filter:blur(10px)}}
+
+@media (max-width:520px){
+  .esc-list{margin-left:6px;padding-left:10px}
+  .esc-head{padding:12px 12px 12px 18px}
+  .esc-mark{width:42px;height:42px;border-radius:13px}
+  .esc-turmas{padding:2px 8px 12px 16px}
+  .year-folder .ds-folder{padding:14px}
+  .year-folder .ds-folder__icon{width:46px;height:46px}
+}
+@media (prefers-reduced-motion:reduce){
+  .esc-list,.esc-turmas,.esc-turmas .ds-rowcard{animation:none}
+  .dash-hero::after{animation:none;display:none}
+  .year-folder .ds-folder,.year-folder .ds-folder::before,.esc-mark,.esc-turmas .ds-rowcard,html:root:root .tile,html:root:root .tile .ib{transition:none}
+}
+@media print{.dash-hero::after{display:none}}
+</style>
+<style id="ge-cores-escolas">
+/* Cada escola, uma cor (variáveis --ao-* redefinidas por cartão; --h = tom da escola) */
+html:root:root:root #gate .ao-sc[data-sh],html:root:root:root #gate .rs-esc[data-sh],html:root:root:root #cons .ge-esc-bx[data-sh]{
+  --ao-br:hsl(var(--sh) 74% 38%);--ao-bi:#fff;--ao-ln:hsl(var(--sh) 62% 78%);--ao-so:hsl(var(--sh) 88% 91%);--ao-s2:hsl(var(--sh) 90% 95%);
+  --ao-ink:hsl(var(--sh) 60% 18%);--ao-mu:hsl(var(--sh) 28% 38%);--ao-sf:hsl(var(--sh) 95% 97%);
+  position:relative;overflow:hidden;
+  background:linear-gradient(155deg,hsl(var(--sh) 96% 96%),hsl(var(--sh) 80% 91%))!important;background-image:linear-gradient(155deg,hsl(var(--sh) 96% 96%),hsl(var(--sh) 80% 91%))!important;
+  border:1px solid hsl(var(--sh) 62% 74%)!important;border-left:7px solid hsl(var(--sh) 74% 42%)!important;border-radius:18px!important;
+  box-shadow:0 12px 26px -16px hsl(var(--sh) 75% 28% / .6)!important;
+  transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s}
+html:root:root:root #gate .ao-sc[data-sh]:hover,html:root:root:root #gate .rs-esc[data-sh]:hover,html:root:root:root #cons .ge-esc-bx[data-sh]:hover{transform:translateY(-3px);box-shadow:0 18px 30px -16px hsl(var(--sh) 75% 28% / .75)!important}
+html:root:root:root #gate .ao-sc[data-sh].sus{border-left-color:var(--ao-no,#d1344f)!important}
+html:root:root:root #gate .ao-sc[data-sh]::after,html:root:root:root #cons .ge-esc-bx[data-sh]::after{content:"";position:absolute;right:-36px;top:-36px;width:120px;height:120px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,hsl(var(--sh) 90% 60% / .28),transparent 70%)}
+html:root:root:root #gate .ao-sc[data-sh] .ao-av{background:linear-gradient(145deg,hsl(var(--sh) 74% 38%),hsl(calc(var(--sh) + 24) 80% 52%));color:#fff;box-shadow:0 8px 16px -6px hsl(var(--sh) 80% 34% / .7),inset 0 1px 0 rgba(255,255,255,.4);letter-spacing:.02em}
+html:root:root:root #gate .ao-sc[data-sh] .ao-nm,html:root:root:root #cons .ge-esc-bx[data-sh]>b{color:hsl(var(--sh) 74% 30%)!important}
+html:root:root:root #gate .ao-sc[data-sh] .ao-ss span{background:hsl(var(--sh) 95% 98% / .85);border-color:hsl(var(--sh) 62% 80%)}
+html:root:root:root #gate .ao-sc[data-sh] .ao-ss b{color:hsl(var(--sh) 74% 30%)}
+html:root:root:root #gate .ao-sc[data-sh] .ao-pa .btn{background:linear-gradient(135deg,hsl(var(--sh) 74% 38%),hsl(calc(var(--sh) + 24) 80% 50%))!important;color:#fff!important}
+html:root:root:root #gate .ao-sc[data-sh] .rs-acoes .btn:not(.pri),html:root:root:root #gate .ao-sc[data-sh] .ao-row .btn{color:hsl(var(--sh) 74% 32%)!important;border:1px solid hsl(var(--sh) 62% 60%)!important;background:hsl(0 0% 100% / .55)!important}
+html:root:root:root #gate .ao-sc[data-sh] .rs-acoes .btn.rs-tg[aria-expanded="true"]{box-shadow:inset 0 0 0 2px hsl(var(--sh) 74% 38%)!important}
+html:root:root:root #gate .ao-sc[data-sh] .rs-pn{border-top-color:hsl(var(--sh) 62% 72%)}
+html:root:root:root #gate .ao-sc[data-sh] .rs-ct{border-color:hsl(var(--sh) 62% 78%);background:hsl(0 0% 100% / .6)}
+html:root:root:root #gate .ao-sc[data-sh] .rs-conta-del{color:#b42335!important;border-color:#b42335!important}
+
+/* modo escuro */
+html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh],html[data-theme="dark"]:root:root:root #gate .rs-esc[data-sh],html[data-theme="dark"]:root:root:root #cons .ge-esc-bx[data-sh]{
+  --ao-br:hsl(var(--sh) 90% 66%);--ao-bi:#07101f;--ao-ln:hsl(var(--sh) 50% 32%);--ao-so:hsl(var(--sh) 45% 22%);--ao-s2:hsl(var(--sh) 40% 15%);--ao-ink:hsl(var(--sh) 90% 86%);--ao-mu:hsl(var(--sh) 40% 74%);--ao-sf:hsl(var(--sh) 40% 13%);
+  background:linear-gradient(155deg,hsl(var(--sh) 45% 15%),hsl(var(--sh) 42% 10%))!important;background-image:linear-gradient(155deg,hsl(var(--sh) 45% 15%),hsl(var(--sh) 42% 10%))!important;
+  border-color:hsl(var(--sh) 50% 30%)!important;border-left-color:hsl(var(--sh) 90% 62%)!important;box-shadow:0 14px 28px -16px #000!important}
+html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .ao-av{color:#07101f;background:linear-gradient(145deg,hsl(var(--sh) 90% 68%),hsl(calc(var(--sh) + 24) 85% 56%))}
+html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .ao-nm,html[data-theme="dark"]:root:root:root #cons .ge-esc-bx[data-sh]>b{color:hsl(var(--sh) 90% 78%)!important}
+html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .ao-ss span{background:hsl(var(--sh) 40% 17%);border-color:hsl(var(--sh) 50% 30%)}
+html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .ao-ss b{color:hsl(var(--sh) 90% 80%)}
+html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .ao-pa .btn{background:linear-gradient(135deg,hsl(var(--sh) 90% 66%),hsl(calc(var(--sh) + 24) 85% 58%))!important;color:#07101f!important}
+html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .rs-acoes .btn:not(.pri),html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .ao-row .btn{color:hsl(var(--sh) 90% 78%)!important;border-color:hsl(var(--sh) 60% 45%)!important;background:hsl(var(--sh) 40% 14%)!important}
+html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .rs-ct{background:hsl(var(--sh) 40% 14%);border-color:hsl(var(--sh) 50% 30%)}
+@media (prefers-reduced-motion:reduce){html:root:root:root #gate .ao-sc[data-sh],html:root:root:root #gate .rs-esc[data-sh],html:root:root:root #cons .ge-esc-bx[data-sh]{transition:none}}
+</style>
+<script id="ge-cores-escolas-js">
+(function(){
+ var K='ge360_esc_cores',H=[212,6,142,280,36,184,328,74,250,54,160,302],M={};
+ try{M=JSON.parse(localStorage.getItem(K)||'{}')||{}}catch(e){M={}}
+ function norm(n){var s=String(n||'').trim().toLowerCase().replace(/\s+/g,' ');try{s=s.normalize('NFD').replace(/[\u0300-\u036f]/g,'')}catch(e){}return s||'escola sem nome'}
+ function hue(n){var k=norm(n);if(M[k]===undefined){var i=Object.keys(M).length;M[k]=i<H.length?H[i]:Math.round((H[i%H.length]+Math.floor(i/H.length)*137.508)%360);try{localStorage.setItem(K,JSON.stringify(M))}catch(e){}}return M[k]}
+ window.geEscHue=hue;
+ function ini(n){var w=String(n).replace(/\b(da|de|do|das|dos|e)\b/gi,' ').split(/\s+/).filter(function(x){return /[A-Za-zÀ-ÿ0-9]/.test(x)});return((w[0]?w[0].charAt(0):'')+(w[1]?w[1].charAt(0):'')||'?').toUpperCase()}
+ function pinta(){
+  var L=document.querySelectorAll('#gate .ao-sc:not([data-sh]),#gate .rs-esc:not([data-sh]),#cons .ge-esc-bx:not([data-sh])');
+  for(var i=0;i<L.length;i++){
+   var c=L[i],nm=c.querySelector('.ao-nm')||c.querySelector(':scope > b')||c.querySelector('b');
+   var nome=nm?nm.textContent.trim():'';if(!nome)continue;
+   var h=hue(nome);c.setAttribute('data-sh',h);c.style.setProperty('--sh',h);
+   var av=c.querySelector('.ao-av');if(av)av.textContent=ini(nome);
+  }
+  var B=document.querySelectorAll('#cons .ge-esc-bx[data-sh]:not([style*="--sh"])');
+  for(var j=0;j<B.length;j++)B[j].style.setProperty('--sh',B[j].getAttribute('data-sh'));
+ }
+ var t=0;function agenda(){if(t)return;t=requestAnimationFrame(function(){t=0;try{pinta()}catch(e){}})}
+ new MutationObserver(agenda).observe(document.documentElement,{childList:true,subtree:true});
+ document.addEventListener('DOMContentLoaded',agenda);agenda();
+})();
+</script>
 </body>
 </html>
