@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+<script id="ge-resize-guard">
+/* Estabilizador: em ecrãs tácteis, mudanças só de altura (barra de endereço, teclado) já não fazem os módulos trocarem o menu/layout. */
+(function(){var W=window,add=W.addEventListener,coarse=false;try{coarse=matchMedia('(pointer:coarse)').matches}catch(e){}
+if(!coarse)return;
+W.addEventListener=function(t,f,o){if(t==='resize'&&typeof f==='function'&&this===W){var g=function(e){var w=W.innerWidth;if(w===g.w)return;g.w=w;return f.call(this,e)};g.w=W.innerWidth;return add.call(W,t,g,o)}return add.apply(this,arguments)};
+})();
+</script>
+
 <script id="ge360-supabase-defaults">
 /* Ligação ao Supabase (opcional): preencha UMA vez antes de publicar. Se este dispositivo ainda não tiver servidor
    configurado, a app usa estes valores. Use apenas o URL do projecto e a chave Publishable/anon (NUNCA a service_role/secret). */
 (function () {
-    var URL_SUPABASE = "https://dsagxqjbfsslsnbokaib.supabase.co";   /* ex.: https://abcdefghijk.supabase.co */
-    var CHAVE_PUBLICA = "sb_publishable_S5ECv9lebSg5jmFnb4UAgw_5lQu0RNR";  /* ex.: sb_publishable_... ou a anon public (eyJ...) */
+    var URL_SUPABASE = "https://svvphyiotfbqhxclspqj.supabase.co";   /* ex.: https://abcdefghijk.supabase.co */
+    var CHAVE_PUBLICA = "sb_publishable_ZiWTPM05VC9_tfMpnTp0Wg_7lvgBSYz";  /* ex.: sb_publishable_... ou a anon public (eyJ...) */
     if (!URL_SUPABASE || !CHAVE_PUBLICA || /service_role|sb_secret_/.test(CHAVE_PUBLICA)) return;
     try {
         var c = JSON.parse(localStorage.getItem('ge360_srv_cfg') || 'null');
@@ -17,7 +25,7 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://accounts.google.com; style-src 'self' 'unsafe-inline' https://accounts.google.com; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https:; frame-src https://accounts.google.com; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://svvphyiotfbqhxclspqj.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0038FF">
 <meta name="mobile-web-app-capable" content="yes">
@@ -36,7 +44,7 @@ html:not(.bt360) #app,html:not(.bt360) #gate{animation:bt360in .35s ease-out bot
 window.addEventListener("load",function(){setTimeout(go,60)});setTimeout(go,2500);window.addEventListener("error",function(){setTimeout(go,300)})})();</script>
 <script id="multi360-shim">(function(){try{var ls=window.localStorage,P=Storage.prototype,g=P.getItem,st=P.setItem,rm=P.removeItem,slot=g.call(ls,'ge360_slot_ativo')||'';
 if(!/^[a-z0-9]*$/.test(slot))slot='';window.__GE_SLOT=slot;if(!slot)return;
-var SC={pauta_eletronica_v1:1,ge360_srv_ses:1,ge360_srv_cache:1,ge360_srv_ult:1,ge360_srv_cod:1,ge360_esc_meta:1,ge360_cons_aut:1,ge360_cons_gdid:1,ge360_bk_srv:1,ge360_bk_dica:1,ge360_foto_utilizador:1,ge360_zips:1,ge360_lembrar:1,ge360_mapaman:1,ge360_sess_keep:1};
+var SC={pauta_eletronica_v1:1,ge360_srv_ses:1,ge360_srv_cache:1,ge360_srv_ult:1,ge360_srv_cod:1,ge360_esc_meta:1,ge360_cons_aut:1,ge360_bk_srv:1,ge360_bk_dica:1,ge360_foto_utilizador:1,ge360_zips:1,ge360_lembrar:1,ge360_mapaman:1,ge360_sess_keep:1};
 function m(o,k){return(o===ls&&SC[k])?k+'@'+slot:k}
 P.getItem=function(k){return g.call(this,m(this,k))};P.setItem=function(k,v){return st.call(this,m(this,k),v)};P.removeItem=function(k){return rm.call(this,m(this,k))};
 }catch(e){}})();</script>
@@ -3649,20 +3657,23 @@ vHome = function () {
     return i < 0 ? h : h.slice(0, i + 10) + btn + h.slice(i + 10) + aviso;
 };
 /* ---------- restauro: validar a estrutura ---------- */
+function sanTxt(s, max) { return String(s == null ? '' : s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').slice(0, max || 500); }
+function sanId(x) { var s = String(x == null ? '' : x).replace(/[^A-Za-z0-9_\-]/g, '').slice(0, 64); return s || uid(); }
 function sanPautas(l) {
     return (l || []).filter(function (p) { return p && typeof p === 'object'; }).map(function (p) {
-        p.id = p.id || uid();
+        p.id = sanId(p.id);
         p.classe = parseInt(p.classe, 10) || 1;
-        p.turma = String(p.turma == null ? '' : p.turma);
-        p.ano = String(p.ano == null ? '' : p.ano);
-        p.escola = String(p.escola == null ? '' : p.escola);
-        p.disciplinas = Array.isArray(p.disciplinas) ? p.disciplinas : [];
+        p.turma = sanTxt(p.turma, 120);
+        p.ano = sanTxt(p.ano, 20);
+        p.escola = sanTxt(p.escola, 200);
+        p.disciplinas = Array.isArray(p.disciplinas) ? p.disciplinas.filter(function (d) { return typeof d === 'string'; }).map(function (d) { return sanTxt(d, 120); }) : [];
         p.alunos = (Array.isArray(p.alunos) ? p.alunos : []).filter(function (a) { return a && typeof a === 'object'; }).map(function (a, i) {
-            a.id = a.id || uid();
+            a.id = sanId(a.id);
             a.num = parseInt(a.num, 10) || i + 1;
-            a.nome = String(a.nome == null ? '' : a.nome);
+            a.nome = sanTxt(a.nome, 200);
             a.sexo = a.sexo === 'M' ? 'M' : 'H';
-            if (!a.notas || typeof a.notas !== 'object')
+            Object.keys(a).forEach(function (k) { if (typeof a[k] === 'string' && k !== 'nome') a[k] = sanTxt(a[k], 1000); });
+            if (!a.notas || typeof a.notas !== 'object' || Array.isArray(a.notas))
                 a.notas = {};
             return a;
         });
@@ -4993,20 +5004,6 @@ camAbrir = function () {
             n === 'NotFoundError' ? 'Não foi encontrada nenhuma câmara neste aparelho.' : 'Não foi possível abrir a câmara aqui. Use o botão abaixo.');
     });
 };
-/* =====================  BACKUP NA NUVEM (partilhar para Drive, MEGA, etc.)  ===================== */
-A.nuvemSave = function () {
-    var t = ($('#nv_tipo') || {}).value || 'Google Drive', c = (($('#nv_conta') || {}).value || '').trim();
-    if (c && !/^\S+@\S+\.\S+$/.test(c)) { toast('Escreva um email válido.'); return; }
-    S.settings.nuvemTipo = t; S.settings.nuvemConta = c; save(); toast(c ? 'Conta guardada: ' + t + ' · ' + c : 'Conta removida.');
-};
-var vBackup3 = vBackup;
-vBackup = function () {
-    return vBackup3().replace('data-act="doBackup">Fazer backup</button>', function () {
-        var st = S.settings, tp = st.nuvemTipo || 'Google Drive';
-        var card = '<div class="card" style="margin-top:12px"><label style="margin-top:0">Conta para o backup na nuvem</label><select id="nv_tipo">' + ['Google Drive', 'MEGA', 'Email'].map(function (t) { return '<option' + (t === tp ? ' selected' : '') + '>' + t + '</option>'; }).join('') + '</select><input id="nv_conta" type="email" inputmode="email" autocomplete="off" placeholder="Email da conta (ex.: nome@gmail.com)" value="' + esc(st.nuvemConta || '') + '" style="margin-top:8px"><p class="mu sm" style="margin-top:8px;line-height:1.5">Serve de lembrete e aparece ao partilhar o backup. Nunca escreva palavras-passe aqui.</p><button class="btn blk" style="margin-top:8px" data-act="nuvemSave">Guardar conta</button></div>';
-        return 'data-act="doBackup">Fazer backup</button>\n  <button class="btn blk" style="margin-top:12px" data-act="doBackupNuvem">Backup na nuvem (Drive, MEGA…)</button>' + card;
-    });
-};
 /* =====================  FASE 6: PERFIS DE UTILIZADOR  ===================== */
 /* Limitação: a aplicação é um ficheiro local. Os perfis organizam o trabalho e impedem erros, mas não são segurança forte:
    quem tiver acesso ao dispositivo, às ferramentas do navegador ou a um backup pode contorná-los. */
@@ -5059,6 +5056,22 @@ function pwOk(u, pw) {
     if (String(u.hash).indexOf('v2$') === 0) return pwEq(pwHash2(pw, u.salt), u.hash);
     if (pwEq(pwHash(pw, u.salt), u.hash)) { u.hash = pwHash2(pw, u.salt); try { save(); } catch (e) { } return true; }
     return false;
+}
+/* v3: PBKDF2-SHA256 (Web Crypto, assíncrono). Contas v1/v2 entram como antes e são migradas no 1.º login bem-sucedido. */
+var PBKDF2_IT = 150000;
+function pwCrypto() { return !!(window.crypto && crypto.subtle && window.TextEncoder); }
+function pwHash3(pw, salt) {
+    var enc = new TextEncoder();
+    return crypto.subtle.importKey('raw', enc.encode(String(pw)), 'PBKDF2', false, ['deriveBits']).then(function (k) {
+        return crypto.subtle.deriveBits({ name: 'PBKDF2', salt: enc.encode(String(salt)), iterations: PBKDF2_IT, hash: 'SHA-256' }, k, 256);
+    }).then(function (b) { var u = new Uint8Array(b), s = '', i; for (i = 0; i < u.length; i++) s += ('0' + u[i].toString(16)).slice(-2); return 'v3$' + s; });
+}
+function pwOkA(u, pw) {
+    var h = String(u.hash);
+    if (h.indexOf('v3$') === 0) { if (!pwCrypto()) return Promise.resolve(false); return pwHash3(pw, u.salt).then(function (x) { return pwEq(x, h); }); }
+    if (!pwOk(u, pw)) return Promise.resolve(false);
+    if (!pwCrypto()) return Promise.resolve(true);
+    return pwHash3(pw, u.salt).then(function (x) { u.hash = x; try { save(); } catch (e) { } return true; }, function () { return true; });
 }
 function sessaoDe(u) { return { id: u.id, nome: u.nome, perfil: u.perfil, atr: u.atribuicoes || {} }; }
 /* ---------- regras de permissão (verificadas dentro de cada operação) ---------- */
@@ -5202,8 +5215,11 @@ A.perfDel = function (d) {
 A.perfDesOk = function () {
     if (!soAdjunto()) return;
     var c = perfCfg(), u = SESSAO && c.utilizadores.find(function (x) { return x.id === SESSAO.id; });
-    if (!u || !pwOk(u, $('#pf_pw').value)) { toast('Palavra-passe incorreta.'); return; }
-    c.ativo = false; SESSAO = null; save(); closeModal(); render(); toast('Perfis desativados.');
+    if (!u) { toast('Palavra-passe incorreta.'); return; }
+    pwOkA(u, $('#pf_pw').value).then(function (ok) {
+        if (!ok) { toast('Palavra-passe incorreta.'); return; }
+        c.ativo = false; SESSAO = null; save(); closeModal(); render(); toast('Perfis desativados.');
+    });
 };
 var vSettings1 = vSettings;
 vSettings = function () {
@@ -5266,29 +5282,6 @@ function logBk(tipo, estado, d) {
     l.unshift({ t: Date.now(), tipo: tipo, estado: estado, soma: ((d && d.integridade && d.integridade.soma) || '').slice(0, 12), pautas: d ? d.pautas.length : 0, alunos: d && d.totais ? d.totais.alunos : 0 });
     lsSet(LOGK, l.slice(0, 20));
 }
-function nuvemGuia(name) {
-    modal('<h2>Enviar para o Drive ou MEGA</h2><p class="mu" style="margin-top:6px;line-height:1.45">O ficheiro <b>' + esc(name) + '</b> foi guardado neste dispositivo, na pasta Descarregamentos (Downloads). Este navegador não permite enviá-lo diretamente para a nuvem.</p>' +
-        '<ol style="line-height:1.6;margin:10px 0 12px;padding-left:20px"><li>Toque num dos botões para abrir o serviço.</li><li>Toque em <b>+</b> (Novo ou Carregar) e escolha <b>Carregar ficheiro</b>.</li><li>Procure o ficheiro em Downloads e envie.</li></ol>' +
-        '<a class="btn pri blk" style="display:block;text-align:center;text-decoration:none" href="https://drive.google.com/drive/my-drive" target="_blank" rel="noopener">Abrir Google Drive</a>' +
-        '<a class="btn blk" style="display:block;text-align:center;text-decoration:none;margin-top:8px" href="https://mega.nz/fm" target="_blank" rel="noopener">Abrir MEGA</a>' +
-        '<button class="btn blk" style="margin-top:8px" data-act="closeModal">Fechar</button>');
-}
-A.doBackupNuvem = function () {
-    var cT = S.settings.nuvemTipo || 'Google Drive', cC = S.settings.nuvemConta || '', dest = cC ? cT + ' (' + cC + ')' : 'Google Drive ou MEGA';
-    var d = bkData(S.pautas), name = bkNome('gestao-escolar-360-backup') + '.json', blob = new Blob([JSON.stringify(d)], { type: 'application/json' }), file = null;
-    var feito = function (estado) { S.settings.lastBackup = Date.now(); filaZero(); save(); logBk('Nuvem', estado, d); render(); };
-    try { file = new File([blob], name, { type: 'application/json' }); } catch (e) { }
-    if (file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({ files: [file], title: 'Backup Gestão Escolar 360°', text: 'Guardar em: ' + dest }).then(function () {
-            feito('Partilhado: confirme em ' + cT); toast('Escolha ' + dest + ' e confirme que o ficheiro ficou guardado.');
-        }).catch(function (e) {
-            if (e && e.name === 'AbortError') { logBk('Nuvem', 'Cancelado (não guardado)', d); render(); return; }
-            download(blob, name); feito('Ficheiro criado: carregar manualmente'); nuvemGuia(name);
-        });
-        return;
-    }
-    download(blob, name); feito('Ficheiro criado: carregar manualmente'); nuvemGuia(name);
-};
 /* verificação de integridade no restauro */
 var bkValidate3 = bkValidate;
 bkValidate = function (txt) {
@@ -5447,7 +5440,7 @@ vBackup = function () {
     var nota = modo === 'auto'
         ? (bkFs() ? 'A app criou e usa a pasta <b>' + esc(info || ('Documentos/' + bkSubDir())) + '</b>. Todos os backups são enviados para lá automaticamente.'
             : (dir ? 'No computador, escolha uma vez a pasta em «Pasta fixa»; a app cria lá a subpasta <b>' + esc(BK_DIR_WEB) + '</b> e guarda tudo nela.' : 'Este navegador não permite criar pastas; os backups vão para Descarregamentos.'))
-        : (dir ? 'No computador, a pasta fixa guarda os backups sempre no mesmo lugar, sem perguntar.' : 'Estas opções são só para backups guardados no dispositivo. O backup na nuvem tem o seu próprio botão.');
+        : (dir ? 'No computador, a pasta fixa guarda os backups sempre no mesmo lugar, sem perguntar.' : 'Estas opções são só para backups guardados no dispositivo.');
     var card = '<section class="ds-root ds-card tw-mt-4 tw-mb-4" aria-labelledby="bkLocalTit">' +
         '<h3 class="ds-card__title" id="bkLocalTit">Onde guardar os backups</h3>' +
         '<p class="ds-card__hint">Escolha o que acontece ao tocar em fazer backup.</p>' +
@@ -5605,8 +5598,9 @@ A.login = function () {
     var c = perfCfg(), nome = ($('#g_user').value || '').trim().toLowerCase(), pw = $('#g_pw').value;
     var u = c.utilizadores.find(function (x) { return x.nome.trim().toLowerCase() === nome; });
     var perfilValido = u && (escolha === 'adjunto' ? u.perfil === 'adjunto' : ['professor', 'secretaria'].indexOf(u.perfil) >= 0);
-    if (!u || !pwOk(u, pw) || !perfilValido) { gFalha('Credenciais incorrectas ou sem acesso ao perfil escolhido.'); $('#g_pw').value = ''; return; }
-    entrar(u);
+    function falhaLg() { gFalha('Credenciais incorrectas ou sem acesso ao perfil escolhido.'); var pe = $('#g_pw'); if (pe) pe.value = ''; }
+    if (!u || !perfilValido) { falhaLg(); return; }
+    pwOkA(u, pw).then(function (ok) { if (!ok) { falhaLg(); return; } entrar(u); });
 };
 function recAdminUid(c) {
     if (c.adminUid && c.utilizadores.some(function (x) { return x.id === c.adminUid; })) return c.adminUid;
@@ -5618,9 +5612,7 @@ function recAdminUid(c) {
     return c.adminUid || null;
 }
 function mkNova(c) { var code = recCod(), salt = uid() + Math.random().toString(36).slice(2); c.mk = { salt: salt, hash: pwHash(recNorm(code), salt), criada: Date.now() }; return code; }
-var MK_APP = '848255722875321732';
-var MK_APP_ATIVO = false; /* codigo mestre embutido: desativado por seguranca */
-function mkOk(c, cod) { if (MK_APP_ATIVO && String(cod || '').replace(/\s+/g, '') === MK_APP) return true; if (c.mk) return pwHash(cod, c.mk.salt) === c.mk.hash; return false; }
+function mkOk(c, cod) { if (c.mk) return pwHash(cod, c.mk.salt) === c.mk.hash; return false; }
 function recCodeFor(c, userId) {
     var code = recCod(), salt = uid() + Math.random().toString(36).slice(2);
     c.recups = c.recups || {};
@@ -6061,12 +6053,18 @@ function srvEstadoHtml() {
 }
 
 /* ---------- Administrador Geral ---------- */
+function admEscolasQ() {
+    var base = 'id,nome,codigo,ativa,ano_id,anos:anos_lectivos!escolas_ano_id_fkey(ano,inicio,fim,encerrado)';
+    return srvApi('GET', '/rest/v1/escolas?select=' + base + ',provincia,distrito,posto_administrativo,localidade,zip&order=criada_em').then(function (r) {
+        return r && r.ok ? r : srvApi('GET', '/rest/v1/escolas?select=' + base + '&order=criada_em');
+    });
+}
 function admView() {
     gate.innerHTML = '<div class="gb" style="max-width:560px;max-height:92vh;overflow:auto"><h1>Administrador Geral</h1><p class="mu sm" style="margin:0 0 10px">O Administrador cria as contas das escolas, acompanha os indicadores gerais de todas as escolas e pode suspender ou reativar cada escola. Cada Escola gere apenas as contas dos seus professores e da Secretaria.</p><div id="adm_l" class="sm">A carregar...</div>' +
         '<button class="btn pri blk" style="margin-top:12px" data-act="admAno">Início do ano lectivo</button><button class="btn blk" style="margin-top:8px" data-act="admNova">Criar conta de escola</button><button class="btn blk" style="margin-top:8px" data-act="logout">Terminar sessão</button></div>';
     gate.className = 'on';
     Promise.all([
-        srvApi('GET', '/rest/v1/escolas?select=id,nome,codigo,ativa,ano_id,anos:anos_lectivos!escolas_ano_id_fkey(ano,inicio,fim,encerrado)&order=criada_em'),
+        admEscolasQ(),
         srvApi('GET', '/rest/v1/perfis?select=escola_id,papel,ativo,nome'),
         srvLerPautas('escola_id,dados,apagada')
     ]).then(function (rs) {
@@ -6088,7 +6086,8 @@ function admView() {
             var sec = px.filter(function (u) { return u.papel === 'secretaria'; }).length;
             var pautasEscola = pautas.filter(function (p) { return p.escola_id === x.id && !p.apagada; });
             var alunos = pautasEscola.reduce(function (n, p) { return n + (p.dados && Array.isArray(p.dados.alunos) ? p.dados.alunos.length : 0); }, 0);
-            return '<div class="rs-esc" data-c="' + (ix % 5) + '" style="border:1px solid #d5dbe6;border-radius:12px;padding:10px;margin-bottom:8px"><b>' + esc(x.nome) + '</b><div class="mu sm">Código: ' + esc(x.codigo) + ' · ' + (x.ativa ? 'Activa' : 'SUSPENSA') + admAnoTxt(x) + '</div>' +
+            return '<div class="rs-esc" data-c="' + (ix % 5) + '" data-prov="' + esc(x.provincia || '') + '" data-dist="' + esc(x.distrito || '') + '" style="border:1px solid #d5dbe6;border-radius:12px;padding:10px;margin-bottom:8px"><b>' + esc(x.nome) + '</b><div class="mu sm">Código: ' + esc(x.codigo) + ' · ' + (x.ativa ? 'Activa' : 'SUSPENSA') + admAnoTxt(x) + '</div>' +
+                (function () { var l = [x.provincia, x.distrito, x.posto_administrativo, x.localidade, x.zip].filter(Boolean).join(' · '); return l ? '<div class="mu sm">' + esc(l) + '</div>' : ''; })() +
                 '<div class="mu sm" style="margin-top:6px">Professores: ' + prof + ' · Secretaria: ' + sec + ' · Pautas: ' + pautasEscola.length + ' · Registos de alunos: ' + alunos + '</div>' +
                 '<div class="rs-acoes">' +
                 '<button class="btn pri" data-act="admEscola" data-id="' + esc(x.id) + '">Ver dados</button>' +
@@ -6140,7 +6139,7 @@ A.admConsultar = function(d){
 };
 
 A.admNova = function () {
-    gate.innerHTML = gBox('<p class="mu sm" style="line-height:1.45;margin:0 0 10px">O Administrador cria a conta da Escola e define as credenciais iniciais. Depois, a Escola poderá criar e gerir as contas dos professores e da Secretaria da própria escola.</p><label>Nome da escola</label><input id="a_nome" autocomplete="off"><label>Código da escola (minúsculas, números e hífen)</label><input id="a_cod" autocapitalize="off" autocomplete="off"><label>Nome de utilizador da Escola</label><input id="a_adj" autocomplete="off">' + (window.geZipCampo ? window.geZipCampo() : '') + '<label>Palavra-passe inicial (mínimo 8 caracteres)</label><input id="a_pw" type="password" autocomplete="new-password">' + gMsg() +
+    gate.innerHTML = gBox('<p class="mu sm" style="line-height:1.45;margin:0 0 10px">O Administrador cria a conta da Escola e define as credenciais iniciais. Depois, a Escola poderá criar e gerir as contas dos professores e da Secretaria da própria escola.</p><label>Província</label><input id="a_prov" autocomplete="off"><label>Distrito</label><input id="a_dist" autocomplete="off"><label>Posto administrativo</label><input id="a_posto" autocomplete="off"><label>Localidade</label><input id="a_loc" autocomplete="off">' + (window.geZipCampo ? window.geZipCampo() : '') + '<label>Escola</label><input id="a_nome" autocomplete="off"><label>Código da escola (minúsculas, números e hífen)</label><input id="a_cod" autocapitalize="off" autocomplete="off"><label>Nome de utilizador da Escola</label><input id="a_adj" autocomplete="off"><label>Palavra-passe inicial (mínimo 8 caracteres)</label><input id="a_pw" type="password" autocomplete="new-password">' + gMsg() +
         '<button class="btn pri blk" style="margin-top:6px" data-act="admCriar">Criar escola</button>');
     gate.className = 'on';
 };
@@ -6401,112 +6400,6 @@ var profCss = document.createElement('style');
 profCss.textContent = 'body.nosecr #side [data-to="profs"]{display:none!important}';
 document.head.appendChild(profCss);
 
-/* ---------- Google Drive: envio automático do backup (requer https e ID de cliente OAuth) ---------- */
-var GD = { tok: null, exp: 0, pasta: null, busy: false, prox: 0 };
-function gdId() { return String(S.settings.gdClientId || '').trim(); }
-function gdOk() { return !!gdId() && location.protocol === 'https:'; }
-function gdLoad(cb) {
-    if (window.google && google.accounts && google.accounts.oauth2) { cb(); return; }
-    var sc = document.createElement('script');
-    sc.src = 'https://accounts.google.com/gsi/client'; sc.async = true;
-    sc.onload = function () { cb(); }; sc.onerror = function () { cb('rede'); };
-    document.head.appendChild(sc);
-}
-function gdToken(interativo, cb) {
-    if (GD.tok && Date.now() < GD.exp - 60000) { cb(null, GD.tok); return; }
-    gdLoad(function (err) {
-        if (err || !(window.google && google.accounts && google.accounts.oauth2)) { cb('Sem ligação ao serviço Google.'); return; }
-        var email = S.settings.nuvemTipo === 'Google Drive' ? String(S.settings.nuvemConta || '') : '';
-        var cli = google.accounts.oauth2.initTokenClient({
-            client_id: gdId(), scope: 'https://www.googleapis.com/auth/drive.file',
-            callback: function (r) {
-                if (r && r.access_token) { GD.tok = r.access_token; GD.exp = Date.now() + (+r.expires_in || 3600) * 1000; cb(null, GD.tok); }
-                else cb(r && r.error === 'access_denied' ? 'Autorização recusada.' : 'É necessária a autorização no Google.');
-            },
-            error_callback: function (e) { cb(e && e.type === 'popup_closed' ? 'Autorização cancelada.' : 'Não foi possível abrir a autorização do Google.'); }
-        });
-        var o = { prompt: interativo ? '' : 'none' };
-        if (/@/.test(email)) o.login_hint = email;
-        cli.requestAccessToken(o);
-    });
-}
-function gdFetch(tok, url, opt, cb) {
-    opt = opt || {}; opt.headers = Object.assign({ Authorization: 'Bearer ' + tok }, opt.headers || {});
-    fetch(url, opt).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, st: r.status, j: j }; }); })
-        .then(function (x) { if (x.ok) cb(null, x.j); else { if (x.st === 401) { GD.tok = null; GD.pasta = null; } cb((x.j && x.j.error && x.j.error.message) || ('Erro ' + x.st + ' do Google Drive.')); } })
-        .catch(function () { cb('Falha de rede.'); });
-}
-function gdPasta(tok, cb) {
-    if (GD.pasta) { cb(null, GD.pasta); return; }
-    var nome = 'Gestão Escolar 360° - Backups';
-    gdFetch(tok, 'https://www.googleapis.com/drive/v3/files?fields=files(id)&q=' + encodeURIComponent("name='" + nome + "' and mimeType='application/vnd.google-apps.folder' and trashed=false"), {}, function (e, j) {
-        if (e) { cb(e); return; }
-        if (j.files && j.files[0]) { GD.pasta = j.files[0].id; cb(null, GD.pasta); return; }
-        gdFetch(tok, 'https://www.googleapis.com/drive/v3/files?fields=id', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: nome, mimeType: 'application/vnd.google-apps.folder' }) }, function (e2, j2) {
-            if (e2 || !j2 || !j2.id) { cb(e2 || 'Não foi possível criar a pasta no Drive.'); return; }
-            GD.pasta = j2.id; cb(null, GD.pasta);
-        });
-    });
-}
-function gdEnvia(tok, pasta, nome, texto, cb) {
-    var b = 'ge360' + Date.now();
-    var corpo = '--' + b + '\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n' + JSON.stringify({ name: nome, parents: [pasta], mimeType: 'application/json' }) +
-        '\r\n--' + b + '\r\nContent-Type: application/json\r\n\r\n' + texto + '\r\n--' + b + '--';
-    gdFetch(tok, 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name', { method: 'POST', headers: { 'Content-Type': 'multipart/related; boundary=' + b }, body: corpo }, function (e, j) {
-        if (e || !j || !j.id) cb(e || 'O Drive não confirmou o envio.'); else cb(null, j.id);
-    });
-}
-function gdBackup(interativo, fim) {
-    if (!gdOk()) { if (interativo) toast(!gdId() ? 'Indique o ID de cliente Google.' : 'Abra a app a partir de um endereço https://'); if (fim) fim('config'); return; }
-    if (GD.busy) return;
-    GD.busy = true;
-    var d = bkData(S.pautas), nome = bkNome('gestao-escolar-360-backup') + '.json', txt = JSON.stringify(d);
-    var acaba = function (err) {
-        GD.busy = false;
-        if (!err) { S.settings.lastBackup = Date.now(); S.settings.gdUltimo = Date.now(); filaZero(); save(); logBk('Google Drive', 'Enviado e confirmado pelo Google Drive', d); render(); toast('Backup enviado ao Google Drive.'); }
-        else if (interativo) { logBk('Google Drive', 'Falhou: ' + err, d); toast(err); }
-        if (fim) fim(err);
-    };
-    gdToken(interativo, function (e1, tok) {
-        if (e1) { acaba(e1); return; }
-        gdPasta(tok, function (e2, pasta) {
-            if (e2) { acaba(e2); return; }
-            gdEnvia(tok, pasta, nome, txt, function (e3) { acaba(e3); });
-        });
-    });
-}
-var doBackupNuvem7 = A.doBackupNuvem;
-A.doBackupNuvem = function () {
-    if (gdOk()) {
-        if (SESSAO && SESSAO.perfil !== 'adjunto') { toast('Sem permissão para fazer backups.'); return; }
-        gdBackup(true); return;
-    }
-    return doBackupNuvem7.apply(this, arguments);
-};
-A.gdSalvar = function () {
-    if (SESSAO && SESSAO.perfil !== 'adjunto') { toast('Sem permissão.'); return; }
-    var v = ($('#gd_id').value || '').trim();
-    if (v && !/\.apps\.googleusercontent\.com$/.test(v)) { toast('O ID de cliente deve terminar em .apps.googleusercontent.com'); return; }
-    S.settings.gdClientId = v; GD.tok = null; GD.pasta = null; save(); render(); toast(v ? 'ID de cliente guardado.' : 'Envio automático desligado.');
-};
-A.gdLigar = function () {
-    if (SESSAO && SESSAO.perfil !== 'adjunto') { toast('Sem permissão.'); return; }
-    var v = ($('#gd_id').value || '').trim();
-    if (v && v !== gdId()) { S.settings.gdClientId = v; GD.tok = null; GD.pasta = null; save(); }
-    gdBackup(true);
-};
-var vBackup7 = vBackup;
-vBackup = function () {
-    var h = vBackup7(), u = S.settings.gdUltimo;
-    var est = !gdId() ? 'Desligado: falta o ID de cliente Google.' : location.protocol !== 'https:' ? 'Atenção: abra a app a partir de um endereço https:// para o envio funcionar.' : 'Ativo' + (u ? ' · último envio confirmado: ' + dmy(u) + ' ' + hhmm(u) : ' · ainda sem envio confirmado') + '.';
-    return h + '<div class="card" style="margin-top:12px"><b>Google Drive automático</b>' +
-        '<p class="mu sm" style="margin:6px 0 0;line-height:1.45">Com internet, envia o backup para o Drive da conta Google indicada no email acima. Só o Director-adjunto o faz. O MEGA não é suportado.</p>' +
-        '<label>ID de cliente Google (OAuth)</label><input id="gd_id" value="' + esc(gdId()) + '" placeholder="xxxx.apps.googleusercontent.com" autocapitalize="off" autocomplete="off">' +
-        '<div class="sm" style="margin-top:6px">' + esc(est) + '</div>' +
-        '<button class="btn blk" style="margin-top:10px" data-act="gdSalvar">Guardar</button>' +
-        '<button class="btn pri blk" style="margin-top:8px" data-act="gdLigar">Ligar ao Google Drive e testar</button></div>';
-};
-
 /* ---------- aviso de backup quando há ligação à internet ---------- */
 var bkAdiadoAte = 0;
 var bkBar = document.createElement('div');
@@ -6522,12 +6415,9 @@ function bkCheck() {
         mostra = navigator.onLine !== false && SESSAO && SESSAO.perfil === 'adjunto' && !document.body.classList.contains('lock') &&
             fila.n > 0 && velho && Date.now() > bkAdiadoAte && !$('#modal').innerHTML;
     } catch (e) { }
-    if (mostra && GD.busy) mostra = false;
-    else if (mostra && gdOk() && Date.now() > GD.prox) { GD.prox = Date.now() + 10 * 60 * 1000; gdBackup(false, function () { bkCheck(); }); mostra = false; }
     if (mostra && window.ge360SrvBk && window.ge360SrvBk.ativo()) mostra = false;   /* backup automático no servidor */
     if (mostra) {
-        var cT = S.settings.nuvemTipo || 'Google Drive', cC = S.settings.nuvemConta || '';
-        bkBar.innerHTML = '<b>Está online. Faça o backup.</b><div class="sm" style="opacity:.85;margin-top:2px">Há ' + fila.n + (fila.n === 1 ? ' alteração' : ' alterações') + ' sem backup' + (cC ? ' · destino: ' + esc(cT) + ' (' + esc(cC) + ')' : '') + '.</div><div class="bkb"><button class="n" data-act="bkAdiar">Mais tarde</button><button class="y" data-act="doBackupNuvem">Fazer backup</button></div>';
+        bkBar.innerHTML = '<b>Está online. Faça o backup.</b><div class="sm" style="opacity:.85;margin-top:2px">Há ' + fila.n + (fila.n === 1 ? ' alteração' : ' alterações') + ' sem backup' + '.</div><div class="bkb"><button class="n" data-act="bkAdiar">Mais tarde</button><button class="y" data-act="doBackup">Fazer backup</button></div>';
         bkBar.style.display = 'block';
     } else bkBar.style.display = 'none';
 }
@@ -6832,10 +6722,7 @@ function consHist() {
         H.map(function (h) { return '<tr><td>' + cD(h.q) + '</td><td>' + esc(h.u) + '</td><td>' + esc(h.f) + '</td><td>' + esc(h.e) + '</td><td>' + h.n + '</td><td>' + h.a + '</td><td>' + h.i + '</td><td>' + h.r + '</td><td>' + h.fp + (h.rep ? ' (repetido)' : '') + '</td></tr>'; }).join('') + '</table></div>' : '<div class="bx mu">Ainda não houve importações.</div>');
 }
 function consImportar() {
-    var E = CE.get().escolas, h = '<div class="bx"><b>1. Seleccionar backups (.json) de várias escolas</b><p class="mu sm">Cada ficheiro é validado e pré-visualizado. Nada é gravado antes de confirmar.</p><input type="file" id="cf_file" accept=".json,application/json" multiple></div>' +
-        '<div class="bx"><b>Repositório na nuvem (Google Drive ou MEGA)</b><p class="mu sm" style="line-height:1.45">Cada escola faz o backup para o seu Drive (pasta "Gestão Escolar 360° - Backups") e partilha essa pasta com o email Google do Administrador. Aqui lê-se o backup mais recente de cada pasta partilhada. MEGA: descarregue a pasta com a app MEGA e use a selecção de ficheiros acima' + (window.showDirectoryPicker ? ' ou escolha a pasta sincronizada' : '') + '.</p>' +
-        '<div class="fl"><input type="text" id="gd_cid" placeholder="ID de cliente Google (xxxx.apps.googleusercontent.com)" value="' + esc(consGdId()) + '"><button class="btn pri" data-ca="gdLer">Ler backups partilhados no Drive</button>' + (window.showDirectoryPicker ? '<button class="btn" data-ca="pasta">Escolher pasta sincronizada</button>' : '') + '</div>' +
-        (CU.gdMsg ? '<div class="sm" style="margin-top:6px">' + esc(CU.gdMsg) + '</div>' : '') + '</div>';
+    var E = CE.get().escolas, h = '<div class="bx"><b>1. Seleccionar backups (.json) de várias escolas</b><p class="mu sm">Cada ficheiro é validado e pré-visualizado. Nada é gravado antes de confirmar.</p><input type="file" id="cf_file" accept=".json,application/json" multiple></div>';
     CU.files.forEach(function (F, i) {
         var P = F.P;
         if (!P.ok) { h += '<div class="bx"><b>' + esc(P.nome) + '</b><div class="er sm">' + esc(P.erro) + '</div></div>'; return; }
@@ -6875,11 +6762,6 @@ cons.addEventListener('click', function (ev) {
     var a = b.getAttribute('data-ca'); if (!consPode()) { cons.className = ''; return; }
     if (a === 'fechar') A.consFechar();
     else if (a === 'sair') A.logout();
-    else if (a === 'gdLer') {
-        var gi = ($('#gd_cid').value || '').trim();
-        if (!/\.apps\.googleusercontent\.com$/.test(gi)) { toast('O ID de cliente deve terminar em .apps.googleusercontent.com'); return; }
-        lsSet('ge360_cons_gdid', gi); consGdLer();
-    }
     else if (a === 'pasta') consPasta();
     else if (a === 'tab') { CU.tab = b.getAttribute('data-v'); consRender(); }
     else if (a === 'ctf') { ct360.setF(b.getAttribute('data-f')); consRender(); }
@@ -6927,7 +6809,7 @@ function consAdd(items) {
     });
     consRender();
 }
-/* pasta sincronizada (Drive para computador / MEGA): só em navegadores com showDirectoryPicker */
+/* pasta local: só em navegadores com showDirectoryPicker */
 function consWalk(dir, depth, out) {
     var it = dir.values();
     function step() {
@@ -6943,48 +6825,6 @@ function consWalk(dir, depth, out) {
 }
 function consPasta() {
     window.showDirectoryPicker().then(function (d) { var out = []; return consWalk(d, 0, out).then(function () { consLerFicheiros(out); }); }).catch(function () { });
-}
-/* Google Drive (só leitura): pastas "Gestão Escolar 360° - Backups" partilhadas com o Administrador */
-var CGD = { tok: null, exp: 0 };
-function consGdId() { return String(lsGet('ge360_cons_gdid', '') || S.settings.gdClientId || '').trim(); }
-function consGdTok(cb) {
-    if (CGD.tok && Date.now() < CGD.exp - 60000) { cb(null, CGD.tok); return; }
-    if (!consGdId()) { cb('Indique o ID de cliente Google.'); return; }
-    if (location.protocol !== 'https:') { cb('Abra a app a partir de um endereço https:// para usar o Google Drive.'); return; }
-    gdLoad(function (err) {
-        if (err || !(window.google && google.accounts && google.accounts.oauth2)) { cb('Sem ligação ao serviço Google.'); return; }
-        google.accounts.oauth2.initTokenClient({ client_id: consGdId(), scope: 'https://www.googleapis.com/auth/drive.readonly',
-            callback: function (r) { if (r && r.access_token) { CGD.tok = r.access_token; CGD.exp = Date.now() + (+r.expires_in || 3600) * 1000; cb(null, CGD.tok); } else cb('Autorização recusada.'); },
-            error_callback: function () { cb('Autorização cancelada.'); } }).requestAccessToken({ prompt: '' });
-    });
-}
-function consGdGet(url, tok, txt, cb) {
-    fetch(url, { headers: { Authorization: 'Bearer ' + tok } }).then(function (r) { if (!r.ok) throw new Error('Erro ' + r.status + ' do Google Drive.'); return txt ? r.text() : r.json(); })
-        .then(function (j) { cb(null, j); }).catch(function (e) { cb(e && e.message ? e.message : 'Falha de rede.'); });
-}
-function consGdLer() {
-    var B = 'https://www.googleapis.com/drive/v3/files', nm = 'Gestão Escolar 360° - Backups';
-    CU.gdMsg = 'A ligar ao Google Drive...'; consRender();
-    consGdTok(function (er, tok) {
-        if (er) { CU.gdMsg = er; consRender(); return; }
-        consGdGet(B + '?pageSize=100&fields=files(id,owners(displayName,emailAddress))&q=' + encodeURIComponent("name='" + nm + "' and mimeType='application/vnd.google-apps.folder' and sharedWithMe=true and trashed=false"), tok, false, function (e, j) {
-            if (e) { CU.gdMsg = e; consRender(); return; }
-            var fs = j.files || [], items = [], i = 0;
-            if (!fs.length) { CU.gdMsg = 'Nenhuma pasta "' + nm + '" foi partilhada com esta conta Google.'; consRender(); return; }
-            (function next() {
-                if (i >= fs.length) { CU.gdMsg = items.length + ' ficheiro(s) lido(s) de ' + fs.length + ' pasta(s). Reveja a pré-visualização abaixo.'; consAdd(items); return; }
-                var fo = fs[i++], own = (fo.owners && fo.owners[0] && (fo.owners[0].displayName || fo.owners[0].emailAddress)) || '';
-                consGdGet(B + '?pageSize=5&orderBy=modifiedTime%20desc&fields=files(id,name)&q=' + encodeURIComponent("'" + fo.id + "' in parents and trashed=false and name contains '.json'"), tok, false, function (e2, l) {
-                    var ff = (!e2 && l && l.files) || [], k = 0;
-                    (function dl() {
-                        if (k >= ff.length) { next(); return; }
-                        var f = ff[k++];
-                        consGdGet(B + '/' + f.id + '?alt=media', tok, true, function (e3, t) { if (!e3) items.push({ name: f.name + (own ? ' · ' + own : ''), txt: t }); dl(); });
-                    })();
-                });
-            })();
-        });
-    });
 }
 function consImportarTudo() {
     if (CU.busy || !consPode()) return;
@@ -7177,12 +7017,12 @@ A.admGeralEntrar = function () {
     if (gLimite()) return;
     var c = perfCfg(), nome = ($('#g_user').value || '').trim().toLowerCase(), pw = $('#g_pw').value;
     var u = c.utilizadores.find(function (x) { return x.nome.trim().toLowerCase() === nome; });
-    if (!u || u.perfil !== 'admin_geral' || !pwOk(u, pw)) {
+    function falhaAg() {
         gFalha('Não foi possível entrar. Confirme as credenciais e se esta conta tem o perfil Administrador Geral.');
         var pwEl = $('#g_pw'); if (pwEl) pwEl.value = '';
-        return;
     }
-    entrar(u);
+    if (!u || u.perfil !== 'admin_geral') { falhaAg(); return; }
+    pwOkA(u, pw).then(function (ok) { if (!ok) { falhaAg(); return; } entrar(u); });
 };
 
 </script>
@@ -7817,7 +7657,7 @@ html[data-theme="dark"] #cons .mu{color:#39ff88b3!important}
         var lista = D.ev.filter(function (e) { return CT.f === 'todos' || GRP[e.k] === CT.f; }).slice().reverse().slice(0, 30);
         if (!lista.length) h += '<div class="ct-vazio">Sem registos neste filtro. Os acessos, falhas, pedidos de recuperação e alterações às contas aparecem aqui a partir de agora.</div>';
         else h += lista.map(function (e) { return '<div class="ct-ev"><span class="ct-dot ' + (ERRO[e.k] ? 'erro' : GRP[e.k] || '') + '"></span><div><b>' + esc(ROT[e.k] || e.k) + '</b> · ' + esc(e.n) + '<div class="ct-meta">' + dHora(e.t) + (e.d ? ' · ' + esc(e.d) : '') + '</div></div></div>'; }).join('');
-        h += '<div class="ct-act"><button type="button" class="btn" ' + ac('ctCsv') + '>Exportar contas e registo (CSV)</button>' + (D.ev.length ? '<button type="button" class="btn" ' + ac('ctLimpar') + '>Limpar registo</button>' : '') + '</div>';
+        h += '<div class="ct-act"><button type="button" class="btn" ' + ac('ctCsv') + '>Exportar contas e registo (CSV)</button>' + (!cons && SESSAO && SESSAO.id === recAdminUid(D.c) ? '<button type="button" class="btn" data-act="mkNova">Renovar chave-mestra</button>' : '') + (D.ev.length ? '<button type="button" class="btn" ' + ac('ctLimpar') + '>Limpar registo</button>' : '') + '</div>';
         return cons ? '<div class="ct bx"><h3 style="margin-top:0">Visor de contas</h3>' + h + '</div>' : '<div class="pn"><h3>Visor de contas</h3></div><div class="card ct">' + h + '</div>';
     }
     function csv() {
@@ -7845,10 +7685,13 @@ html[data-theme="dark"] #cons .mu{color:#39ff88b3!important}
     A.mkOk = function () {
         if (!soAdjunto()) return;
         var c = perfCfg(), u = c.utilizadores.find(function (x) { return x.id === SESSAO.id; });
-        if (!u || SESSAO.id !== recAdminUid(c) || !pwOk(u, ($('#mk_pw') || {}).value || '')) { toast('Palavra-passe incorreta.'); return; }
+        if (!u || SESSAO.id !== recAdminUid(c)) { toast('Palavra-passe incorreta.'); return; }
+        pwOkA(u, ($('#mk_pw') || {}).value || '').then(function (ok) {
+        if (!ok) { toast('Palavra-passe incorreta.'); return; }
         var code = mkNova(c); ctLog('mk', u.nome, ''); save();
         modal('<h2>Nova chave-mestra</h2><p class="mu sm" style="line-height:1.5">Anote esta chave em papel e guarde-a fora do dispositivo. É mostrada só agora e substitui a anterior.</p><div style="font-size:26px;font-weight:700;letter-spacing:.08em;text-align:center;padding:14px;border:2px dashed #1F3864;border-radius:12px;color:#1F3864;margin:12px 0">' + esc(code) + '</div><div class="row"><button class="btn" data-act="copyRecCode" data-code="' + esc(code) + '">Copiar chave</button><button class="btn pri" data-act="closeModal">Concluir</button></div>');
         render();
+        });
     };
 
     /* cartão nas Configurações (Gestão de contas) */
@@ -8001,7 +7844,7 @@ html[data-theme="dark"] .cf-ok{background:#0b132b;border-color:#39ff8866;color:#
     var vBackup7 = vBackup;
     vBackup = function () {
         var h = vBackup7();
-        var card = '<div class="card"><label style="margin-top:0">Backup cifrado<span class="cf-ok">AES-256</span></label><button class="btn blk" style="margin-top:8px" data-act="bkCifrar">Criar backup cifrado (com palavra-passe)</button><p class="cf-note">Recomendado para guardar na nuvem ou enviar por mensagem. Para restaurar, use «Restaurar backup» e escolha este ficheiro: será pedida a palavra-passe.</p></div>';
+        var card = '<div class="card"><label style="margin-top:0">Backup cifrado<span class="cf-ok">AES-256</span></label><button class="btn blk" style="margin-top:8px" data-act="bkCifrar">Criar backup cifrado (com palavra-passe)</button><p class="cf-note">Recomendado para guardar o ficheiro com segurança. Para restaurar, use «Restaurar backup» e escolha este ficheiro: será pedida a palavra-passe.</p></div>';
         return h.indexOf('<div id="undoBox"></div>') >= 0 ? h.replace('<div id="undoBox"></div>', card + '<div id="undoBox"></div>') : h + card;
     };
 })();
@@ -8892,13 +8735,18 @@ html[data-theme="dark"]{--dz-grad:linear-gradient(135deg,#0b132b 0%,#0b132b 50%,
         var zsel = window.geZipLer ? window.geZipLer() : ''; if (zsel === false) { gErr('Indique o número (só dígitos) e o nome da nova ZIP.'); return; }
         if (!nome || !/^[a-z0-9-]{3,30}$/.test(cod) || !adj) { gErr('Preencha o nome, um código válido (3 a 30 letras minúsculas, números ou hífen) e a Escola.'); return; }
         if (pw.length < 8) { gErr('A palavra-passe deve ter pelo menos 8 caracteres.'); return; }
+        var gv = function (id) { var el = document.getElementById(id); return el ? String(el.value || '').trim().slice(0, 120) : ''; };
+        var loc = { provincia: gv('a_prov'), distrito: gv('a_dist'), posto_administrativo: gv('a_posto'), localidade: gv('a_loc'), zip: (typeof zsel === 'string' ? zsel : '') }, locErro = false;
+        if (!loc.provincia || !loc.distrito) { gErr('Indique a Província e o Distrito.'); return; }
         gErr('A criar...');
         anoVigente().then(function (a) {
             if (!a) throw { msg: 'Não há ano lectivo a decorrer. Inicie-o primeiro.' };
             return srvFn({ acao: 'criar_escola', nome: nome, codigo: cod, adjunto: { nome: adj, senha: pw } }).then(function () {
-                return srvApi('PATCH', '/rest/v1/escolas?codigo=eq.' + encodeURIComponent(cod), { ano_id: a.id }, { Prefer: 'return=representation' }).then(function (r) { try { if (window.geZipAtribuir) window.geZipAtribuir(r && r.j && r.j[0] && r.j[0].id, zsel); } catch (e) { } });
+                return srvApi('PATCH', '/rest/v1/escolas?codigo=eq.' + encodeURIComponent(cod), { ano_id: a.id }, { Prefer: 'return=representation' }).then(function (r) { try { if (window.geZipAtribuir) window.geZipAtribuir(r && r.j && r.j[0] && r.j[0].id, zsel); } catch (e) { } }).then(function () {
+                    return srvApi('PATCH', '/rest/v1/escolas?codigo=eq.' + encodeURIComponent(cod), loc).then(function (r2) { if (!r2.ok) locErro = true; }, function () { locErro = true; });
+                });
             });
-        }).then(function () { toast('Escola criada.'); admView(); }).catch(function (e) { gErr(srvErro(e)); });
+        }).then(function () { toast(locErro ? 'Escola criada, mas a localização não ficou gravada no servidor (execute o ficheiro 03_localizacao.sql).' : 'Escola criada.'); admView(); }).catch(function (e) { gErr(srvErro(e)); });
     };
 
     /* ---- novas credenciais para um novo ano lectivo ---- */
@@ -9521,7 +9369,7 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
         return setItem0.apply(this, arguments);
     };
 
-    var BLOQ = /backup|restor|nuvem|cifr|^bk|^gd[A-Z]|^rs[A-Z]|^idb|^srv(Sync|Cfg)|^cons|^ab[A-Z]|pickRestore|^undoRestore/i;
+    var BLOQ = /backup|restor|cifr|^bk|^rs[A-Z]|^idb|^srv(Sync|Cfg)|^cons|^ab[A-Z]|pickRestore|^undoRestore/i;
     function bloqueado() { toast('Modo de treinamento: backup, restauro e sincronização estão desativados.'); }
 
     var bkData0 = bkData;
@@ -10552,13 +10400,11 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
             if (SESSAO && SESSAO.ro) { toast('Perfil de supervisor: só leitura.'); return; }
             srvApi('GET', '/rest/v1/escolas?select=id,nome,codigo&id=eq.' + encodeURIComponent(d.id)).then(function (r) {
                 var e = r.ok && r.j && r.j[0]; if (!e) throw { msg: 'Escola não encontrada.' };
-                var t = window.prompt('ELIMINAR PERMANENTEMENTE «' + e.nome + '»\n\nSerá apagado TUDO: contas e senhas, professores, secretaria, pautas, notas, alunos, mensagens, submissões, Conselho de turma e todos os registos da escola. Não fica nenhum vestígio e NÃO é possível recuperar.\n\nPara confirmar escreva a palavra: ELIMINAR');
-                if (t === null) return;
-                if (t.trim().toUpperCase() !== 'ELIMINAR') throw { msg: 'Palavra incorrecta. Nada foi eliminado.' };
-                toast('A eliminar…');
-                return srvApi('POST', '/functions/v1/escola_eliminar', { escola_id: e.id }).then(function (x) {
-                    if (!x.ok) throw { msg: (x.j && (x.j.erro || x.j.message)) || 'Não foi possível eliminar. Publique a função «escola_eliminar».' };
-                    limpar(e.id, e.nome, function () { toast('Escola eliminada permanentemente.'); admView(); });
+                dlgEliminar('Eliminar «' + e.nome + '»', 'Será apagado <b>TUDO</b>: contas e senhas, professores, secretaria, pautas, notas, alunos, mensagens, submissões, Conselho de turma e todos os registos da escola. Não fica nenhum vestígio e <b>não é possível recuperar</b>.', 'ELIMINAR', 'Eliminar escola', function (fechar, erro) {
+                    srvApi('POST', '/functions/v1/escola_eliminar', { escola_id: e.id }).then(function (x) {
+                        if (!x.ok) throw { msg: (x.j && (x.j.erro || x.j.message)) || 'Não foi possível eliminar. Publique a função «escola_eliminar».' };
+                        limpar(e.id, e.nome, function () { fechar(); toast('Escola eliminada permanentemente.'); admView(); });
+                    }).catch(function (er) { erro(srvErro(er)); });
                 });
             }).catch(function (e) { toast(srvErro(e)); });
         };
@@ -10590,6 +10436,26 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
             }).catch(function () { });
         }
         /* ---- eliminar a pasta «Ano lectivo»: só Administrador Geral; permissão e senha validadas no Supabase (RPC eliminar_pasta_ano) ---- */
+        function dlgEliminar(titulo, corpo, palavra, rotulo, acao) {
+            var ov = document.createElement('div'), busy = false, prev = document.activeElement;
+            ov.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(16,24,40,.6);display:flex;align-items:center;justify-content:center;padding:18px';
+            ov.innerHTML = '<div role="alertdialog" aria-modal="true" aria-labelledby="ed_t" aria-describedby="ed_d" style="background:#fff;color:#1b2540;border-radius:16px;max-width:460px;width:100%;padding:18px;max-height:92vh;overflow:auto"><h2 id="ed_t" style="margin:0 0 8px;font-size:18px"></h2><p id="ed_d" class="sm" style="line-height:1.45;margin:0 0 10px"></p><label for="ed_w" style="display:block;font-weight:600;margin:8px 0 4px">Para confirmar, escreva <b></b></label><input id="ed_w" autocomplete="off" autocapitalize="characters" spellcheck="false" style="width:100%;padding:12px;border-radius:10px;border:1px solid #c5cddd;box-sizing:border-box;font-size:16px"><div id="ed_m" class="sm" role="status" style="color:#c73752;min-height:18px;margin-top:6px"></div><div style="display:flex;gap:8px;margin-top:10px"><button type="button" class="btn" id="ed_no" style="flex:1">Cancelar</button><button type="button" class="btn dan" id="ed_ok" style="flex:1" disabled></button></div></div>';
+            document.body.appendChild(ov);
+            var T = ov.querySelector('#ed_t'), D = ov.querySelector('#ed_d'), W = ov.querySelector('#ed_w'), M = ov.querySelector('#ed_m'), OK = ov.querySelector('#ed_ok'), NO = ov.querySelector('#ed_no');
+            T.textContent = titulo; D.innerHTML = corpo; ov.querySelector('label b').textContent = palavra; OK.textContent = rotulo;
+            function pronto() { OK.disabled = busy || W.value.trim().toUpperCase() !== palavra; }
+            function fechar() { if (ov.parentNode) ov.parentNode.removeChild(ov); try { if (prev && prev.focus) prev.focus(); } catch (e) { } }
+            function erro(m) { busy = false; NO.disabled = false; OK.textContent = rotulo; M.textContent = m; pronto(); }
+            function ir() { if (busy || OK.disabled) return; busy = true; OK.disabled = true; NO.disabled = true; OK.textContent = 'A eliminar…'; M.textContent = ''; acao(fechar, erro); }
+            ov.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !busy) fechar();
+                else if (e.key === 'Enter' && e.target === W) ir();
+                else if (e.key === 'Tab') { var f = [W, NO, OK].filter(function (x) { return !x.disabled; }), i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
+            });
+            ov.addEventListener('click', function (e) { if (e.target === ov && !busy) fechar(); });
+            W.addEventListener('input', pronto); OK.addEventListener('click', ir); NO.addEventListener('click', fechar);
+            setTimeout(function () { W.focus(); }, 50);
+        }
         function dlgSenha(ano, nEsc, enviar) {
             var ov = document.createElement('div'), busy = false;
             ov.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;background:rgba(16,24,40,.6);display:flex;align-items:center;justify-content:center;padding:18px';
@@ -10598,19 +10464,23 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
                 '<p class="sm" style="line-height:1.45;margin:0 0 10px">Será apagado <b>TUDO</b> o que pertence a este ano lectivo: ' + (nEsc ? nEsc + ' escola(s) inscrita(s) com contas, senhas, professores, secretaria, pautas, notas, alunos e mensagens, e ' : '') + 'a própria pasta. <b>Não é possível recuperar.</b></p>' +
                 '<label style="display:block;font-weight:600;margin:8px 0 4px">Senha de confirmação</label>' +
                 '<input id="ep_pw" type="password" autocomplete="off" style="width:100%;padding:10px;border-radius:10px;border:1px solid #c5cddd;box-sizing:border-box">' +
+                '<label style="display:block;font-weight:600;margin:10px 0 4px">Para confirmar, escreva <b>ELIMINAR</b></label><input id="ep_w" autocomplete="off" autocapitalize="characters" spellcheck="false" style="width:100%;padding:10px;border-radius:10px;border:1px solid #c5cddd;box-sizing:border-box">' +
                 '<div id="ep_msg" class="sm" style="color:#c73752;min-height:18px;margin-top:6px"></div>' +
-                '<div style="display:flex;gap:8px;margin-top:10px"><button type="button" class="btn" id="ep_no" style="flex:1">Cancelar</button><button type="button" class="btn dan" id="ep_ok" style="flex:1">Eliminar pasta</button></div></div>';
+                '<div style="display:flex;gap:8px;margin-top:10px"><button type="button" class="btn" id="ep_no" style="flex:1">Cancelar</button><button type="button" class="btn dan" id="ep_ok" style="flex:1" disabled>Eliminar pasta</button></div></div>';
             document.body.appendChild(ov);
-            var pw = ov.querySelector('#ep_pw'), msg = ov.querySelector('#ep_msg'), okB = ov.querySelector('#ep_ok');
+            var pw = ov.querySelector('#ep_pw'), msg = ov.querySelector('#ep_msg'), okB = ov.querySelector('#ep_ok'), wd = ov.querySelector('#ep_w');
+            function pronto() { okB.disabled = busy || !pw.value || wd.value.trim().toUpperCase() !== 'ELIMINAR'; }
+            pw.addEventListener('input', pronto); wd.addEventListener('input', pronto);
+            ov.addEventListener('keydown', function (e) { if (e.key === 'Escape') fechar(); });
             function fechar() { if (!busy && ov.parentNode) ov.parentNode.removeChild(ov); }
             function confirmar() {
-                if (busy) return;
+                if (busy || okB.disabled) return;
                 if (!pw.value) { msg.style.color = '#c73752'; msg.textContent = 'Escreva a senha de confirmação.'; return; }
                 busy = true; okB.disabled = true; okB.textContent = 'A eliminar…'; msg.style.color = '#1b2540'; msg.textContent = 'A validar no servidor e a eliminar, aguarde…';
                 enviar(pw.value).then(function (res) {
                     busy = false;
                     if (res.ok) { fechar(); return; }
-                    okB.disabled = false; okB.textContent = 'Eliminar pasta'; msg.style.color = '#c73752'; msg.textContent = res.msg; pw.value = ''; pw.focus();
+                    okB.disabled = false; okB.textContent = 'Eliminar pasta'; msg.style.color = '#c73752'; msg.textContent = res.msg; pw.value = ''; pronto(); pw.focus();
                 });
             }
             ov.querySelector('#ep_no').addEventListener('click', fechar);
@@ -12444,7 +12314,7 @@ throw { msg: 'Não foi possível ler os dados das escolas. [' + dt(rs[0], 'escol
             dp.alunos.push(n); novos.push({ p: dp.id, a: n.id }); if (tocadas.indexOf(dp) < 0) tocadas.push(dp);
         });
         tocadas.forEach(function (dp) { if (S.settings.alfa) { dp.alunos.sort(function (x, y) { return x.nome.localeCompare(y.nome, 'pt'); }).forEach(function (a, i) { a.num = i + 1; }); } });
-        r.conc.forEach(function (o) { o.a.concluido = { ano: ano, exec: id }; conc.push({ p: o.p.id, a: o.a.id }); });
+        r.conc.concat(r.sai).forEach(function (o) { o.a.concluido = { ano: ano, exec: id }; conc.push({ p: o.p.id, a: o.a.id }); });
         r.fonte.forEach(function (p) { p.encerrada = true; p.progressao = { exec: id, em: hojeISO(), por: quem(), destino: novoAno }; });
         progs().push({ id: id, ano: ano, destino: novoAno, em: hojeISO(), por: quem(), criadas: criadas, novos: novos, conc: conc, fontes: r.fonte.map(function (p) { return p.id; }) });
         save();
@@ -12471,7 +12341,7 @@ throw { msg: 'Não foi possível ler os dados das escolas. [' + dt(rs[0], 'escol
         var h = '<h2>Progressão de ano lectivo</h2><div style="display:flex;flex-wrap:wrap;gap:6px;margin:8px 0">' + anos.map(function (a) { return '<button class="btn' + (a === PA ? ' pri' : '') + '" data-act="progAno" data-a="' + a + '">' + a + (feita(a) ? ' ✔' : '') + '</button>'; }).join('') + '</div>';
         if (!PA) { modal(h + '<p class="mu sm">Ainda não há turmas.</p><div class="row"><button class="btn" data-act="closeModal">Fechar</button></div>'); return; }
         var r = plan(PA), f = feita(PA), t = function (l, n) { return '<tr><td>' + l + '</td><td style="text-align:right"><b>' + n + '</b></td></tr>'; };
-        h += '<table style="width:100%">' + t('Transitam para a classe seguinte', r.mov.length) + t('Reprovados: repetem a classe', r.fica.length) + t('Concluem a 12.ª classe', r.conc.length) + t('Desistentes confirmados (não transitam)', r.des.length) + t('Resultados por confirmar (não transitam)', r.pend.length) + t('Classe seguinte fora do tipo de escola', r.sai.length) + t('Perderam o ano por faltas no secundário (sem matrícula por 1 ano)', r.ppf.length) + '</table>';
+        h += '<table style="width:100%">' + t('Transitam para a classe seguinte', r.mov.length) + t('Reprovados: repetem a classe', r.fica.length) + t('Concluem a 12.ª classe', r.conc.length) + t('Desistentes confirmados (não transitam)', r.des.length) + t('Resultados por confirmar (não transitam)', r.pend.length) + t('Concluem o ciclo (sem classe seguinte neste tipo de escola)', r.sai.length) + t('Perderam o ano por faltas no secundário (sem matrícula por 1 ano)', r.ppf.length) + '</table>';
         h += '<p class="mu sm" style="line-height:1.4">Cria as turmas de ' + (+PA + 1) + ' sem tocar nos dados de ' + PA + '. Alunos por confirmar ou desistentes ficam de fora até serem resolvidos.</p>';
         if (f) h += '<p class="sm"><b>Executada em ' + esc(f.em) + ' por ' + esc(f.por) + '.</b></p><button class="btn blk" data-act="progRev">Reverter progressão de ' + PA + '</button>';
         else if (!pode()) h += '<p class="mu sm">Só o Director-adjunto executa a progressão.</p>';
@@ -12947,7 +12817,7 @@ throw { msg: 'Não foi possível ler os dados das escolas. [' + dt(rs[0], 'escol
   function injectAdminTools(){
     if(!admin() || !G.gate || !G.gate.classList.contains('on')) return;
     var gb=G.gate.querySelector('.gb'); if(!gb || gb.querySelector('#ge360_admin_tools')) return;
-    var d=box('<section id="ge360_admin_tools" style="border:1px solid #cbd5e1;border-radius:14px;padding:12px;margin:12px 0;background:#f8fafc;color:#1b2540"><h2 style="font-size:17px;margin:0 0 6px">Centro de controlo · Gestão Escolar 360°</h2><p class="mu sm" style="line-height:1.45;margin:0 0 10px">Ferramentas adicionais integradas no painel actual. As operações sensíveis exigem validação no servidor.</p><input id="ge360_school_search" type="search" placeholder="Pesquisar escola por nome ou código…" aria-label="Pesquisar escolas" style="width:100%;box-sizing:border-box;margin-bottom:8px"><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px"><button class="btn" type="button" data-ge360="backups">Backups remotos</button><button class="btn" type="button" data-ge360="pastas">Pastas e anos lectivos</button><button class="btn" type="button" data-ge360="audit">Auditoria local</button><button class="btn pri" type="button" data-ge360="training">Modo de treinamento</button></div><div id="ge360_admin_result" style="margin-top:10px"></div><p class="mu sm" style="line-height:1.4;margin:10px 0 0">Nota: backups de Supabase/Drive/MEGA só podem ser listados ou eliminados se o respectivo serviço tiver uma API/Edge Function segura configurada. A página não recebe nem armazena chaves de serviço do Supabase.</p></section>');
+    var d=box('<section id="ge360_admin_tools" style="border:1px solid #cbd5e1;border-radius:14px;padding:12px;margin:12px 0;background:#f8fafc;color:#1b2540"><h2 style="font-size:17px;margin:0 0 6px">Centro de controlo · Gestão Escolar 360°</h2><p class="mu sm" style="line-height:1.45;margin:0 0 10px">Ferramentas adicionais integradas no painel actual. As operações sensíveis exigem validação no servidor.</p><input id="ge360_school_search" type="search" placeholder="Pesquisar escola por nome ou código…" aria-label="Pesquisar escolas" style="width:100%;box-sizing:border-box;margin-bottom:8px"><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px"><button class="btn" type="button" data-ge360="backups">Backups remotos</button><button class="btn" type="button" data-ge360="pastas">Pastas e anos lectivos</button><button class="btn" type="button" data-ge360="audit">Auditoria local</button><button class="btn pri" type="button" data-ge360="training">Modo de treinamento</button></div><div id="ge360_admin_result" style="margin-top:10px"></div><p class="mu sm" style="line-height:1.4;margin:10px 0 0">Nota: backups do Supabase só podem ser listados ou eliminados se o respectivo serviço tiver uma API/Edge Function segura configurada. A página não recebe nem armazena chaves de serviço do Supabase.</p></section>');
     var ref=gb.querySelector('#adm_l'); if(ref) ref.parentNode.insertBefore(d,ref); else gb.appendChild(d);
     var q=el('ge360_school_search'); if(q) q.addEventListener('input',function(){filtroTxt=String(q.value||'').trim().toLocaleLowerCase(); filtrarEscolas();});
     d.addEventListener('click',function(e){var b=e.target.closest('[data-ge360]'); if(!b)return; var k=b.getAttribute('data-ge360'); if(k==='backups') remoteBackups(); else if(k==='pastas') { var f=el('adm_pastas'); if(f){f.scrollIntoView({behavior:'smooth',block:'start'}); f.style.outline='2px solid #2563eb'; setTimeout(function(){f.style.outline='';},1600);} else toast0('As pastas serão mostradas quando a lista de escolas e anos lectivos terminar de carregar.'); } else if(k==='audit') localAudit(); else if(k==='training') trainingMode();});
@@ -14792,7 +14662,7 @@ html[data-theme="dark"] .gx{--g-ok:#39ff88;--g-no:#ff6b86;--g-pe:#43c0e0;--g-de:
             var vistos = {}, ids = (BC.l || []).filter(function (r) { if (r.estado !== 'ok' || vistos[r.escola_id]) return false; return (vistos[r.escola_id] = 1); }), docs = [], n = 0;
             if (!ids.length) throw { msg: 'Não há backups centrais para exportar.' };
             return ids.reduce(function (p, r) { return p.then(function () { BA.msg = 'A exportar ' + (++n) + ' de ' + ids.length + '…'; refrescar(); return obterBk(r.id).then(function (o) { docs.push(JSON.parse(new TextDecoder().decode(o.buf))); }); }); }, Promise.resolve())
-                .then(function () { guardarFx(JSON.stringify({ versao: 1, tipo: 'ge360-copia-externa', criado_em: new Date().toISOString(), escolas: docs }), 'GE360_copia_externa_' + new Date().toISOString().slice(0, 10) + '.json'); return 'Cópia externa descarregada (' + docs.length + ' escola(s)). Guarde-a fora do Supabase (Drive, MEGA, disco).'; });
+                .then(function () { guardarFx(JSON.stringify({ versao: 1, tipo: 'ge360-copia-externa', criado_em: new Date().toISOString(), escolas: docs }), 'GE360_copia_externa_' + new Date().toISOString().slice(0, 10) + '.json'); return 'Cópia externa descarregada (' + docs.length + ' escola(s)). Guarde-a fora do Supabase (disco, outro dispositivo).'; });
         });
         else if (a === 'bcRest') cAct(function () {
             return fnBk({ acao: 'previa', backup_id: k }).then(function (p) {
@@ -15438,7 +15308,7 @@ body:not(.lock) #rsaccpill{display:none}
 <script id="multi360-js">
 (function(){
 var K='ge360_slots',A='ge360_slot_ativo',cur=window.__GE_SLOT||'';
-var SC=['pauta_eletronica_v1','ge360_srv_ses','ge360_srv_cache','ge360_srv_ult','ge360_srv_cod','ge360_esc_meta','ge360_cons_aut','ge360_cons_gdid','ge360_bk_srv','ge360_bk_dica','ge360_foto_utilizador','ge360_zips','ge360_lembrar','ge360_mapaman','ge360_sess_keep'];
+var SC=['pauta_eletronica_v1','ge360_srv_ses','ge360_srv_cache','ge360_srv_ult','ge360_srv_cod','ge360_esc_meta','ge360_cons_aut','ge360_bk_srv','ge360_bk_dica','ge360_foto_utilizador','ge360_zips','ge360_lembrar','ge360_mapaman','ge360_sess_keep'];
 function ld(){var l=[];try{l=JSON.parse(localStorage.getItem(K)||'[]')}catch(e){}if(!Array.isArray(l))l=[];if(!l.some(function(x){return x.id===''}))l.unshift({id:'',nome:'Conta principal'});return l}
 function sv(l){try{localStorage.setItem(K,JSON.stringify(l))}catch(e){}}
 function nm(){var x=ld().filter(function(a){return a.id===cur})[0];return x?x.nome:'Conta principal'}
@@ -17742,5 +17612,237 @@ html[data-theme="dark"]:root:root:root #gate .ao-sc[data-sh] .rs-ct{background:h
  document.addEventListener('DOMContentLoaded',agenda);agenda();
 })();
 </script>
+<style id="ge-visor-css">
+#gate.on .gb.adm-d.v2,body.pc:not(.lock) #gate.on>.gb.adm-d.v2{--a:#2a56ff;--ln:rgba(127,127,127,.26);--sf:rgba(127,127,127,.1);max-width:1180px!important;width:min(calc(100vw - 16px),1180px)!important;max-height:calc(100dvh - 16px)!important;padding:0 0 calc(24px + env(safe-area-inset-bottom))!important;overflow:auto;overscroll-behavior:contain;border-radius:22px}
+.v2h{position:sticky;top:0;z-index:6;display:flex;align-items:center;gap:10px;padding:calc(12px + env(safe-area-inset-top)) clamp(12px,3vw,28px) 12px;background:inherit;border-bottom:1px solid var(--ln);backdrop-filter:saturate(1.5) blur(14px)}
+.v2h .v2t{flex:1;min-width:0}.v2h h1{margin:0!important;font-size:clamp(17px,3.2vw,26px)!important;line-height:1.2;text-align:left!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.v2h .ro{margin:0 0 0 0!important;display:inline-block;font-size:10.5px;letter-spacing:.06em;padding:2px 9px;border-radius:99px;background:rgba(42,86,255,.16);color:var(--a)}
+.v2h .v2b,.v2m .btn,.v2tabs button{font:inherit}
+.v2b{min-width:44px;height:44px;padding:0 14px;border-radius:14px;border:1px solid var(--ln);background:var(--sf);color:inherit;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:600}
+.v2b:hover{border-color:var(--a)}.v2b:focus-visible,.v2tabs button:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.v2b.pri{background:var(--a);border-color:var(--a);color:#fff}
+.v2x{position:relative}.v2m{position:absolute;right:0;top:calc(100% + 8px);min-width:230px;padding:6px;border-radius:16px;background:inherit;border:1px solid var(--ln);box-shadow:0 18px 40px rgba(0,0,0,.25);z-index:30}
+.v2m[hidden]{display:none}.v2m .btn{display:block;width:100%;text-align:left;margin:2px 0;border-radius:10px}
+.v2c{padding:clamp(12px,2.4vw,24px)}.v2c>p{margin:0 0 12px}
+.v2k{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:0 0 12px}
+.v2k>div{background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:14px 16px;min-width:0}
+.v2k span{display:block;font-size:12px;opacity:.7}.v2k b{display:block;font-size:clamp(24px,4.2vw,34px);line-height:1.15;margin-top:2px}
+.v2d{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:10px;margin:0 0 14px}
+.v2d>div{background:var(--sf);border:1px solid var(--ln);border-radius:18px;padding:14px 16px}.v2d h4{margin:0 0 10px;font-size:13px;opacity:.8}
+.v2bar{display:flex;height:12px;border-radius:99px;overflow:hidden;background:var(--ln)}.v2bar i{display:block;min-width:0}
+.v2d ul{list-style:none;margin:10px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:13px}
+.v2d li{display:flex;align-items:center;gap:6px}.v2d li s{width:9px;height:9px;border-radius:50%;flex:none}.v2d li em{margin-left:auto;font-style:normal;font-weight:700}
+.v2tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 10px;margin:0 0 4px}.v2tabs::-webkit-scrollbar{display:none}
+.v2tabs button{flex:none;padding:9px 16px;border-radius:99px;border:1px solid var(--ln);background:transparent;color:inherit;cursor:pointer;font-weight:600}
+.v2tabs button[aria-selected=true]{background:var(--a);border-color:var(--a);color:#fff}
+.v2p{animation:v2in .18s ease-out}.v2p[hidden]{display:none}@keyframes v2in{from{opacity:0;transform:translateY(4px)}}
+#gate.on .gb.adm-d.v2 .adw,body.pc:not(.lock) #gate.on .adm-d.v2 .adw{max-height:none!important;border-radius:16px}
+@media(max-width:640px){#gate.on .gb.adm-d.v2,body.pc:not(.lock) #gate.on>.gb.adm-d.v2{width:100vw!important;max-height:100dvh!important;height:100dvh;border-radius:0}
+.v2 table.adt{min-width:0!important}.v2 .adt thead{display:none}.v2 .adt tr{display:block;border:1px solid var(--ln);border-radius:14px;margin:8px 0;padding:6px 12px}
+.v2 .adt td{display:flex;justify-content:space-between;gap:14px;border:0!important;padding:5px 0!important;text-align:right!important;white-space:normal!important}
+.v2 .adt td::before{content:attr(data-label);opacity:.65;font-size:12px;text-align:left;flex:none}.v2 .adw{border:0!important;overflow:visible!important}.v2b .tx{display:none}}
+@media(orientation:landscape) and (max-height:520px){.v2h{padding-top:6px;padding-bottom:6px}.v2b{height:38px}.v2k{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}.v2k b{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.v2p{animation:none}}
+</style>
+<script id="ge-visor-js">
+(function(){var g=document.getElementById('gate');if(!g||window.__geVisor2)return;window.__geVisor2=1;
+var Q=function(s,r){return(r||g).querySelector(s)},A=function(s,r){return[].slice.call((r||g).querySelectorAll(s))};
+var N=function(t){var n=parseFloat(String(t).replace(/\s/g,'').replace(',','.').replace(/[^\d.-]/g,''));return isNaN(n)?0:n};
+var CO={'Com aproveitamento':'#12a150','Sem aproveitamento':'#d1344f','Pendentes':'#e5a11a','Desistentes':'#8a94a6','Rapazes (H)':'#2a56ff','Raparigas (M)':'#c2418f'};
+function E(h){var d=document.createElement('div');d.innerHTML=h;return d.firstChild}
+function kpi(gb){var adk=Q('.adk',gb);if(!adk)return;var K={},o=[];A('.adk>div',gb).forEach(function(d){var s=Q('span',d),b=Q('b',d);if(s&&b){K[s.textContent.trim()]=b.textContent.trim();o.push(s.textContent.trim())}});
+var P=['Escolas registadas','Escolas activas','Contas nas escolas','Alunos','Turmas / pautas','Contas','Taxa de aproveitamento'],u={},h='<section class="v2k">';
+P.forEach(function(k){if(k in K){u[k]=1;h+='<div><span>'+k+'</span><b>'+K[k]+'</b></div>'}});
+o.forEach(function(k){if(!u[k]&&!(k in CO)){u[k]=1;h+='<div><span>'+k+'</span><b>'+K[k]+'</b></div>'}});h+='</section>';
+function bar(t,ks){ks=ks.filter(function(k){return k in K});if(!ks.length)return'';var tot=ks.reduce(function(s,k){return s+N(K[k])},0);
+return'<div><h4>'+t+'</h4><div class="v2bar" role="img" aria-label="'+t+'">'+ks.map(function(k){return'<i style="flex:'+(tot?N(K[k]):0)+';background:'+CO[k]+'"></i>'}).join('')+'</div><ul>'+ks.map(function(k){return'<li><s style="background:'+CO[k]+'"></s>'+k.replace(' (H)','').replace(' (M)','')+'<em>'+K[k]+'</em></li>'}).join('')+'</ul></div>'}
+var d=bar('Resultados',['Com aproveitamento','Sem aproveitamento','Pendentes','Desistentes'])+bar('Rapazes e raparigas',['Rapazes (H)','Raparigas (M)']);
+adk.replaceWith(E('<div class="v2kw">'+h+(d?'<section class="v2d">'+d+'</section>':'')+'</div>'))}
+function build(gb){if(gb.classList.contains('v2'))return;try{
+var h1=Q('h1',gb),ro=Q('.ro',h1),ttl=h1.firstChild?h1.firstChild.textContent:'',nb=Q('[data-act="admPainel"]',gb);if(!nb)return;nb=nb.parentNode;
+var back=Q('[data-act="admDVoltar"]',nb)?'admDVoltar':'admPainel',bl=back==='admDVoltar'?'Voltar':'Painel',ex=[];
+A('[data-act="admDExp"]',gb).forEach(function(b){ex.push(b)});
+var hd=E('<header class="v2h"><button class="v2b" data-act="'+back+'" aria-label="'+bl+'"><span aria-hidden="true">←</span><span class="tx">'+bl+'</span></button><div class="v2t"><h1></h1></div><button class="v2b" data-act="admDAct" aria-label="Actualizar dados" title="Actualizar dados">⟳</button></header>');
+Q('h1',hd).textContent=ttl;if(ro)Q('.v2t',hd).appendChild(ro);
+if(ex.length){var w=E('<div class="v2x"><button class="v2b pri" type="button" data-v2="exp" aria-haspopup="true" aria-expanded="false"><span aria-hidden="true">⬇</span><span class="tx">Exportar</span></button><div class="v2m" hidden></div></div>'),m=Q('.v2m',w);ex.forEach(function(b){b.classList.remove('pri');m.appendChild(b)});hd.appendChild(w)}
+var c=E('<div class="v2c"></div>');A(':scope>*',gb).forEach(function(n){if(n!==h1&&n!==nb)c.appendChild(n)});
+A('.adbar',c).forEach(function(b){if(!b.children.length)b.remove()});
+var sub=A(':scope>p.mu',c)[0];if(sub&&gb.textContent&&ttl)sub.classList.add('v2sub');
+kpi(c);
+A('table.adt',c).forEach(function(t){var th=A('thead th',t).map(function(x){return x.textContent.trim()});A('tbody tr',t).forEach(function(r){A(':scope>td',r).forEach(function(td,i){td.setAttribute('data-label',th[i]||'')})})});
+var hs=A(':scope>h3',c);if(hs.length>1){var tb=E('<div class="v2tabs" role="tablist"></div>'),ps=[];
+hs.forEach(function(h,i){var p=E('<section class="v2p" role="tabpanel"></section>'),n=h.nextSibling;while(n&&!(n.nodeType===1&&n.tagName==='H3')){var x=n.nextSibling;p.appendChild(n);n=x}
+h.parentNode.insertBefore(p,h);var b=E('<button type="button" role="tab" aria-selected="'+(i?'false':'true')+'"></button>');b.textContent=h.textContent;b.addEventListener('click',function(){A('button',tb).forEach(function(z,j){z.setAttribute('aria-selected',z===b?'true':'false');ps[j].hidden=z!==b})});tb.appendChild(b);if(i)p.hidden=true;ps.push(p);h.remove()});
+c.insertBefore(tb,ps[0])}else hs.forEach(function(h){h.remove()});
+while(gb.firstChild)gb.firstChild.remove();gb.appendChild(hd);gb.appendChild(c);gb.classList.add('v2')}catch(e){try{console.error('visor',e)}catch(_){}}}
+g.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('[data-v2="exp"]'),M=A('.v2m');
+if(t){var m=Q('.v2m',t.parentNode),o=m.hidden;M.forEach(function(x){x.hidden=true});m.hidden=!o;t.setAttribute('aria-expanded',String(o));return}
+if(M.length&&!(e.target.closest&&e.target.closest('.v2m')&&!e.target.closest('[data-act]')))M.forEach(function(x){x.hidden=true})},true);
+document.addEventListener('keydown',function(e){if(e.key==='Escape')A('.v2m').forEach(function(x){x.hidden=true})});
+function run(){A('.gb.adm-d',g).forEach(build)}new MutationObserver(run).observe(g,{childList:true});run()})();
+</script>
+
+<script id="ge-bk-js">
+/* Ecrã único «Backups» do Administrador Geral: ver, baixar, eliminar e criar backups (por escola, gerais e o próprio). */
+(function(){if(window.__geBk)return;window.__geBk=1;
+var G=document.getElementById('gate'),X={l:[],esc:[],m:[],sel:'',q:'',f:'',busy:'',msg:''};
+var h=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var sz=function(n){n=+n||0;return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'};
+var dt=function(x){try{return new Date(x).toLocaleString('pt-PT',{dateStyle:'short',timeStyle:'short'})}catch(e){return x}};
+var TP={manual:'Manual',escola:'Escola',geral:'Geral',agendado:'Agendado',seguranca:'Segurança'};
+var err=function(e){return e&&e.msg||(typeof srvErro==='function'?srvErro(e):'Operação não concluída.')};
+document.head.appendChild(Object.assign(document.createElement('style'),{textContent:'.v2row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.v2row>*{flex:1 1 150px}.v2msg{padding:10px 14px;border-radius:12px;background:rgba(42,86,255,.14);margin:0 0 12px}.adm-d select.adq{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(127,127,127,.4);font-size:15px;box-sizing:border-box;background:transparent;color:inherit}.v2 td .v2b{height:36px;padding:0 12px;margin:2px 4px 2px 0}'}));
+function uidA(){try{return(srvSes()||{}).uid||''}catch(e){return''}}
+function apagar(k,p){return srvApi('POST','/functions/v1/admin_master_validate',{chave_mestra:k,acao:'eliminar_backup',alvo_id:p}).then(function(v){var j=v&&v.j||{};if(!v||!v.ok||j.valido===false)throw{msg:j.erro||'Chave-mestra inválida.'};return srvApi('POST','/functions/v1/admin_backup_delete',{backup_id:p})}).then(function(d){var j=d&&d.j||{};if(!d||!d.ok||j.ok===false)throw{msg:j.erro||'Não foi possível eliminar.'}})}
+function mine(){var u=uidA();return'<h3 style="margin:22px 0 8px">Os meus backups (Administrador) · '+X.m.length+'</h3>'+(X.m.length>5?'<div class="v2row"><button class="v2b" data-bk="mlimpar">Limpar antigos (manter os 5 últimos)</button></div>':'')+'<div class="adw"><table class="adt"><thead><tr><th>Criado</th><th class="n">Tamanho</th><th></th></tr></thead><tbody>'+(X.m.map(function(o){var p='admin/'+u+'/'+o.name;return'<tr><td data-label="Criado">'+h(dt(o.created_at))+'</td><td class="n" data-label="Tamanho">'+sz(o.metadata&&o.metadata.size)+'</td><td><button class="v2b" data-bk="mbaixar" data-p="'+h(p)+'">Baixar</button><button class="v2b" data-bk="mdel" data-p="'+h(p)+'">Eliminar</button></td></tr>'}).join('')||'<tr><td colspan="3" class="mu">Ainda sem backups do administrador no servidor.</td></tr>')+'</tbody></table></div>'}
+function fn(b){return srvApi('POST','/functions/v1/backup_servidor',b).then(function(r){var j=r&&r.j||{};if(!r||!r.ok||j.ok===false)throw{msg:j.erro||j.message||(r&&r.st===404?'A função «backup_servidor» ainda não está publicada.':'Operação não concluída.')};return j})}
+function pw(t){return new Promise(function(ok){var d=document.createElement('div');d.style.cssText='position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(0,0,0,.5);padding:16px';d.innerHTML='<form style="background:#fff;color:#111;border-radius:18px;padding:18px;max-width:380px;width:100%"><p style="margin:0 0 10px;font-weight:600"></p><input type="password" autocomplete="off" style="width:100%;box-sizing:border-box;padding:12px;border-radius:12px;border:1px solid #bbb;font-size:16px"><div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end"><button type="button" class="v2b" data-c>Cancelar</button><button class="v2b pri">Confirmar</button></div></form>';d.querySelector('p').textContent=t;var i=d.querySelector('input');function z(v){d.remove();ok(v)}d.querySelector('form').onsubmit=function(e){e.preventDefault();z(i.value.trim())};d.querySelector('[data-c]').onclick=function(){z(null)};document.body.appendChild(d);i.focus()})}
+function save(blob,nome){var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=nome;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},4000)}
+function load(){X.busy='A carregar…';draw();return Promise.all([srvApi('GET','/rest/v1/backup_registo?select=id,escola_id,escola_nome,escola_codigo,ano_lectivo,tipo,tamanho,caminho,criado_em,criado_nome&estado=eq.ok&caminho=not.is.null&order=criado_em.desc&limit=500'),srvApi('GET','/rest/v1/escolas?select=id,nome,codigo&order=nome'),uidA()?srvApi('POST','/storage/v1/object/list/backups',{prefix:'admin/'+uidA(),limit:100,offset:0,sortBy:{column:'created_at',order:'desc'}}):Promise.resolve({ok:false})]).then(function(r){X.m=(r[2].ok&&Array.isArray(r[2].j)?r[2].j:[]).filter(function(o){return o&&o.name&&/\.json$/.test(o.name)});if(!r[0].ok)throw{msg:'Não foi possível ler os backups. Confirme a sessão do Administrador Geral e o esquema do Supabase.'};X.l=r[0].j||[];X.esc=(r[1].ok&&r[1].j)||[]}).catch(function(e){X.msg=err(e)}).then(function(){X.busy='';draw()})}
+function run(p,fim){X.busy='A processar…';X.msg='';draw();return p.then(function(m){X.msg=m||fim}).catch(function(e){X.msg=err(e)}).then(load)}
+function rows(){var q=X.q.toLowerCase();return X.l.filter(function(b){return(!X.f||b.escola_id===X.f)&&(!q||[b.escola_nome,b.escola_codigo,b.ano_lectivo,b.criado_nome,b.tipo].join(' ').toLowerCase().indexOf(q)>=0)})}
+function draw(){var R=rows(),tot=X.l.reduce(function(s,b){return s+(+b.tamanho||0)},0),ne={};X.l.forEach(function(b){ne[b.escola_id]=1});
+var o=function(v){return X.esc.map(function(e){return'<option value="'+h(e.id)+'"'+(e.id===v?' selected':'')+'>'+h(e.nome)+' ('+h(e.codigo)+')</option>'}).join('')};
+G.innerHTML='<div class="gb adm-d v2"><header class="v2h"><button class="v2b" data-act="admPainel" aria-label="Voltar ao painel"><span aria-hidden="true">←</span><span class="tx">Painel</span></button><div class="v2t"><h1>Backups</h1></div><button class="v2b" data-bk="load" aria-label="Actualizar" title="Actualizar">⟳</button></header><div class="v2c">'+
+(X.msg?'<p class="v2msg" role="status">'+h(X.msg)+'</p>':'')+
+'<section class="v2k"><div><span>Backups guardados</span><b>'+X.l.length+'</b></div><div><span>Escolas com backup</span><b>'+Object.keys(ne).length+'</b></div><div><span>Espaço usado</span><b>'+sz(tot)+'</b></div><div><span>Último backup</span><b style="font-size:16px">'+(X.l[0]?h(dt(X.l[0].criado_em)):'—')+'</b></div></section>'+
+'<section class="v2d"><div><h4>Fazer backup das escolas</h4><select id="bk_sel" class="adq"><option value="">Escolha a escola…</option>'+o(X.sel)+'</select><div class="v2row"><button class="v2b pri" data-bk="uma">Desta escola</button><button class="v2b" data-bk="todas">De todas</button></div></div>'+
+'<div><h4>O meu backup (Administrador)</h4><p class="mu sm" style="margin:0 0 8px">Escolas, contas (sem palavras-passe), anos lectivos e mensagens. Fica guardado no servidor, com histórico, e é descarregado para este dispositivo.</p><button class="v2b" data-bk="meu">Descarregar o meu backup</button></div></section>'+
+'<div class="v2row"><select id="bk_f" class="adq"><option value="">Todas as escolas</option>'+o(X.f)+'</select><input id="bk_q" class="adq" placeholder="Pesquisar…" value="'+h(X.q)+'" autocomplete="off"></div>'+(X.busy?'<p class="mu">'+h(X.busy)+'</p>':'')+
+'<div class="adw"><table class="adt"><thead><tr><th>Escola</th><th>Ano</th><th>Tipo</th><th>Criado</th><th class="n">Tamanho</th><th></th></tr></thead><tbody>'+(R.map(function(b){return'<tr><td data-label="Escola"><b>'+h(b.escola_nome||b.escola_codigo)+'</b></td><td data-label="Ano">'+h(b.ano_lectivo||'—')+'</td><td data-label="Tipo">'+h(TP[b.tipo]||b.tipo)+'</td><td data-label="Criado">'+h(dt(b.criado_em))+'</td><td class="n" data-label="Tamanho">'+sz(b.tamanho)+'</td><td><button class="v2b" data-bk="baixar" data-id="'+h(b.id)+'">Baixar</button><button class="v2b" data-bk="del" data-id="'+h(b.id)+'">Eliminar</button></td></tr>'}).join('')||'<tr><td colspan="6" class="mu">Sem backups.</td></tr>')+'</tbody></table></div>'+mine()+'</div></div>';G.className='on'}
+function get(id){return X.l.filter(function(b){return b.id===id})[0]}
+function meu(){var T=['escolas?select=*','perfis?select=user_id,nome,email,papel,ativo,escola_id,criado_em','anos_lectivos?select=*','mensagens?select=*'];
+return Promise.all(T.map(function(t){return srvApi('GET','/rest/v1/'+t)})).then(function(r){var d={versao:1,tipo:'ge360-backup-administrador',criado_em:new Date().toISOString(),tabelas:{}};
+T.forEach(function(t,i){if(!r[i].ok)throw{msg:'Falha ao ler «'+t.split('?')[0]+'».'};d.tabelas[t.split('?')[0]]=r[i].j||[]});
+var nome='backup-administrador-'+d.criado_em.replace(/[:.]/g,'-')+'.json';save(new Blob([JSON.stringify(d)],{type:'application/json'}),nome);var u=uidA();if(!u)return'Backup descarregado (sem sessão no servidor para o guardar).';return srvApi('POST','/storage/v1/object/backups/admin/'+u+'/'+nome,d).then(function(x){return x.ok?'Backup do administrador guardado no servidor e descarregado.':'Descarregado, mas não foi possível guardar no servidor.'})})}
+function todas(n,a){return fn({acao:'criar',todas:true}).then(function(j){a.f+=j.feitos||0;a.x+=j.falhas||0;return(j.pendentes>0&&n<20&&(j.feitos||j.falhas))?todas(n+1,a):a})}
+document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('[data-ge360="backups"]');
+if(t){e.preventDefault();e.stopImmediatePropagation();X.msg='';X.f='';X.q='';load();return}
+var b=e.target.closest&&e.target.closest('[data-bk]');if(!b||!G.contains(b))return;var a=b.getAttribute('data-bk'),r=get(b.getAttribute('data-id'));
+if(a==='load')load();
+else if(a==='uma'){if(!X.sel){X.msg='Escolha primeiro a escola.';draw();return}run(fn({acao:'criar',escola_id:X.sel}).then(function(j){return j.feitos?'Backup da escola criado.':'Falhou: '+(j.erro_ultimo||'erro desconhecido')}))}
+else if(a==='todas'){if(confirm('Criar agora um backup de TODAS as escolas?'))run(todas(0,{f:0,x:0}).then(function(r){return'Backup geral: '+r.f+' concluído(s), '+r.x+' com falha.'}))}
+else if(a==='meu')run(meu());
+else if(a==='baixar'&&r)run(fn({acao:'link',backup_id:r.id}).then(function(j){return fetch(j.url).then(function(x){if(!x.ok)throw{msg:'Não foi possível descarregar o ficheiro.'};return x.blob()})}).then(function(bl){save(bl,'backup-'+(r.escola_codigo||'escola')+'-'+String(r.criado_em).slice(0,10)+'.json');return'Backup descarregado.'}));
+else if(a==='del'&&r){if(!confirm('Eliminar definitivamente este backup?\n\n'+(r.escola_nome||'')+' · '+dt(r.criado_em)+'\n\nNão pode ser desfeito.'))return;
+pw('Chave-mestra para eliminar este backup:').then(function(k){if(k)run(apagar(k,r.caminho).then(function(){return'Backup eliminado e registado na auditoria.'}))})}
+else if(a==='mbaixar'){var P=b.getAttribute('data-p');run(srvApi('GET','/storage/v1/object/authenticated/backups/'+P).then(function(x){if(!x.ok||!x.j)throw{msg:'Não foi possível descarregar o ficheiro.'};save(new Blob([JSON.stringify(x.j)],{type:'application/json'}),P.split('/').pop());return'Backup descarregado.'}))}
+else if(a==='mdel'){var Q=b.getAttribute('data-p');if(!confirm('Eliminar definitivamente este backup do administrador?\n\n'+Q.split('/').pop()+'\n\nNão pode ser desfeito.'))return;
+pw('Chave-mestra para eliminar este backup:').then(function(k){if(k)run(apagar(k,Q).then(function(){return'Backup eliminado e registado na auditoria.'}))})}
+else if(a==='mlimpar'){var V=X.m.slice(5).map(function(o){return'admin/'+uidA()+'/'+o.name});if(!V.length||!confirm('Eliminar '+V.length+' backup(s) antigo(s) do administrador e manter os 5 mais recentes?'))return;
+pw('Chave-mestra para eliminar os backups antigos:').then(function(k){if(!k)return;run(V.reduce(function(pr,pa){return pr.then(function(){return apagar(k,pa)})},Promise.resolve()).then(function(){return V.length+' backup(s) antigo(s) eliminado(s).'}))})}
+},true);
+G.addEventListener('change',function(e){var i=e.target.id;if(i==='bk_sel')X.sel=e.target.value;else if(i==='bk_f'){X.f=e.target.value;draw()}});
+G.addEventListener('input',function(e){if(e.target.id!=='bk_q')return;X.q=e.target.value;draw();var i=G.querySelector('#bk_q');if(i){i.focus();i.setSelectionRange(X.q.length,X.q.length)}});
+})();
+</script>
+
+<script id="ge-regiao-js">
+/* Filtro de escolas por Província e Distrito (no painel do Administrador Geral). */
+(function(){var g=document.getElementById('gate');if(!g||window.__geReg)return;window.__geReg=1;
+document.head.appendChild(Object.assign(document.createElement('style'),{textContent:'.rs-esc[data-rg-off]{display:none!important}.rg-bar{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.rg-bar select{flex:1 1 150px;min-width:0;padding:10px;border-radius:10px;border:1px solid rgba(127,127,127,.4);background:transparent;color:inherit;font-size:15px}.rg-n{flex:1 0 100%;font-size:12.5px;opacity:.75}'}));
+var S={p:'',d:''},raf=0;
+var h=function(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+var uq=function(a){return a.filter(function(v,i){return v&&a.indexOf(v)===i}).sort(function(x,y){return x.localeCompare(y,'pt')})};
+var op=function(l,v,t){return'<option value="">'+t+'</option>'+l.map(function(x){return'<option'+(x===v?' selected':'')+'>'+h(x)+'</option>'}).join('')};
+function apply(){raf=0;var C=[].slice.call(g.querySelectorAll('.rs-esc')),P=uq(C.map(function(c){return c.dataset.prov||''}));
+var D=uq(C.filter(function(c){return!S.p||c.dataset.prov===S.p}).map(function(c){return c.dataset.dist||''}));if(S.d&&D.indexOf(S.d)<0)S.d='';
+var bar=g.querySelector('#rg_bar'),an=g.querySelector('#ao_q')||g.querySelector('#ge360_school_search');if(!an)return;
+if(!P.length){if(bar)bar.remove();C.forEach(function(c){c.removeAttribute('data-rg-off')});return}
+if(!bar){bar=document.createElement('div');bar.id='rg_bar';bar.className='rg-bar';var ho=an.parentNode;ho.parentNode.insertBefore(bar,ho.nextSibling)}
+var n=0;C.forEach(function(c){var off=(S.p&&c.dataset.prov!==S.p)||(S.d&&c.dataset.dist!==S.d);if(off)c.setAttribute('data-rg-off','');else{c.removeAttribute('data-rg-off');n++}});
+var html='<select id="rg_p" aria-label="Província">'+op(P,S.p,'Todas as províncias')+'</select><select id="rg_d" aria-label="Distrito">'+op(D,S.d,'Todos os distritos')+'</select><span class="rg-n">'+n+' de '+C.length+' escola(s) · '+P.length+' província(s) · '+uq(C.map(function(c){return c.dataset.dist||''})).length+' distrito(s)</span>';
+if(bar._h!==html){bar.innerHTML=html;bar._h=html}}
+function agenda(){if(!raf)raf=requestAnimationFrame(apply)}
+g.addEventListener('change',function(e){if(e.target.id==='rg_p'){S.p=e.target.value;S.d=''}else if(e.target.id==='rg_d')S.d=e.target.value;else return;apply()});
+new MutationObserver(agenda).observe(g,{childList:true,subtree:true});agenda()})();
+</script>
+
+<style id="ge-ds-btn">
+/* Sistema de botões e cores do Administrador (tokens semânticos, 5 estados, foco visível, alvos de toque 44px) */
+:root{--ge-primary:#2563EB;--ge-primary-hover:#1D4ED8;--ge-primary-tint:#DBEAFE;--ge-primary-tint-hover:#BFDBFE;--ge-primary-ink:#1D4ED8;
+--ge-danger:#DC2626;--ge-danger-hover:#B91C1C;--ge-success:#16A34A;--ge-warning:#F59E0B;--ge-info:#0EA5E9;
+--ge-surface:#fff;--ge-ease:cubic-bezier(.4,0,.2,1);--ge-sh2:0 4px 12px rgba(15,23,42,.14);--ge-focus:0 0 0 2px var(--ge-surface),0 0 0 4px var(--ge-primary)}
+html[data-theme="dark"]{--ge-primary-tint:rgba(59,130,246,.2);--ge-primary-tint-hover:rgba(59,130,246,.32);--ge-primary-ink:#BFDBFE;--ge-surface:#0F172A;--ge-focus:0 0 0 2px var(--ge-surface),0 0 0 4px #93C5FD}
+#gate.on .btn,#gate.on .v2b{min-height:44px;border-radius:10px;font-weight:600;transition:background-color .15s var(--ge-ease),border-color .15s var(--ge-ease),box-shadow .15s var(--ge-ease),transform .15s var(--ge-ease)}
+#gate.on .btn:not(.pri):not(.dan),#gate.on .v2b:not(.pri){background:var(--ge-primary-tint);border:1px solid transparent;color:var(--ge-primary-ink)}
+#gate.on .btn:not(.pri):not(.dan):hover,#gate.on .v2b:not(.pri):hover{background:var(--ge-primary-tint-hover)}
+#gate.on .btn.pri,#gate.on .v2b.pri{background:var(--ge-primary);border:1px solid var(--ge-primary);color:#fff}
+#gate.on .btn.pri:hover,#gate.on .v2b.pri:hover{background:var(--ge-primary-hover);box-shadow:var(--ge-sh2)}
+#gate.on .btn.dan,#gate.on [data-act="admEliminar"],#gate.on [data-act="admElimPasta"],#gate.on [data-bk="del"],#gate.on [data-bk="mdel"]{background:var(--ge-danger)!important;border:1px solid var(--ge-danger)!important;color:#fff!important}
+#gate.on .btn.dan:hover,#gate.on [data-act="admEliminar"]:hover,#gate.on [data-act="admElimPasta"]:hover,#gate.on [data-bk="del"]:hover,#gate.on [data-bk="mdel"]:hover{background:var(--ge-danger-hover)!important;box-shadow:var(--ge-sh2)}
+#gate.on .btn:active,#gate.on .v2b:active{transform:scale(.97)}
+#gate.on .btn:focus-visible,#gate.on .v2b:focus-visible,#gate.on select:focus-visible,#gate.on input:focus-visible,#gate.on textarea:focus-visible{outline:none;box-shadow:var(--ge-focus)}
+#gate.on .btn:disabled,#gate.on .v2b:disabled,#gate.on .btn[aria-disabled="true"]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+#gate.on .btn[aria-busy="true"],#gate.on .v2b[aria-busy="true"]{pointer-events:none}
+#gate.on .btn[aria-busy="true"]::after,#gate.on .v2b[aria-busy="true"]::after{content:"";display:inline-block;width:14px;height:14px;margin-left:8px;vertical-align:-2px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:geSpin .6s linear infinite}
+@keyframes geSpin{to{transform:rotate(360deg)}}
+@media(pointer:coarse){#gate.on .v2 td .v2b{height:44px}}
+@media(prefers-reduced-motion:reduce){#gate.on .btn,#gate.on .v2b{transition:none}#gate.on .btn:active,#gate.on .v2b:active{transform:none}#gate.on .btn[aria-busy="true"]::after,#gate.on .v2b[aria-busy="true"]::after{animation:none}}
+</style>
+<style id="ge-shell-css">
+[data-pgoff]{display:none!important}
+#ge-nav{position:fixed;z-index:60;left:0;right:0;bottom:0;display:flex;justify-content:space-around;gap:4px;padding:6px 8px calc(6px + env(safe-area-inset-bottom));background:var(--ge-surface,#fff);color:inherit;border-top:1px solid rgba(127,127,127,.28);box-shadow:0 -6px 20px rgba(15,23,42,.08)}
+#ge-nav .nv-t{display:none}
+#ge-nav button{flex:1;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:0;border-radius:12px;background:transparent;color:inherit;font:600 11.5px/1.1 system-ui,sans-serif;cursor:pointer;transition:background-color .15s}
+#ge-nav button:hover{background:rgba(127,127,127,.12)}
+#ge-nav button[aria-current="page"]{background:var(--ge-primary-tint,#dbeafe);color:var(--ge-primary-ink,#1d4ed8)}
+#ge-nav button:focus-visible{outline:none;box-shadow:var(--ge-focus,0 0 0 3px #2563eb)}
+#ge-nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+body.ge-as #gate.on .gb{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}
+@media(min-width:1024px){
+#ge-nav{top:0;right:auto;bottom:auto;width:228px;flex-direction:column;justify-content:flex-start;gap:6px;padding:18px 12px;border-top:0;border-right:1px solid rgba(127,127,127,.28);box-shadow:none}
+#ge-nav .nv-t{display:block;font:700 15px/1.2 system-ui,sans-serif;padding:4px 12px 14px}
+#ge-nav button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;padding:0 14px;min-height:46px;font-size:14px}
+body.ge-as #gate.on{padding-left:228px!important;box-sizing:border-box}
+body.ge-as #gate.on .gb{padding-bottom:24px!important}}
+/* página «Escolas»: ocupa todo o ecrã e as escolas distribuem-se em colunas */
+body.ge-as #gate.on{padding-top:0!important;padding-right:0!important;padding-bottom:0!important;align-items:stretch!important;justify-content:stretch!important}
+body.ge-as #gate.on .gb{width:100%!important;max-width:none!important;min-height:100dvh;max-height:100dvh!important;margin:0!important;border-radius:0!important;padding-left:clamp(12px,2vw,28px)!important;padding-right:clamp(12px,2vw,28px)!important;box-sizing:border-box}
+body.ge-pg-escolas #adm_l{width:100%}
+body.ge-pg-escolas #adm_l :has(> .rs-esc){display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:12px;align-items:start}
+body.ge-pg-escolas #adm_l :has(> .rs-esc) > :not(.rs-esc){grid-column:1/-1}
+body.ge-pg-escolas #adm_l .rs-esc{margin:0!important;height:100%;box-sizing:border-box}
+/* distribuição dos itens: totais, atalhos e ferramentas preenchem a largura do ecrã */
+body.ge-as #gate.on .gb [style*="grid-template-columns:repeat(2,minmax(0,1fr))"]{grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))!important}
+body.ge-as #gate.on .gb :has(> .tile){display:grid!important;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr))!important;gap:12px!important;align-items:stretch}
+body.ge-as #gate.on .gb :has(> .tile) > .tile{width:100%!important;margin:0!important;box-sizing:border-box}
+body.ge-as #gate.on .gb :has(> [data-ge360]){display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))!important;gap:10px!important}
+body.ge-as #gate.on .gb :has(> [data-ge360]) > *{width:100%!important;margin:0!important;box-sizing:border-box}
+/* ecrãs de consulta e de backups do administrador: também em ecrã inteiro */
+#gate.on:has(> .gb.adm-d.v2){padding:0!important;align-items:stretch!important;justify-content:stretch!important}
+body #gate.on .gb.adm-d.v2,body.pc:not(.lock) #gate.on>.gb.adm-d.v2{width:100%!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;border-radius:0!important;margin:0!important;box-sizing:border-box}
+@media(prefers-reduced-motion:reduce){#ge-nav button{transition:none}}
+</style>
+<script id="ge-shell-js">
+/* Estrutura do painel do Administrador Geral em páginas (Visão geral · Escolas · Ferramentas) com barra lateral (computador) ou barra inferior (tablet/telemóvel). */
+(function(){var g=document.getElementById('gate');if(!g||window.__geShell)return;window.__geShell=1;
+var PG='geral',raf=0,IC={geral:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',escolas:'<path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-6h6v6"/>',backups:'<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',ferr:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/>'};
+var IT=[['geral','Visão geral'],['escolas','Escolas'],['backups','Backups'],['ferr','Ferramentas']];
+function pagina(c,l){var t=c.textContent||'';if(c===l||c.contains(l))return'escolas';if(/Centro de controlo/.test(t))return'ferr';
+if(c.querySelector('[data-act="admAno"],[data-act="admNova"],[data-act="indAbrir"]')||/Escolas registadas|Escolas activas|Contas nas escolas/.test(t))return'geral';return''}
+function nav(){var n=document.getElementById('ge-nav');if(n)return n;n=document.createElement('nav');n.id='ge-nav';n.setAttribute('aria-label','Secções do painel');
+n.innerHTML='<div class="nv-t">Administrador Geral</div>'+IT.map(function(i){return'<button type="button" data-pg="'+i[0]+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+IC[i[0]]+'</svg><span>'+i[1]+'</span></button>'}).join('');
+n.addEventListener('click',function(e){var b=e.target.closest('button[data-pg]');if(!b)return;var p=b.getAttribute('data-pg');
+if(p==='backups'){var o=g.querySelector('[data-ge360="backups"]');if(o)o.click();return}PG=p;aplica()});g.appendChild(n);return n}
+function fora(){var n=document.getElementById('ge-nav');if(n)n.remove();document.body.classList.remove('ge-as');document.body.classList.remove('ge-pg-escolas')}
+function aplica(){raf=0;var l=g.querySelector('#adm_l'),gb=l&&l.closest('.gb');if(!gb){fora();return}
+var k=[].slice.call(gb.children),m=k.map(function(c){return[c,pagina(c,l)]}),tem={};m.forEach(function(x){if(x[1])tem[x[1]]=1});
+if(!tem.escolas||(!tem.geral&&!tem.ferr)){fora();m.forEach(function(x){x[0].removeAttribute('data-pgoff')});return}
+if(!tem[PG])PG=tem.geral?'geral':'escolas';
+m.forEach(function(x){if(x[1]&&x[1]!==PG)x[0].setAttribute('data-pgoff','');else x[0].removeAttribute('data-pgoff')});
+var n=nav();[].forEach.call(n.querySelectorAll('button[data-pg]'),function(b){var p=b.getAttribute('data-pg');b.hidden=(p==='geral'&&!tem.geral)||(p==='ferr'&&!tem.ferr)||(p==='backups'&&!g.querySelector('[data-ge360="backups"]'));if(p===PG)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});
+document.body.classList.add('ge-as');document.body.classList.toggle('ge-pg-escolas',PG==='escolas')}
+function agenda(){if(!raf)raf=requestAnimationFrame(aplica)}
+new MutationObserver(agenda).observe(g,{childList:true,subtree:true});agenda()})();
+</script>
+<style id="ge-fluid-css">
+/* lado das escolas: ocupar a largura do ecrã e distribuir os itens em colunas */
+html:root body:not(.lock) #app{max-width:none!important}
+html:root body #cons .cw{max-width:none!important;padding-left:clamp(12px,2vw,32px)!important;padding-right:clamp(12px,2vw,32px)!important;box-sizing:border-box}
+html:root body #app [style*="grid-template-columns:repeat(2,minmax(0,1fr))"],html:root body #cons [style*="grid-template-columns:repeat(2,minmax(0,1fr))"]{grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))!important}
+html:root body #cons .cg{grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))!important}
+html:root body #app .tw>table,html:root body #app table.t{width:100%}
+</style>
 </body>
 </html>
