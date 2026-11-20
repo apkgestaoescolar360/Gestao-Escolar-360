@@ -1012,8 +1012,11 @@ function sheetMatrix(p, di) {
     return __spreadArray(__spreadArray(__spreadArray(__spreadArray([], e.header.map(function (x) { return [x]; }), true), e.info.map(function (x) { return [x]; }), true), [[], e.head], false), e.rows, true);
 }
 function toCSV(m) {
+    /* v5.21 (segurança): impede "CSV/Excel formula injection" — um nome a começar por =, +, -, @ ou tabulação
+       poderia ser interpretado como fórmula ao abrir o ficheiro no Excel/Sheets. */
+    var csvSafe = function (s) { return /^[=+\-@\t\r]/.test(s) ? "'" + s : s; };
     var cell = function (v, ci) {
-        var s = v === null || v === undefined ? '' : typeof v === 'number' ? (ci === 0 ? String(v) : fmt(v)) : String(v);
+        var s = v === null || v === undefined ? '' : typeof v === 'number' ? (ci === 0 ? String(v) : fmt(v)) : csvSafe(String(v));
         return /[;"\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
     };
     return '\ufeff' + m.map(function (r) { return r.map(cell).join(';'); }).join('\r\n');
@@ -1089,7 +1092,7 @@ function toXLSX(m) {
             if (v === null || v === undefined || v === '')
                 return '';
             var ref = colName(ci) + (ri + 1);
-            return typeof v === 'number' ? "<c r=\"".concat(ref, "\"><v>").concat(v, "</v></c>") : "<c r=\"".concat(ref, "\" t=\"inlineStr\"><is><t>").concat(xesc(v), "</t></is></c>");
+            return typeof v === 'number' ? "<c r=\"".concat(ref, "\"><v>").concat(v, "</v></c>") : "<c r=\"".concat(ref, "\" t=\"inlineStr\"><is><t>").concat(xesc(typeof v === 'string' && /^[=+\-@\t\r]/.test(v) ? "'" + v : v), "</t></is></c>");
         }).join('');
         return "<row r=\"".concat(ri + 1, "\">").concat(cells, "</row>");
     }).join('');
@@ -4985,6 +4988,12 @@ function pwHash3(pw, salt) {
         return crypto.subtle.deriveBits({ name: 'PBKDF2', salt: enc.encode(String(salt)), iterations: PBKDF2_IT, hash: 'SHA-256' }, k, 256);
     }).then(function (b) { var u = new Uint8Array(b), s = '', i; for (i = 0; i < u.length; i++) s += ('0' + u[i].toString(16)).slice(-2); return 'v3$' + s; });
 }
+/* v5.20 (segurança): já não espera pelo 1.º login para reforçar a password — assim que é criada ou alterada,
+   é imediatamente levada para PBKDF2-SHA256 (Web Crypto) em segundo plano, sem bloquear o ecrã. */
+function upgradeParaV3(u, pw) {
+    if (!u || !pw || !pwCrypto()) return;
+    pwHash3(pw, u.salt).then(function (h) { if (u && String(u.hash).indexOf('v3$') !== 0) { u.hash = h; try { save(); } catch (e) { } } }, function () { });
+}
 function pwOkA(u, pw) {
     var h = String(u.hash);
     if (h.indexOf('v3$') === 0) { if (!pwCrypto()) return Promise.resolve(false); return pwHash3(pw, u.salt).then(function (x) { return pwEq(x, h); }); }
@@ -5098,11 +5107,11 @@ A.perfSave = function (d) {
     if (u && u.perfil === 'adjunto' && perfil !== 'adjunto' && c.utilizadores.filter(function (x) { return x.perfil === 'adjunto'; }).length < 2) { toast('Tem de existir pelo menos um Director-adjunto.'); return; }
     if (u) {
         u.nome = nome; u.perfil = perfil; u.atribuicoes = atr; u.ficha = fichaLer();
-        if (pw) { u.salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2)); u.hash = pwHash2(pw, u.salt); if (c.recups) delete c.recups[u.id]; if (c.recup && c.recup.uid === u.id) delete c.recup; }
+        if (pw) { u.salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2)); u.hash = pwHash2(pw, u.salt); upgradeParaV3(u, pw); if (c.recups) delete c.recups[u.id]; if (c.recup && c.recup.uid === u.id) delete c.recup; }
         if (SESSAO && SESSAO.id === u.id) SESSAO = sessaoDe(u);
     }
     else {
-        var nu = novoUser(nome, perfil, pw, atr); nu.ficha = fichaLer();
+        var nu = novoUser(nome, perfil, pw, atr); nu.ficha = fichaLer(); upgradeParaV3(nu, pw);
         c.utilizadores.push(nu);
         if (first) { c.ativo = true; SESSAO = sessaoDe(nu); }
     }
@@ -5530,12 +5539,17 @@ function recAdminUid(c) {
     if (u) c.adminUid = u.id;
     return c.adminUid || null;
 }
-function mkNova(c) { var code = recCod(), salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2)); c.mk = { salt: salt, hash: pwHash(recNorm(code), salt), criada: Date.now() }; return code; }
-function mkOk(c, cod) { if (c.mk) return pwHash(cod, c.mk.salt) === c.mk.hash; return false; }
+function mkNova(c) { var code = recCod(), salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2)); c.mk = { salt: salt, hash: pwHash2(recNorm(code), salt), criada: Date.now() }; return code; }
+function mkOk(c, cod) {
+    if (!c.mk) return false;
+    if (String(c.mk.hash).indexOf('v2$') === 0) return pwEq(pwHash2(cod, c.mk.salt), c.mk.hash);
+    if (pwHash(cod, c.mk.salt) === c.mk.hash) { c.mk.hash = pwHash2(cod, c.mk.salt); try { save(); } catch (e) { } return true; }
+    return false;
+}
 function recCodeFor(c, userId) {
     var code = recCod(), salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2));
     c.recups = c.recups || {};
-    c.recups[userId] = { uid: userId, salt: salt, hash: pwHash(recNorm(code), salt), criado: Date.now() };
+    c.recups[userId] = { uid: userId, salt: salt, hash: pwHash2(recNorm(code), salt), criado: Date.now() };
     return code;
 }
 A.setupAcesso = function () {
@@ -5544,7 +5558,7 @@ A.setupAcesso = function () {
     if (!nome) { gErr('Indique o nome de utilizador.'); return; }
     if (pw.length < 8) { gErr('A palavra-passe deve ter pelo menos 8 caracteres.'); return; }
     if (pw !== pw2) { gErr('As palavras-passe não coincidem.'); return; }
-    var nu = novoUser(nome, 'adjunto', pw, {}), salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2));
+    var nu = novoUser(nome, 'adjunto', pw, {}); upgradeParaV3(nu, pw); var salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2));
     c.utilizadores.push(nu); c.ativo = true; c.adminUid = nu.id;
     /* A conta administradora usa a chave-mestra definida pelo proprietário. */
     c.recups = c.recups || {}; delete c.recup;
@@ -5561,13 +5575,14 @@ A.esqOk = function () {
     var adminId = recAdminUid(c), valid = false, r = c.recups && u && c.recups[u.id];
     /* A chave-mestra só funciona para a conta administradora definida no perfil local. */
     if (u && u.id === adminId && mkOk(c, cod)) valid = true;
-    else if (u && r && pwHash(cod, r.salt) === r.hash) valid = true;
+    else if (u && r) { if (String(r.hash).indexOf('v2$') === 0) { if (pwEq(pwHash2(cod, r.salt), r.hash)) valid = true; }
+        else if (pwHash(cod, r.salt) === r.hash) { valid = true; r.hash = pwHash2(cod, r.salt); } }
     /* Compatibilidade com a chave de recuperação gerada nas versões antigas. */
     if (!valid && u && c.recup && c.recup.uid === u.id && pwHash(cod, c.recup.salt) === c.recup.hash) valid = true;
     if (!u || !valid) { gFalha('Nome de utilizador ou código de recuperação incorreto.'); return; }
     if (pw.length < 8) { gErr('A palavra-passe deve ter pelo menos 8 caracteres.'); return; }
     if (pw !== pw2) { gErr('As palavras-passe não coincidem.'); return; }
-    u.salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2)); u.hash = pwHash2(pw, u.salt);
+    u.salt = uid() + (window.crypto && crypto.getRandomValues ? Array.prototype.map.call(crypto.getRandomValues(new Uint8Array(12)), function (b) { return ('0' + b.toString(16)).slice(-2); }).join('') : Math.random().toString(36).slice(2)); u.hash = pwHash2(pw, u.salt); upgradeParaV3(u, pw);
     if (c.recups) delete c.recups[u.id];
     if (c.recup && c.recup.uid === u.id) delete c.recup;
     save(); GFAIL.n = 0; gateShow('login'); toast('Palavra-passe redefinida. Entre com a nova.');
@@ -9987,7 +10002,8 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
         /* Excel com várias folhas */
         function xlsxMulti(S) {
             var NS = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main', RN = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships', X = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
-            function sh(m) { return X + '<worksheet xmlns="' + NS + '"><sheetData>' + m.map(function (r, ri) { return '<row r="' + (ri + 1) + '">' + r.map(function (v, ci) { if (v === null || v === undefined || v === '') return ''; var ref = colName(ci) + (ri + 1); return typeof v === 'number' && isFinite(v) ? '<c r="' + ref + '"><v>' + v + '</v></c>' : '<c r="' + ref + '" t="inlineStr"><is><t>' + xesc(v) + '</t></is></c>'; }).join('') + '</row>'; }).join('') + '</sheetData></worksheet>'; }
+            function sh(m) { return X + '<worksheet xmlns="' + NS + '"><sheetData>' + m.map(function (r, ri) { return '<row r="' + (ri + 1) + '">' + r.map(function (v, ci) { if (v === null || v === undefined || v === '') return ''; var ref = colName(ci) + (ri + 1); var __v = typeof v === 'string' && /^[=+\-@\t\r]/.test(v) ? "'" + v : v;
+            return typeof v === 'number' && isFinite(v) ? '<c r="' + ref + '"><v>' + v + '</v></c>' : '<c r="' + ref + '" t="inlineStr"><is><t>' + xesc(__v) + '</t></is></c>'; }).join('') + '</row>'; }).join('') + '</sheetData></worksheet>'; }
             var f = [{ name: '[Content_Types].xml', text: X + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' + S.map(function (s, i) { return '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>'; }).join('') + '</Types>' },
                 { name: '_rels/.rels', text: X + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="' + RN + '/officeDocument" Target="xl/workbook.xml"/></Relationships>' },
                 { name: 'xl/workbook.xml', text: X + '<workbook xmlns="' + NS + '" xmlns:r="' + RN + '"><sheets>' + S.map(function (s, i) { return '<sheet name="' + xesc(s.n.replace(/[\[\]:*?\/\\]/g, ' ').slice(0, 31)) + '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>'; }).join('') + '</sheets></workbook>' },
@@ -17336,7 +17352,7 @@ body.pc #app .card.gx-cols>label{break-after:avoid}
         }
         var SEVN = { alta: 'Alta', media: 'Média', baixa: 'Baixa' }, SEVC = { alta: '#c73752', media: '#b7791f', baixa: '#5b6b8c' };
         function csv(linhas, nome) {
-            var t = '\ufeff' + linhas.map(function (r) { return r.map(function (c) { c = String(c == null ? '' : c).replace(/"/g, '""'); return /[;"\n]/.test(c) ? '"' + c + '"' : c; }).join(';'); }).join('\r\n');
+            var t = '\ufeff' + linhas.map(function (r) { return r.map(function (c) { c = String(c == null ? '' : c); c = /^[=+\-@\t\r]/.test(c) ? "'" + c : c; c = c.replace(/"/g, '""'); return /[;"\n]/.test(c) ? '"' + c + '"' : c; }).join(';'); }).join('\r\n');
             var b = new Blob([t], { type: 'text/csv;charset=utf-8' }), u = URL.createObjectURL(b), a = document.createElement('a');
             a.href = u; a.download = nome + '_' + new Date().toISOString().slice(0, 10) + '.csv'; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(u); a.remove(); }, 500);
         }
