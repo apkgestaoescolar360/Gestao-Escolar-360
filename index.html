@@ -6466,7 +6466,7 @@ var CE = (function () {
             });
         } finally { S.settings = old; }
         return { ok: true, nome: fname, fp: SHA(txt), data: String(d.date || ''), rej: rej, pautas: pautas, avisos: v.avisos,
-            escId: sid ? 'S:' + sid : (nk.length === 1 ? 'N:' + nk[0] : null), escNome: nm0,
+            escId: resolveEsc(sid ? 'S:' + sid : (nk.length === 1 ? 'N:' + nk[0] : null), nk), escNome: nm0,
             prof: pf ? pf.filter(function (u) { return u.perfil === 'professor'; }).length : -1 };
     }
     function ids() { var ix = {}; each(ST, function (e, q, a) { ix[a.id] = { e: e.id, p: q.id, nh: a.nh }; }); return ix; }
@@ -6528,6 +6528,39 @@ var CE = (function () {
             io.commit(pv, ST, function (er) { if (er) { cb(false); return; } ST = pv; cb(true); });
         });
     }
+    /* v5.18: junta escolas da consolidação com o mesmo nome (duplicadas por importações com chaves diferentes) */
+    function resolveEsc(k, nk) {
+        if (!ST || !ST.escolas || nk.length !== 1 || (k && ST.escolas[k])) return k;
+        var ek, newS = !!k && k.charAt(0) === 'S';
+        for (ek in ST.escolas) { if (normN(ST.escolas[ek].nome) !== nk[0]) continue; if (newS && ek.charAt(0) === 'S') continue; return ek; }
+        return k;
+    }
+    function unir(cb) {
+        var nw = clone(ST), gr = {}, n = 0;
+        Object.keys(nw.escolas).forEach(function (k) { var nm = normN(nw.escolas[k].nome); if (nm) (gr[nm] = gr[nm] || []).push(k); });
+        Object.keys(gr).forEach(function (nm) {
+            var ks = gr[nm]; if (ks.length < 2) return;
+            ks.sort(function (a, b) { var sa = a.charAt(0) === 'S' ? 0 : 1, sb = b.charAt(0) === 'S' ? 0 : 1; if (sa !== sb) return sa - sb; return Object.keys(nw.escolas[b].pautas).length - Object.keys(nw.escolas[a].pautas).length; });
+            var P = nw.escolas[ks[0]];
+            ks.slice(1).forEach(function (k) {
+                var O = nw.escolas[k];
+                Object.keys(O.pautas).forEach(function (pk) {
+                    var q = O.pautas[pk], pq = P.pautas[pk];
+                    if (!pq) { P.pautas[pk] = q; return; }
+                    Object.keys(q.al).forEach(function (ak) { var a = q.al[ak], pa = pq.al[ak]; if (!pa) pq.al[ak] = a; else if (a.tr && !pa.tr) pa.tr = a.tr; });
+                    if ((q.upd || '') > (pq.upd || '')) pq.upd = q.upd;
+                });
+                if (!P.dist && O.dist) P.dist = O.dist;
+                if ((O.prof || 0) > (P.prof || 0)) P.prof = O.prof;
+                if ((O.ult || '') > (P.ult || '')) { P.ult = O.ult; P.bk = O.bk; }
+                Object.keys(nw.fps || {}).forEach(function (f) { if (nw.fps[f].e === k) nw.fps[f].e = ks[0]; });
+                delete nw.escolas[k]; n++;
+            });
+        });
+        if (!n) return cb(0);
+        nw.alertas = alertas(nw);
+        commitNew(nw, function (ok) { cb(ok ? n : -1); });
+    }
     function g0() { return { n: 0, H: 0, M: 0, pos: 0, neg: 0, pend: 0, des: 0, posH: 0, posM: 0, negH: 0, negM: 0 }; }
     function add(g, a) { g.n++; g[a.sx]++; g[a.sit]++; if (a.sit === 'pos' || a.sit === 'neg') g[a.sit + a.sx]++; }
     function pct(g) { return (g.pos + g.neg) ? g.pos / (g.pos + g.neg) * 100 : null; }
@@ -6574,7 +6607,7 @@ var CE = (function () {
     }
     function CE_load_guard() { }
     return { remover: remover, load: load, get: get, prepare: prepare, classify: classify, apply: apply, registar: registar, setDist: setDist, marcarSaida: marcarSaida,
-        anular: anular, stats: stats, pct: pct, opcoes: opcoes, each: each };
+        anular: anular, unir: unir, stats: stats, pct: pct, opcoes: opcoes, each: each };
 })();
 
 /* ---------- interface (só apresentação; toda a lógica está em CE) ---------- */
@@ -6668,9 +6701,11 @@ function consEscolas() {
                 '<div style="margin-top:8px"><button class="btn" data-ca="dist" data-id="' + esc(k) + '">Definir distrito</button></div></div>'; }).join('') : '<div class="bx mu">Nenhuma escola. Registe uma ou importe backups.</div>');
 }
 function consAlertas() {
-    var st = CE.get(), E = st.escolas;
-    if (!st.alertas.length) return '<div class="bx mu">Sem alunos activos em duas escolas no mesmo ano lectivo.</div>';
-    return '<p class="mu sm">Mesmo nome e data de nascimento, no mesmo ano lectivo, em escolas diferentes. Nada é fundido automaticamente: confirme a transferência indicando a escola de onde o aluno saiu (deixa de contar nos totais dessa escola).</p>' +
+    var st = CE.get(), E = st.escolas, nmv = {}, dup = false;
+    Object.keys(E).forEach(function (k) { var nn = normN(E[k].nome); if (nmv[nn]) dup = true; nmv[nn] = 1; });
+    var uni = dup ? '<div class="bx"><b>Escolas duplicadas</b><div class="mu sm" style="margin:4px 0 8px">Existem escolas com o mesmo nome. Isto cria falsos alertas e duplica os totais. Una-as numa só (pode anular depois em Histórico).</div><button class="btn pri" data-ca="unir">Unir escolas com o mesmo nome</button></div>' : '';
+    if (!st.alertas.length) return uni + '<div class="bx mu">Sem alunos activos em duas escolas no mesmo ano lectivo.</div>';
+    return uni + '<p class="mu sm">Mesmo nome e data de nascimento, no mesmo ano lectivo, em escolas diferentes. Nada é fundido automaticamente: confirme a transferência indicando a escola de onde o aluno saiu (deixa de contar nos totais dessa escola).</p>' +
         st.alertas.map(function (al) { return '<div class="bx">' + al.itens.map(function (x) { var e = E[x.e], q = e.pautas[x.p];
             return '<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin:4px 0"><span>' + esc(e.nome) + ' · ' + q.classe + 'ª · ' + esc(q.turma) + ' · ' + esc(q.ano) + '</span><button class="btn" data-ca="saida" data-e="' + esc(x.e) + '" data-p="' + esc(x.p) + '" data-a="' + esc(x.a) + '">Saiu desta escola</button></div>'; }).join('') + '</div>'; }).join('');
 }
@@ -6740,6 +6775,7 @@ cons.addEventListener('click', function (ev) {
     else if (a === 'dist') { var d = window.prompt('Distrito desta escola:'); if (d !== null) CE.setDist(b.getAttribute('data-id'), d.trim(), function (ok) { if (!ok) toast('Não foi possível gravar.'); consRender(); }); }
     else if (a === 'saida') { if (window.confirm('Confirmar que o aluno saiu desta escola (transferência)? Deixa de contar nos totais desta escola.')) CE.marcarSaida(b.getAttribute('data-e'), b.getAttribute('data-p'), b.getAttribute('data-a'), function (ok) { toast(ok ? 'Transferência registada.' : 'Falha ao gravar.'); consRender(); }); }
     else if (a === 'anular') { if (window.confirm('Repor o estado anterior à última gravação?')) CE.anular(function (ok) { toast(ok ? 'Estado anterior reposto.' : 'Não há versão anterior.'); consRender(); }); }
+    else if (a === 'unir') { if (window.confirm('Unir as escolas que têm o mesmo nome numa só? Os alunos repetidos deixam de contar duas vezes. Pode anular em Histórico.')) CE.unir(function (n) { toast(n > 0 ? 'Escolas unidas: ' + n + '.' : (n === 0 ? 'Não há escolas repetidas.' : 'Falha ao gravar.')); consRender(); }); }
     else if (a === 'importar') consImportarTudo();
 });
 cons.addEventListener('change', function (ev) {
