@@ -19925,5 +19925,84 @@ espera();setTimeout(pronto,6000);
   }
 })();
 </script>
+<script id="ge-anopastas">
+/* v5.15: ecrã «Ano lectivo» do Administrador Geral: pasta por ano lectivo com as escolas inscritas nesse ano e opções de eliminar (escola / pasta do ano). */
+(function () {
+  'use strict';
+  var G = window;
+  function H(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function pode() { return !!(G.SESSAO && G.SESSAO.perfil === 'admin_geral' && G.SESSAO.remoto && !G.SESSAO.ro && typeof G.srvApi === 'function'); }
+  function fd(s) { if (!s) return ''; var p = String(s).slice(0, 10).split('-'); return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : String(s); }
+  function hoje() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function estado(a) { var h = hoje(); return a.encerrado || h > String(a.fim).slice(0, 10) ? 'terminado' : h < String(a.inicio).slice(0, 10) ? 'por começar' : 'a decorrer'; }
+  var ocupado = false;
+  function montar() {
+    var an = document.getElementById('an_l'); if (!an || !document.getElementById('gate') || typeof G.srvApi !== 'function') return;
+    var box = document.getElementById('ge_anopastas');
+    if (!box) { box = document.createElement('div'); box.id = 'ge_anopastas'; box.style.cssText = 'margin:12px 0'; an.parentNode.insertBefore(box, an.nextSibling); }
+    if (ocupado) return; ocupado = true;
+    box.innerHTML = '<div class="mu sm">A carregar as pastas dos anos lectivos…</div>';
+    Promise.all([
+      G.srvApi('GET', '/rest/v1/anos_lectivos?select=id,ano,inicio,fim,encerrado&order=inicio.desc'),
+      G.srvApi('GET', '/rest/v1/escolas?select=id,nome,codigo,ativa,ano_id&order=nome')
+    ]).then(function (rs) {
+      ocupado = false;
+      if (!document.getElementById('ge_anopastas')) return;
+      if (!rs[0].ok || !rs[1].ok) { box.innerHTML = '<div class="mu sm">Não foi possível ler as pastas dos anos lectivos.</div>'; return; }
+      var anos = rs[0].j || [], escs = rs[1].j || [], por = {}, sem = [];
+      escs.forEach(function (e) { if (e.ano_id && anos.some(function (a) { return a.id === e.ano_id; })) (por[e.ano_id] = por[e.ano_id] || []).push(e); else sem.push(e); });
+      var adm = pode();
+      function linha(e) {
+        return '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid #e2e8f0;padding:8px 0">' +
+          '<span style="min-width:0"><b style="font-weight:600">' + H(e.nome) + '</b><br><span class="mu sm">Código: ' + H(e.codigo) + ' · ' + (e.ativa === false ? 'Suspensa' : 'Activa') + '</span></span>' +
+          (adm ? '<button type="button" class="btn dan" data-act="admEliminar" data-id="' + H(e.id) + '">Eliminar escola</button>' : '') + '</div>';
+      }
+      function pasta(tit, sub, lista, aberta, a) {
+        return '<details' + (aberta ? ' open' : '') + ' style="border:1px solid #c5cddd;border-radius:12px;margin:10px 0;padding:0 10px 10px;background:#fafbfd;color:#1b2540">' +
+          '<summary style="cursor:pointer;font-weight:700;padding:10px 0;font-size:15px">📁 ' + H(tit) + ' <span class="mu sm" style="font-weight:400">· ' + H(sub) + ' · ' + lista.length + ' escola(s) inscrita(s)</span></summary>' +
+          (lista.length ? lista.map(linha).join('') : '<div class="mu sm">Nenhuma escola inscrita neste ano lectivo.</div>') +
+          (a && adm ? '<div style="margin-top:10px;padding-top:10px;border-top:1px dashed #c5cddd"><button type="button" class="btn dan blk" data-act="admAnoEliminar" data-id="' + H(a.id) + '" data-ano="' + H(a.ano) + '">🗑 Eliminar pasta «Ano lectivo ' + H(a.ano) + '»</button></div>' : '') + '</details>';
+      }
+      var h = '<h3 style="margin:0 0 4px;font-size:16px">Pastas por ano lectivo</h3><p class="mu sm" style="margin:0 0 6px;line-height:1.45">Cada pasta mostra as escolas inscritas nesse ano lectivo. Eliminar uma escola apaga os dados dela; eliminar a pasta apaga o ano e todas as escolas inscritas nele (com backup e chave-mestra).</p>';
+      h += anos.map(function (a, i) { return pasta('Ano lectivo ' + a.ano, fd(a.inicio) + ' a ' + fd(a.fim) + ' (' + estado(a) + ')', por[a.id] || [], i === 0, a); }).join('');
+      if (sem.length) h += pasta('Sem ano lectivo', 'escolas por inscrever', sem, true, null);
+      if (!anos.length && !sem.length) h += '<div class="mu sm">Ainda não há anos lectivos nem escolas.</div>';
+      box.innerHTML = h;
+    }).catch(function () { ocupado = false; if (box) box.innerHTML = '<div class="mu sm">Não foi possível ler as pastas dos anos lectivos.</div>'; });
+  }
+  if (typeof A !== 'undefined' && A && typeof A.admAno === 'function') {
+    var a1 = A.admAno;
+    A.admAno = function () {
+      a1.apply(this, arguments);
+      ocupado = false;
+      var n = 0, t = setInterval(function () { n++; if (document.getElementById('an_l')) { clearInterval(t); montar(); } else if (n > 40) clearInterval(t); }, 100);
+    };
+  }
+})();
+</script>
+<script id="ge-aparencia-admin">
+/* v5.16: botão «Aparência» no ecrã inicial do Administrador Geral (abre a mesma janela de cores/fundo das escolas). */
+(function () {
+  'use strict';
+  if (typeof A !== 'undefined' && A) A.admAparencia = function () {
+    if (window.geAparencia && typeof window.geAparencia.abrir === 'function') window.geAparencia.abrir();
+    else if (typeof window.toast === 'function') window.toast('A janela «Aparência» ainda não está disponível. Recarregue a página.');
+  };
+  if (typeof admView === 'function') {
+    var admView2 = admView;
+    admView = function () {
+      admView2.apply(this, arguments);
+      try {
+        var gb = gate.querySelector('.gb');
+        if (gb && !gb.querySelector('[data-act="admAparencia"]')) {
+          var lg = gb.querySelector('[data-act="logout"]'), b = document.createElement('button');
+          b.type = 'button'; b.className = 'btn blk'; b.style.marginTop = '8px'; b.setAttribute('data-act', 'admAparencia'); b.textContent = 'Aparência';
+          if (lg && lg.parentNode) lg.parentNode.insertBefore(b, lg); else gb.appendChild(b);
+        }
+      } catch (e) { }
+    };
+  }
+})();
+</script>
 </body>
 </html>
