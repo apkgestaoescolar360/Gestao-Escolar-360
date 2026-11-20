@@ -5877,6 +5877,12 @@ function srvMescla(srv, loc, discs) {
     if (loc.ntcfg) { m.ntcfg = m.ntcfg || {}; discs.forEach(function (d) { if (loc.ntcfg[d]) m.ntcfg[d] = JSON.parse(JSON.stringify(loc.ntcfg[d])); }); }
     return m;
 }
+/* v5.17: comparação por conteúdo (ordem das chaves e id/turma ignorados). O Postgres (jsonb) reordena as chaves, o que fazia o mesmo conteúdo parecer «diferente». */
+function srvCanon(o, sn) {
+    function st(x) { if (x === null || typeof x !== 'object') return JSON.stringify(x); if (Array.isArray(x)) return '[' + x.map(st).join(',') + ']'; return '{' + Object.keys(x).sort().map(function (k) { return JSON.stringify(k) + ':' + st(x[k]); }).join(',') + '}'; }
+    var c = JSON.parse(JSON.stringify(o)); if (sn) { delete c.id; delete c.turma; }
+    return st(c);
+}
 function srvPull(lista, E, M, rel) {
     var seq = Promise.resolve(), vistos = {};
     lista.forEach(function (r) {
@@ -5899,6 +5905,10 @@ function srvPull(lista, E, M, rel) {
                     S.pautas[S.pautas.indexOf(loc)] = srvMescla(d, loc, (SESSAO.atr && SESSAO.atr[r.id]) || []);
                     M[r.id] = { v: r.versao, h: '' }; rel.mescla++; return;
                 }
+                if (srvCanon(loc, 0) === srvCanon(d, 0)) { M[r.id] = { v: r.versao, h: hsh(loc) }; return; }   /* mesmo conteúdo: não é conflito, não cria cópia */
+                var c0 = srvCanon(d, 1), dup = false, kk;
+                for (kk = 0; kk < S.pautas.length; kk++) if (/ \(versão do servidor\)$/.test(S.pautas[kk].turma || '') && srvCanon(S.pautas[kk], 1) === c0) { dup = true; break; }
+                if (dup) { M[r.id] = { v: r.versao, h: m ? m.h : '' }; return; }   /* esta versão do servidor já existe como cópia */
                 var c = JSON.parse(JSON.stringify(d)); c.id = uid(); c.turma = (c.turma || '') + ' (versão do servidor)';
                 S.pautas.push(c); M[r.id] = { v: r.versao, h: m ? m.h : '' }; rel.conf++;
             });
