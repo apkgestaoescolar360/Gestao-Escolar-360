@@ -19813,5 +19813,117 @@ function espera(){if(d.classList.contains('bt360')){setTimeout(espera,80);return
 espera();setTimeout(pronto,6000);
 })();
 </script>
+<script id="ge-backups-servidor">
+/* v5.13: «Backups das escolas (servidor)» no ecrã inicial do Administrador Geral: lista agrupada por escola; eliminar um backup ou todos os de uma escola (chave-mestra validada no servidor). */
+(function () {
+  'use strict';
+  var G = window, itens = [];
+  function H(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function T(t) { try { if (typeof G.toast === 'function') G.toast(t); else alert(t); } catch (e) { alert(t); } }
+  function adm() { return !!(G.SESSAO && G.SESSAO.perfil === 'admin_geral' && G.SESSAO.remoto && typeof G.srvApi === 'function'); }
+  function api(m, p, b) { return G.srvApi(m, p, b, b ? { Prefer: 'return=representation' } : undefined); }
+  function tam(n) { n = +n; if (!n) return ''; return n >= 1048576 ? (n / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
+  function dt(s) { if (!s) return ''; var d = new Date(s); return isNaN(d) ? String(s) : d.toLocaleString('pt-PT'); }
+  function $(id) { return document.getElementById(id); }
+  function fecha() { var o = $('ge_bk_ov'); if (o) o.remove(); }
+  function abre() {
+    fecha();
+    var o = document.createElement('div'); o.id = 'ge_bk_ov';
+    o.style.cssText = 'position:fixed;inset:0;z-index:999999;background:rgba(15,23,42,.72);display:flex;align-items:center;justify-content:center;padding:12px';
+    o.innerHTML = '<div role="dialog" aria-modal="true" style="background:#fff;color:#172033;border-radius:16px;max-width:640px;width:100%;max-height:92vh;overflow:auto;padding:16px;box-sizing:border-box">' +
+      '<h2 style="margin:0 0 6px;font-size:19px">Backups das escolas (servidor)</h2>' +
+      '<p style="margin:0 0 10px;font-size:13px;line-height:1.45;color:#475569">Cópias de segurança que as escolas enviaram ao servidor. Pode eliminar um backup ou todos os de uma escola. A eliminação é permanente e exige a chave-mestra.</p>' +
+      '<div style="display:flex;gap:8px;margin-bottom:10px"><button class="btn" type="button" data-bk="atualiza">Actualizar</button><button class="btn" type="button" data-bk="fecha">Fechar</button></div>' +
+      '<div id="ge_bk_msg" style="font-size:13px;margin-bottom:6px"></div><div id="ge_bk_lista"></div></div>';
+    o.addEventListener('click', function (e) {
+      if (e.target === o) { fecha(); return; }
+      var b = e.target.closest ? e.target.closest('[data-bk]') : null; if (!b) return;
+      var k = b.getAttribute('data-bk');
+      if (k === 'fecha') fecha();
+      else if (k === 'atualiza') carregar();
+      else if (k === 'um') { var it = itens[+b.getAttribute('data-i')]; if (it) apagar([it.id], 'este backup (' + it.ficheiro + ')'); }
+      else if (k === 'escola') {
+        var g = b.getAttribute('data-g'), l = itens.filter(function (x) { return x.grupo === g; });
+        if (l.length) apagar(l.map(function (x) { return x.id; }), 'TODOS os ' + l.length + ' backups de «' + l[0].escola + '»');
+      }
+    });
+    document.body.appendChild(o);
+    carregar();
+  }
+  function carregar() {
+    var L = $('ge_bk_lista'), M = $('ge_bk_msg'); if (!L) return;
+    if (!adm()) { L.innerHTML = '<p style="color:#b91c1c">Entre no modo servidor como Administrador Geral para gerir os backups.</p>'; return; }
+    L.innerHTML = '<p style="color:#475569">A consultar o servidor…</p>';
+    api('GET', '/functions/v1/admin_backups_list').then(function (r) {
+      var j = (r && r.j) || {};
+      if (!r || !r.ok || j.ok === false) throw new Error(j.erro || j.message || (r && r.st === 404 ? 'A função «admin_backups_list» ainda não está publicada no Supabase.' : 'Não foi possível consultar os backups.'));
+      itens = (Array.isArray(j.backups) ? j.backups : []).map(function (x) {
+        var id = String(x.id || x.caminho || ''), p = id.split('/'), g = p[0] === 'central' ? 'central/' + (p[1] || '') : p[0];
+        return { id: id, grupo: g, escola: String(x.nome || g).split(' · ')[0] || g, central: p[0] === 'central', ficheiro: p[p.length - 1], criado: x.criado_em, tamanho: x.tamanho };
+      }).filter(function (x) { return x.id; });
+      desenha();
+    }).catch(function (e) {
+      L.innerHTML = '<div style="border:1px solid #fca5a5;background:#fef2f2;border-radius:12px;padding:10px;font-size:13px"><b>Não foi possível listar.</b><br>' + H(e.message || 'Erro de ligação.') + '</div>';
+    });
+  }
+  function desenha() {
+    var L = $('ge_bk_lista'); if (!L) return;
+    if (!itens.length) { L.innerHTML = '<div style="border:1px solid #cbd5e1;border-radius:12px;padding:12px;font-size:14px">Não há backups guardados no servidor.</div>'; return; }
+    var gr = {}, ordem = [];
+    itens.forEach(function (x, i) { x.i = i; if (!gr[x.grupo]) { gr[x.grupo] = []; ordem.push(x.grupo); } gr[x.grupo].push(x); });
+    ordem.sort(function (a, b) { return gr[a][0].escola.localeCompare(gr[b][0].escola, 'pt'); });
+    L.innerHTML = '<p style="margin:0 0 8px;font-size:13px;color:#475569">' + itens.length + ' backup(s) em ' + ordem.length + ' pasta(s).</p>' + ordem.map(function (g) {
+      var l = gr[g], tot = l.reduce(function (s, x) { return s + (+x.tamanho || 0); }, 0);
+      return '<div style="border:1px solid #cbd5e1;border-radius:14px;padding:10px;margin-bottom:10px;background:#f8fafc">' +
+        '<b style="font-size:15px">' + H(l[0].escola) + (l[0].central ? ' (central)' : '') + '</b>' +
+        '<div style="font-size:12px;color:#475569;margin:2px 0 8px">' + l.length + ' backup(s)' + (tot ? ' · ' + tam(tot) : '') + '</div>' +
+        '<button class="btn" type="button" style="color:#b91c1c;margin-bottom:6px" data-bk="escola" data-g="' + H(g) + '">Eliminar todos os backups desta escola</button>' +
+        l.map(function (x) {
+          return '<div style="border-top:1px solid #e2e8f0;padding:8px 0"><div style="font-size:13px;word-break:break-all"><b>' + H(x.ficheiro) + '</b></div>' +
+            '<div style="font-size:12px;color:#475569">' + H(dt(x.criado)) + (x.tamanho ? ' · ' + tam(x.tamanho) : '') + '</div>' +
+            '<button class="btn" type="button" style="margin-top:5px;color:#b91c1c" data-bk="um" data-i="' + x.i + '">Eliminar este backup</button></div>';
+        }).join('') + '</div>';
+    }).join('');
+  }
+  function apagar(caminhos, rotulo) {
+    if (!adm() || G.SESSAO.ro) { T('Esta operação só está disponível ao Administrador Geral com permissão de edição.'); return; }
+    if (!window.confirm('Eliminar definitivamente ' + rotulo + '?\n\nEsta acção não pode ser desfeita.')) return;
+    var code = window.prompt('Confirmação de segurança\n\nIntroduza a chave-mestra. Ela é validada no servidor e não é guardada neste dispositivo:');
+    if (code === null) return; code = String(code).trim();
+    if (!code) { T('A chave-mestra é obrigatória. Nada foi alterado.'); return; }
+    var i = 0, ok = 0, M = $('ge_bk_msg');
+    function fim(txt) { if (M) M.textContent = txt; carregar(); }
+    function seg() {
+      if (i >= caminhos.length) { fim('Eliminado(s): ' + ok + ' de ' + caminhos.length + '.'); T('Backup(s) eliminado(s): ' + ok + '.'); return; }
+      var c = caminhos[i]; if (M) M.textContent = 'A eliminar ' + (i + 1) + ' de ' + caminhos.length + '…';
+      api('POST', '/functions/v1/admin_master_validate', { chave_mestra: code, acao: 'eliminar_backup', alvo_id: c }).then(function (r) {
+        var j = (r && r.j) || {};
+        if (!r || !r.ok || j.ok === false || j.valido === false) throw new Error(j.erro || j.message || (r && r.st === 404 ? 'Falta publicar a função «admin_master_validate» no Supabase.' : 'Chave-mestra inválida ou operação não autorizada.'));
+        return api('POST', '/functions/v1/admin_backup_delete', { backup_id: String(c) });
+      }).then(function (r) {
+        var j = (r && r.j) || {};
+        if (!r || !r.ok || j.ok === false) throw new Error(j.erro || j.message || (r && r.st === 404 ? 'Falta publicar a função «admin_backup_delete» no Supabase.' : 'O servidor não confirmou a eliminação.'));
+        ok++; i++; seg();
+      }).catch(function (e) { T(e.message || 'Não foi possível eliminar.'); fim('Parou: ' + (e.message || 'erro') + ' (eliminados: ' + ok + ').'); });
+    }
+    seg();
+  }
+  if (typeof A !== 'undefined' && A) A.admBackups = abre;
+  if (typeof admView === 'function') {
+    var admView1 = admView;
+    admView = function () {
+      admView1.apply(this, arguments);
+      try {
+        var gb = gate.querySelector('.gb');
+        if (gb && !gb.querySelector('[data-act="admBackups"]')) {
+          var lg = gb.querySelector('[data-act="logout"]'), b = document.createElement('button');
+          b.type = 'button'; b.className = 'btn blk'; b.style.marginTop = '8px'; b.setAttribute('data-act', 'admBackups'); b.textContent = 'Backups das escolas (servidor)';
+          if (lg && lg.parentNode) lg.parentNode.insertBefore(b, lg); else gb.appendChild(b);
+        }
+      } catch (e) { }
+    };
+  }
+})();
+</script>
 </body>
 </html>
