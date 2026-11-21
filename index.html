@@ -6581,6 +6581,15 @@ var CE = (function () {
         var nw = clone(ST), id = 'R:' + uid(); nw.escolas[id] = { id: id, nome: nome, dist: dist || '', prof: 0, pautas: {}, reg: new Date().toISOString() };
         commitNew(nw, function (ok) { cb(ok, id); });
     }
+    /* v6.2: regista (ou actualiza o nome/professores de) uma escola do servidor mesmo sem pautas */
+    function registarSrv(id, nome, prof, cb) {
+        var ex = ST.escolas[id];
+        if (ex && ex.nome === nome && (ex.prof || 0) === (prof || 0)) return cb(true);
+        var nw = clone(ST);
+        if (nw.escolas[id]) { nw.escolas[id].nome = nome; nw.escolas[id].prof = prof || 0; }
+        else nw.escolas[id] = { id: id, nome: nome, dist: '', prof: prof || 0, pautas: {}, reg: new Date().toISOString() };
+        commitNew(nw, cb);
+    }
     function setDist(id, dist, cb) { var nw = clone(ST); if (!nw.escolas[id]) return cb(false); nw.escolas[id].dist = dist; commitNew(nw, cb); }
     function marcarSaida(eId, pId, aId, cb) {
         var nw = clone(ST), a = nw.escolas[eId] && nw.escolas[eId].pautas[pId] && nw.escolas[eId].pautas[pId].al[aId];
@@ -6670,7 +6679,7 @@ var CE = (function () {
         commitNew(nw, cb);
     }
     function CE_load_guard() { }
-    return { remover: remover, load: load, get: get, prepare: prepare, classify: classify, apply: apply, registar: registar, setDist: setDist, marcarSaida: marcarSaida,
+    return { remover: remover, load: load, get: get, prepare: prepare, classify: classify, apply: apply, registar: registar, registarSrv: registarSrv, setDist: setDist, marcarSaida: marcarSaida,
         anular: anular, unir: unir, stats: stats, pct: pct, opcoes: opcoes, each: each };
 })();
 
@@ -10395,7 +10404,10 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
                     var by = {}, nm = {}, pf = {}; (rs[0].j || []).forEach(function (x) { if (!x.apagada) (by[x.escola_id] = by[x.escola_id] || []).push(x); });
                     (rs[1].j || []).forEach(function (e) { nm[e.id] = e.nome; }); ((rs[2].ok && rs[2].j) || []).forEach(function (u) { if (u.papel === 'professor' && u.ativo !== false) pf[u.escola_id] = (pf[u.escola_id] || 0) + 1; });
                     var ids = Object.keys(by), i = 0, n = 0;
-                    return new Promise(function (res) { (function next() { if (i >= ids.length) return fixDist(ids, function () { res(n); }); var id = ids[i++], P = prep(id, nm[id] || id, by[id], pf[id] || 0); if (!P.pautas.length) return next(); CE.apply(P, 'S:' + id, nm[id] || id, consUser(), function (r) { if (r && r.ok) n++; next(); }); })(); });
+                    return new Promise(function (res) { (function next() { if (i >= ids.length) {
+                        var sem = Object.keys(nm).filter(function (k) { var e = CE.get().escolas['S:' + k]; return !e || !Object.keys(e.pautas || {}).length; });
+                        return (function rg() { var k = sem.shift(); if (!k) return fixDist(Object.keys(nm), function () { res(n); }); CE.registarSrv('S:' + k, nm[k], pf[k] || 0, function () { n++; rg(); }); })();
+                    } var id = ids[i++], P = prep(id, nm[id] || id, by[id], pf[id] || 0); if (!P.pautas.length) return next(); CE.apply(P, 'S:' + id, nm[id] || id, consUser(), function (r) { if (r && r.ok) n++; next(); }); })(); });
                 }).then(function (n) { try { localStorage.setItem(K_S, String(Date.now())); } catch (e) { } if (!auto) toast(n + ' escola(s) sincronizada(s).'); }).catch(function (e) { if (!auto) toast(srvErro(e)); }).then(function () { busy = false; if (cons.className === 'on') consRender(); });
             });
         }
