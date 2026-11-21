@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+<script id="ge-ck-delegate">document.addEventListener("change",function(e){var t=e.target;if(t&&t.hasAttribute&&t.hasAttribute("data-ck-todos")){document.querySelectorAll(".bx-ck").forEach(function(c){if(c.dataset.pid===t.dataset.pid)c.checked=t.checked;});}});</script>
 <script id="ge-resize-guard">
 /* Estabilizador: em ecrãs tácteis, mudanças só de altura (barra de endereço, teclado) já não fazem os módulos trocarem o menu/layout. */
 (function(){var W=window,add=W.addEventListener,coarse=false;try{coarse=matchMedia('(pointer:coarse)').matches}catch(e){}
@@ -29,7 +30,7 @@ W.addEventListener.__geWrapped=true;
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <!-- CSP: 'unsafe-inline' mantido de propósito: 66 scripts inline, ~1173 style="" e 1 onclick inline (página de impressão). Para endurecer: mover os scripts para ficheiros externos (src) e trocar o onclick por addEventListener. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' data: blob:; connect-src 'self' https://svvphyiotfbqhxclspqj.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'sha256-W4i7qdG3vCuUNTTrCG46xQIj+aKInBSZ9KNTx3kYLvw=' 'sha256-8lCUqFFgoRkaFfGSPDtjezfVApgbgcFBVkuQ47pEjqY=' 'sha256-KceIVjJNexil+AzbXEVKoeXAr+pPzvCRBIPGUn/Sv3Y=' 'sha256-3RqmWvs7FCtGuIjd4RZ8fx6nvzx2ZHMYhO2QqGY1B10=' 'sha256-bVwYP53sDOGazQ5MBuEOz9pKQOIAfy8kTtIh0cIhOjY=' 'sha256-x/qgNv6i9UcDf2UjvqcINdHWiPxgUMmVzylMEyKuKKo=' 'sha256-f+XSv3ejSqgEnGtGB27XSNFAlbOpV2SuDS8ov6VrrRY=' 'sha256-BoWg3tJa73CDGh3YQp5uA9S0oUB7PfpUELraZ949usg=' 'sha256-4L6Bjf9Qpd+ACUspTV2/OdWwwK9IqLzXJdJhSmPzG90=' 'sha256-JZswidyLEEdoVp7R9ZAdnkgXtmJuvMGau4LFukVC8Tc=' 'sha256-AUt4JvEbl+BeB63hRrQKBmDU2D6ydj7zlFKVwA3cdtI=' 'sha256-0k7wwU2DDkzD9fQ3bMNu8Gy+99eABnPL2PDDdOt0OTc=' 'sha256-p6cJUKyKO6wZU4e9Jo9VfjMLWNwRijQkGGRlEFYiN7E=' 'sha256-tnPutFBhrCBqK11HMF0tIyD4oRhxTG2oPaQts/eepwQ=' 'sha256-qdv2OPj6k8TCjLoKk5rkd5tBJs9efgEp/WkDILu+Qxo=' 'sha256-k13XEXzfVfBGuBbj/i66LYYda+RK0PUPFgREp7M31/A=' 'sha256-h9bIVkkYgTkFDyHnSqorYj9jr70WQUzpLOkw5Wlbn2E=' 'sha256-BdRsKXeE2tWywb5iRFEqfjZZhxO9QtfCWEAhmqD0vvw=' 'sha256-poU2EZF5cL6TIWCLWSDvzocGX6jXd0Iqe4L/c0+ztQA=' 'sha256-JCU6/24n65mjc6NWF/smz8w4rU8hfn5mbdOZ+Yhe1zk=' 'sha256-xfUjcBE4RYY6yoQUw27jtghEfcmtc2q3iljk/wNq2dw=' 'sha256-cHTwAszLvllR3Q2JpxwvC6i36WM3QOc6utIaXuqAQHc=' 'sha256-HG0HFZ1PiGw3/jxUFsD2bKlSvCYBKoiNVamZxMvP1V4=' 'sha256-gnjwdNeXEdHZyrnzLSx/USBx8V/C6z0yDbf5lF4ORhA=' 'sha256-T+2EwGq5UGtp4YG144HCMAyI1ENbrFn8L9UpMxgFFKs=' 'sha256-UDfTsSlW9B+EFfhtx5ycjHF3vZCl5FQC5Hvp10vETQk=' 'sha256-Yk0xpOtLgkdP5r40hrfzApKlGViL0iv2O8GgO1Xlogg=' 'sha256-xhimLAp5p3Viqde9CDKVzt4xZ0ttXcxnsJolV6M3XyY=' 'sha256-+XuQbMhS3L7WJAhU02uy9KGvY43gu2RAVE09zM8lNkQ=' 'sha256-FfdY2jOfsS8y1/5qdeM4OwrZyQEkzjcj4H/+zjFJS6E=' 'sha256-0IV2Cuuz8Xi3IcHLvyOq5w+TE2WZfhkxW0UlJqLZs3I=' 'sha256-Ij9Pjf/V1+rmhakob/F1nlALoBCPr/cFajzadWvRLAo=' 'sha256-iRm3mfEObyJCOgTQ1NuX/oO2opwb1q4iYdxnKRfHLzc=' 'sha256-SbL9UKVY9ONjNSvx8/OvYOq7gB3J29bbzFDsu7TVVaU=' 'sha256-gyzDidkC58M1B54BWkGjHJ58BHOFxpeAMrL8y0zj4Co=' 'sha256-wIr8O8OmYhIrQEBaS1FIfCpqrR1dwg8O0jCxVhXQXO0=' 'sha256-Md78vdTaJLWj2E//mpPFElU+r/Ah8GbRSwIzBMCnF98=' 'sha256-sWazxVLIUpwhUwZgXNC8FYo+eDtcWlAmr4EkbNSO4kc=' 'sha256-YKySNnjriEqYPHgVhrC472Q3XndSBwlUDhl2ZozqHgY=' 'sha256-ZbdyIcFrV08ivnTxc7wZ2ObdBZyPUd2Amv71g3OX2TA=' 'sha256-nyTLkW5S0q1c/ttDL9kmOW4FC62iabZjiJIM1F1oVqA=' 'sha256-CUBClhxACl25926CuFIRl1kq9h0iIxN78iOZ6Nq04GU=' 'sha256-UgtN8Cw9cGPfLqkHZ7kX6Z7y8nucQWjY7viEWwq/PsA=' 'sha256-j2d0le5Z39P1Sf2uZs2gQThDNY+E9+HNZqnCsxwdwnY=' 'sha256-hXn7ipRjAhT4lcEQmLiBVKX2n7jgRtF8v+d7O2AR2U4=' 'sha256-+ccZhlKVoJKWdMOPRalr0t8sk0Z3/2jSlinlpnJBJAk=' 'sha256-ZXEGPyZpJLQZBeYplakvhohYKiLQI/woegMtiGjRpDA=' 'sha256-hz+fYDUSyfgHHFvNjvYMHd9envgYJMcwDsNzpMwgoOs=' 'sha256-VoEgynzOb0V1g52E3Xs23MFWdFiOTlCCKnoOKfUzAHc=' 'sha256-qnwL6zhhjo2C7r9T2SQSLhgVq8izgUGwwrEaJs6Y+No=' 'sha256-jCdonwoKgqVYv38iCQi9TJDxCL5C2xXjk0xknVVa01Y=' 'sha256-w+lCRbdjO6sC+UJg/uyTvfSWkakEoTwhFoHnymeyJhc=' 'sha256-LoLPXxFIoJxc2F7ii/uZPp6giay+dF8T/WfiQ6HgYoU=' 'sha256-uTfb3vl9ytfkA9Z/NR70i7HomhZBaXOT7SG8ucAhXLc=' 'sha256-TKlyFA/a8p500MyUV6qBd2f3Dkn7XpSxKMCRGRE9sOk=' 'sha256-hKH9Mpd4E++uYhdrF/C0F3CFmA3skl56XyEgkuKML/0=' 'sha256-FwlE0d7dPwDOirT4EAG08/KHFXRq7RJuL2BIMgNv9PE=' 'sha256-ODidBbpLe3IQ5F/I5vlUBTODlEVvOs/iDIpgRbfd5E0=' 'sha256-2Tmh4VT+z8OjhKSWYrI6USDRuRMsfhWUi1OOTcxQ/6Q=' 'sha256-IT2XTPOUKF+hJK7IgrnzewJy5nZSOl/A3cBWh1dLjD4=' 'sha256-U7pzZuImcW4LS5jic5lHRhHhlXKnkVeu4Jz390pkiDQ=' 'sha256-U0UJg+B5N8maNctKPlr4usIWLUv6nwn+mfRZ+mN/ttk=' 'sha256-1CSUlRdl2DsNnLloCqHF1Ac495oozEOob+asWeMEQM0=' 'sha256-Wcc4AJlPG1AiNaGWmoZe3BQg7j4gBPF4k7AG2ffCqs4=' 'sha256-4gTYDwYGikonF3aYZxZK+l6kN2P+SLeOXtTiWREEFUU=' 'sha256-GoRfFISVYBOLwm6KREymh8cuDO/fPg0wyb8tHPG1tP8=' 'sha256-fGVVCUdbq8aHZ/gpfnTlcI6aY0jS5GEejZl76JpibB0=' 'sha256-5/PZebspmJMtZiA+oI11HHiSYRIv1xjf7pS8RAF1SoM=' 'sha256-eXyOMcmIzfjbiRIVkUThXUdmqy9D7gjCxNx16wuVB6U=' 'sha256-vcZ+yAfI30cvZe9z1sAJGgWOKdTQhMTUynGwenV201M=' 'sha256-GfIaxDrYzS7gxjB/WDx0P33ovj4TPX1cp9vqYT8VGzc=' 'sha256-LM+4egu9M1uNZweJp9z8tRs0HZvsmJVUz1tH8btYsm4=' 'sha256-N5gSMkDLV4/ux8+DXdWltXRqqxAcKZugpTao95VhbHA=' 'sha256-pBZoH4DTRUgkFEIdXfcn03tr73+Vr7axvVIoYxwId3k=' 'sha256-OX3Dw/wpgYr6CZRXvUY5lo2gpvx/H6FhmfkvMz3D09w=' 'sha256-ummyyCakuraT64pR1dJBW2QCT39hi/1753ee7AHvObA=' 'sha256-H1+DrG18vZS/qVyZd1QlXzHDldVpOTyB3+ixpoDzHOo=' 'sha256-9yu31iO7hwN1G+Gwt8pVmPbxflDY/qtTgBELw4Zqltw=' 'sha256-bg+mmapNH+2YpBc8D0pWEzvPcpyCz3/fBor9hwPlOJQ=' 'sha256-0gCkX7HUPsXelOgTnUvLYQ18aYSP4tvTL+E+7whiagA=' 'sha256-nF6T4W36uSE1ufTytZ0ge12HYM0NrmL42TM2wujgfLM=' 'sha256-g60IESiREKvAV1M/ix2bku4mfKiTIbIxzGmAVHoA/XA=' 'sha256-i/CQ8gWMieBX8CZExb87qRdTAQa6hAwS2rLN3GwV7Aw=' 'sha256-cfjrhQyIrai3AgANSXePrHJcM36LdHpZ4zzQKvJWby0=' 'sha256-JKwEM6kgrKD5a6iaAGOOjoIq2grFPj1Czw/4LEyhkCs='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' https://svvphyiotfbqhxclspqj.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0038ff"><style id="az-hide">html{visibility:hidden}</style><script>setTimeout(function(){var e=document.getElementById("az-hide");if(e)e.remove()},2500)</script>
 <meta name="mobile-web-app-capable" content="yes">
@@ -120,8 +121,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ibtn.dng{color:#ff8da1}
 
 /* ---------- componentes ---------- */
-.card{border:1px solid rgba(154,110,230,.2);background:linear-gradient(160deg,rgba(154,110,230,.06),rgba(154,110,230,.015));border-radius:18px;padding:14px;margin-bottom:12px}
-.btn{border:1px solid rgba(154,110,230,.2);background:rgba(154,110,230,.06);padding:13px 16px;border-radius:14px;font-weight:600;font-size:15px;min-height:48px}
+.card{border:1px solid rgba(154,110,230,.2);background:linear-gradient(160deg,rgba(154,110,230,.06),rgba(154,110,230,.015));border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 1px 3px rgba(15,23,42,.06),0 1px 2px rgba(15,23,42,.04)}
+.btn{border:1px solid rgba(154,110,230,.2);background:rgba(154,110,230,.06);padding:13px 16px;border-radius:14px;font-weight:600;font-size:15px;min-height:48px;box-shadow:0 1px 2px rgba(15,23,42,.05),0 1px 1px rgba(15,23,42,.03);transition:box-shadow .15s ease,transform .08s ease}/* v5.25: sombra suave + leve resposta ao toque — visual mais "corporativo", sem mudar cores nem medidas */
+.btn:active{transform:translateY(1px);box-shadow:0 1px 1px rgba(15,23,42,.04)}
 .btn.pri{border:0;color:#25134d;background:linear-gradient(120deg,#9d71e8,#9d71e8);box-shadow:0 0 24px rgba(164,122,235,.4)}
 .btn.dan{border:0;background:linear-gradient(120deg,#ff4d6d,#c33bd8);color:#fff}
 .btn.blk{width:100%}
@@ -1409,9 +1411,9 @@ function vPautas(mode) {
                 (aberta ? cards : '') + '</section>';
         }).join('');
     } else {
-        body = '<div class="ds-root ds-empty"><strong>Ainda não há turmas</strong>Seleccione um ano lectivo e crie a primeira turma.<div class="tw-mt-4"><button type="button" class="ds-btn ds-btn--primary" data-act="novaPauta">Criar turma</button></div></div>';
+        body = '<div class="ds-root ds-empty"><strong>Ainda não há turmas</strong>' + ((SESSAO && SESSAO.perfil === 'professor') ? 'Ainda não tem turmas atribuídas. Peça ao Director-adjunto que lhe atribua as turmas e disciplinas.' : 'Seleccione um ano lectivo e crie a primeira turma.') + ((SESSAO && SESSAO.perfil !== 'adjunto') ? '' : '<div class="tw-mt-4"><button type="button" class="ds-btn ds-btn--primary" data-act="novaPauta">Criar turma</button></div>') + '</div>';
     }
-    return topbar(stats ? 'Estatísticas' : 'Turmas por ano lectivo', stats ? 'Escolha uma pauta' : 'Abra a pasta do ano pretendido', stats ? '' : "<button class=\"ibtn\" data-act=\"novaPauta\" aria-label=\"Criar turma\">".concat(ic('plus'), "</button>")) + "<div class=\"cards\">".concat(body, "</div>");
+    return topbar(stats ? 'Estatísticas' : 'Turmas por ano lectivo', stats ? 'Escolha uma pauta' : 'Abra a pasta do ano pretendido', (stats || (SESSAO && SESSAO.perfil !== 'adjunto')) ? '' : "<button class=\"ibtn\" data-act=\"novaPauta\" aria-label=\"Criar turma\">".concat(ic('plus'), "</button>")) + "<div class=\"cards\">".concat(body, "</div>");
 }
 /* ---------- FORMULÁRIO DA PAUTA ---------- */
 function openForm(id) {
@@ -2088,19 +2090,19 @@ function printDoc(html, size, margin, msg) {
 }
 function cabOficial(p, titulo, sz) {
     var line = '______________________________';
-    return '<div style="text-align:center;font-weight:700;font-size:' + sz[0] + 'pt">REPÚBLICA DE MOÇAMBIQUE</div>' +
+    return '<div class="ge-cab">' + '<div style="text-align:center;font-weight:700;font-size:' + sz[0] + 'pt">REPÚBLICA DE MOÇAMBIQUE</div>' +
         '<div style="text-align:center;font-weight:700;font-size:' + sz[1] + 'pt">MINISTÉRIO DA EDUCAÇÃO E DESENVOLVIMENTO HUMANO</div>' +
         '<div style="text-align:center;font-size:' + sz[2] + 'pt;line-height:1.55;margin-top:3px">' +
         '<div>Direcção Provincial / Serviço Distrital de Educação, Juventude e Tecnologia de: ' + '<u>&nbsp;Mocuba&nbsp;</u>' + '</div>' +
-        '<div>Escola: ' + (p.escola ? '<u>&nbsp;' + esc(p.escola) + '&nbsp;</u>' : line) + ' &nbsp;&nbsp;&nbsp; Ano lectivo: <u>&nbsp;' + esc(p.ano) + '&nbsp;</u></div></div>' +
+        '<div>Escola: ' + (p.escola ? '<u>&nbsp;' + esc(p.escola) + '&nbsp;</u>' : line) + ' &nbsp;&nbsp;&nbsp; Ano lectivo: <u>&nbsp;' + esc(p.ano) + '&nbsp;</u></div></div></div>' +
         '<div style="text-align:center;font-weight:700;font-size:' + (sz[2] + 1) + 'pt;margin-top:6px">' + titulo + '</div>';
 }
 function dtSig(l, p) { return +p.classe >= 7 ? [l, p.diretor] : null; }
 function assinaturas(items, fs) {
     items = items.filter(Boolean);
-    var sig = function (t, n) { return '<div style="flex:1;text-align:center;padding:0 8px"><div style="height:34px"></div><div style="border-top:.6pt solid #000;padding-top:3px">' + (n ? esc(n) + '<br>' : '') + t + '</div></div>'; };
-    return '<div class="keep" style="font-size:' + fs + 'pt"><div style="display:flex;margin-top:6px">' + items.map(function (i) { return sig(i[0], i[1]); }).join('') + '</div>' +
-        '<div style="margin-top:14px">Local e data: ______________________, ____ de ______________ de 20____</div></div>';
+    var sig = function (t, n) { return '<div class="ge-sg" style="flex:1;text-align:center;padding:0 8px"><div style="height:34px"></div><div style="border-top:.6pt solid #000;padding-top:3px">' + (n ? '<span class="ge-nm">' + esc(n) + '</span><br>' : '') + '<span class="ge-lb">' + t + '</span></div></div>'; };
+    return '<div class="keep ge-ass" style="font-size:' + fs + 'pt"><div style="display:flex;margin-top:6px">' + items.map(function (i) { return sig(i[0], i[1]); }).join('') + '</div>' +
+        '<div class="ge-dt" style="margin-top:14px">Local e data: ______________________, ____ de ______________ de 20____</div></div>';
 }
 var tipoTurma = function (p) { return p.classe + '.ª CLASSE / TURMA ' + esc(p.turma) + ' | ' + cicloNome(p.classe) + ' | Curso: ' + esc(cursoTxt(p)); };
 /* 1) Nota informativa pedagógica do aluno */
@@ -3316,6 +3318,8 @@ var pautaA3 = function (p) { return p.disciplinas.length > 7; };
 function pautaOficialHTML(p) {
     var nd = p.disciplinas.length, a3 = pautaA3(p), W = a3 ? 400 : 277, c = infoCfg(), ng = Math.max(1, nd) * 4;
     var wN = 8, wS = 10, wMG = 13, wSit = a3 ? 28 : 26;
+    var par = !!p.__parcial;   /* Professor com só algumas disciplinas atribuídas: sem MF geral, situação nem resumo da turma */
+    if (par) { wMG = 0; wSit = 0; }
     var m = mxMedidas(W, wN + wS + wMG + wSit, a3 ? 62 : 54, ng, a3 ? 10 : 13, 90);
     var dec = S.settings.decimals, th = S.settings.threshold, rh = a3 ? 6.2 : 5.8, hh = a3 ? 8 : 7;
     var pf = function (v) { return v === null || v === undefined ? '' : fmt(v); };
@@ -3323,9 +3327,9 @@ function pautaOficialHTML(p) {
     var st = statsFor(p), lab = RES_LAB[st.type], tot = st.tot.H + st.tot.M;
     var pos = st.cnt.pos.H + st.cnt.pos.M, ngt = st.cnt.neg.H + st.cnt.neg.M, pend = st.cnt.pend.H + st.cnt.pend.M, des = st.cnt.des.H + st.cnt.des.M;
     var alunos = porNum(p);
-    var cols = '<col style="width:' + wN + 'mm"><col style="width:' + m.nome + 'mm"><col style="width:' + wS + 'mm">' + ('<col style="width:' + m.gw + 'mm">').repeat(ng) + '<col style="width:' + wMG + 'mm"><col style="width:' + wSit + 'mm">';
+    var cols = '<col style="width:' + wN + 'mm"><col style="width:' + m.nome + 'mm"><col style="width:' + wS + 'mm">' + ('<col style="width:' + m.gw + 'mm">').repeat(ng) + (par ? '' : '<col style="width:' + wMG + 'mm"><col style="width:' + wSit + 'mm">');
     var fixo = function (t) { return '<th rowspan="2" style="background:' + MX.navy + ';font-size:' + m.fd + 'pt">' + t + '</th>'; };
-    var h1 = '<tr style="height:' + hh + 'mm">' + fixo('Nº') + fixo('Nome completo') + fixo('Sexo') + p.disciplinas.map(function (d, i) { return '<th colspan="4" style="background:' + (i % 2 ? MX.slate : MX.blue) + ';font-size:' + m.fd + 'pt">' + esc(d) + '</th>'; }).join('') + fixo('MF<br>geral') + fixo('Situação<br>pedagógica') + '</tr>';
+    var h1 = '<tr style="height:' + hh + 'mm">' + fixo('Nº') + fixo('Nome completo') + fixo('Sexo') + p.disciplinas.map(function (d, i) { return '<th colspan="4" style="background:' + (i % 2 ? MX.slate : MX.blue) + ';font-size:' + m.fd + 'pt">' + esc(d) + '</th>'; }).join('') + (par ? '' : fixo('MF<br>geral') + fixo('Situação<br>pedagógica')) + '</tr>';
     var h2 = '<tr style="height:' + (hh - 1) + 'mm">' + p.disciplinas.map(function (d, i) { return ['MT1', 'MT2', 'MT3', 'MF'].map(function (x) { return '<th style="background:' + (i % 2 ? MX.slate : MX.blue) + ';font-size:' + m.fh + 'pt">' + x + '</th>'; }).join(''); }).join('') + '</tr>';
     var rows = alunos.map(function (a) {
         var cc = alunoCalc(p, a);
@@ -3333,9 +3337,9 @@ function pautaOficialHTML(p) {
             return dc.mts.map(function (v) { return '<td>' + pf(v) + '</td>'; }).join('') + '<td class="mt' + (neg(dc.mf) ? ' rd' : '') + '">' + pf(dc.mf) + '</td>';
         }).join('');
         var sty = cc.sit === 'pos' ? 'background:#C6EFCE;color:#006100' : cc.sit === 'neg' ? 'background:#FFC7CE;color:#9C0006' : cc.sit === 'des' ? 'background:#FFEB9C;color:#7F6000' : '';
-        return '<tr><td>' + a.num + '</td><td class="l">' + esc(a.nome) + '</td><td>' + sexoMF(a) + '</td>' + tds + '<td class="mg' + (neg(cc.mg) ? ' rd' : '') + '">' + pf(cc.mg) + '</td><td class="mg" style="font-size:' + (a3 ? 7.5 : 7) + 'pt;' + sty + '">' + (cc.sit === 'pend' ? '' : sitLabel(p, cc.sit).toUpperCase()) + '</td></tr>';
+        return '<tr><td>' + a.num + '</td><td class="l">' + esc(a.nome) + '</td><td>' + sexoMF(a) + '</td>' + tds + (par ? '' : '<td class="mg' + (neg(cc.mg) ? ' rd' : '') + '">' + pf(cc.mg) + '</td><td class="mg" style="font-size:' + (a3 ? 7.5 : 7) + 'pt;' + sty + '">' + (cc.sit === 'pend' ? '' : sitLabel(p, cc.sit).toUpperCase()) + '</td>') + '</tr>';
     });
-    var vazio = p.disciplinas.map(function () { return '<td></td><td></td><td></td><td class="mt"></td>'; }).join('') + '<td class="mg"></td><td class="mg"></td>';
+    var vazio = p.disciplinas.map(function () { return '<td></td><td></td><td></td><td class="mt"></td>'; }).join('') + (par ? '' : '<td class="mg"></td><td class="mg"></td>');
     var ult = alunos.length ? alunos[alunos.length - 1].num : 0;
     for (var i = rows.length; i < 25; i++)
         rows.push('<tr><td>' + (++ult) + '</td><td class="l"></td><td></td>' + vazio + '</tr>');
@@ -3348,7 +3352,7 @@ function pautaOficialHTML(p) {
     return '<div class="mxw">' + mxBar('PAUTA DE FREQUÊNCIA ANUAL') +
         '<div class="mxlin">Escola: ' + esc(p.escola || '') + ' &nbsp;&nbsp;|&nbsp;&nbsp; Classe: ' + esc(p.classe) + '.ª &nbsp;&nbsp;|&nbsp;&nbsp; Turma: ' + esc(p.turma) + ' &nbsp;&nbsp;|&nbsp;&nbsp; Ano lectivo: ' + esc(p.ano) + '</div>' +
         '<table class="xt" style="font-size:' + m.fs + 'pt"><colgroup>' + cols + '</colgroup><thead>' + h1 + h2 + '</thead><tbody>' + rows.join('') + '</tbody></table>' +
-        resumo + '<div class="mxleg keep">' + nota + '</div>' +
+        (par ? '' : resumo) + '<div class="mxleg keep">' + (par ? 'MF (disciplina) = média de MT1, MT2 e MT3. Pauta parcial: só as disciplinas atribuídas ao Professor.' : nota) + '</div>' +
         mxAssin([['O Professor', profTurma(p)], ['O Director Adjunto', c.adj], ['O Director', c.dir]]) + '</div>';
 }
 function printPauta(p) {
@@ -3388,7 +3392,7 @@ function infoHTML(p, a, mais) {
     var sig = function (t, n) { return '<td style="width:50%;text-align:left;padding:0 0 0 ' + (t.indexOf('Extra') === 0 ? '6mm' : '12mm') + ';border:0;vertical-align:top"><div>' + t + '</div><div style="height:' + (apertado ? 5 : 8) + 'mm"></div><div>_________________________</div><div>&nbsp;&nbsp;' + esc(n) + '</div><div style="margin-top:1mm">Data: ____/____/__________</div></td>'; };
     var corpo = 'font-size:' + (apertado ? 11 : 12) + 'pt;line-height:' + (apertado ? 1.35 : 1.5);
     return '<div style="color:#000;font-family:Times New Roman,Times,serif;' + corpo + ';' + (mais ? 'break-after:page;page-break-after:always;' : '') + '">' +
-        '<div style="text-align:center;font-weight:700;line-height:1.15"><div><img src="' + EMBLEMA + '" style="height:15mm" alt=""></div><div>REPÚBLICA DE MOÇAMBIQUE</div>' + cab + '<div>' + esc((p.escola || '').toUpperCase()) + '</div></div>' +
+        '<div class="ge-cab" style="text-align:center;font-weight:700;line-height:1.15"><div><img src="' + EMBLEMA + '" style="height:15mm" alt=""></div><div>REPÚBLICA DE MOÇAMBIQUE</div>' + cab + '<div>' + esc((p.escola || '').toUpperCase()) + '</div></div>' +
         '<div style="text-align:center;font-family:Tahoma,Verdana,sans-serif;font-weight:700;font-style:italic;font-size:16pt;line-height:1.2;margin:' + (apertado ? 3 : 6) + 'mm 0 1mm">INFORMAÇÃO PEDAGÓGICA</div>' +
         '<p style="text-align:justify;margin:0 0 3mm">Eu <b><i>' + esc(c.dir) + '</i></b>, Director da ' + esc(p.escola || 'Escola') + ' certifico, em face dos dados constantes dos registos académicos existentes nesta instituição, que: ' + u(a.nome) + ', de sexo ' + u(a.sexo === 'M' ? 'feminino' : 'masculino') + ', de nacionalidade moçambicana, filho(a) de ' + u(a.pai) + ' e de ' + u(a.mae) + ', nascido(a) aos ' + u(a.nasc) + ', natural de ' + u(a.nat) + ', Distrito de ' + u(a.dist) + ', Província de ' + u(a.prov) + ', concluiu no ano lectivo de ' + u(p.ano) + ' a ' + u(String(cl)) + 'ª Classe do Ensino ' + u(ensino) + ' e obteve os seguintes resultados finais por disciplina:</p>' +
         '<table style="width:100%;border-collapse:collapse;table-layout:fixed;margin:0 0 2mm"><colgroup><col style="width:60%"><col style="width:40%"></colgroup><thead><tr><th style="' + td + ';background:#D9D9D9;text-align:center">Disciplina</th><th style="' + td + ';background:#D9D9D9;text-align:center">Média final</th></tr></thead><tbody>' +
@@ -3419,7 +3423,7 @@ function estTabela(rows, cols) {
 }
 function estCab(escola) {
     var c = infoCfg();
-    return '<div style="text-align:center;font-weight:700;font-size:12pt;line-height:1.25"><div><img src="' + EMBLEMA + '" style="height:18mm" alt=""></div><div>REPÚBLICA DE MOÇAMBIQUE</div>' + c.cab.split(/\r?\n/).filter(function (x) { return x.trim(); }).map(function (x) { return '<div>' + esc(x.trim()) + '</div>'; }).join('') + '<div>' + esc(escola || '') + '</div></div>';
+    return '<div class="ge-cab" style="text-align:center;font-weight:700;font-size:12pt;line-height:1.25"><div><img src="' + EMBLEMA + '" style="height:18mm" alt=""></div><div>REPÚBLICA DE MOÇAMBIQUE</div>' + c.cab.split(/\r?\n/).filter(function (x) { return x.trim(); }).map(function (x) { return '<div>' + esc(x.trim()) + '</div>'; }).join('') + '<div>' + esc(escola || '') + '</div></div>';
 }
 function estMapaHTML(p) {
     var r = estCalc(p), lab = RES_LAB[CLASS_TYPE(p.classe)][0];
@@ -4181,7 +4185,7 @@ A.saveAluno = function (d) {
 var vPauta0 = vPauta;
 vPauta = function () {
     var h = vPauta0(), i = h.indexOf('<div class="seg"');
-    var bar = '<div class="scroll" style="margin-bottom:10px"><button class="chip" data-act="trModal">Copiar ou passar alunos</button><button class="chip" data-act="dupModal">Duplicar pauta</button><button class="chip" data-act="dupCheck">Verificar duplicados</button></div>';
+    var bar = '<div class="scroll" style="margin-bottom:10px">' + ((SESSAO && (SESSAO.perfil === 'professor' || SESSAO.perfil === 'secretaria')) ? '' : '<button class="chip" data-act="trModal">Copiar ou passar alunos</button><button class="chip" data-act="dupModal">Duplicar pauta</button>') + '<button class="chip" data-act="dupCheck">Verificar duplicados</button></div>';
     return i < 0 ? h : h.slice(0, i) + bar + h.slice(i);
 };
 /* ---------- verificar duplicados ---------- */
@@ -4311,7 +4315,7 @@ function listaHTML(p, o) {
     return '<div style="font-family:Arial,Helvetica,sans-serif;font-size:10.5pt">' + cabOficial(p, 'LISTA NOMINAL DOS ALUNOS', [12, 11, 10]) +
         '<div style="text-align:center;margin:6px 0 8px;font-size:10.5pt">' + tipoTurma(p) + '</div>' +
         '<table><thead><tr>' + th + '</tr></thead><tbody>' + rows + '</tbody></table>' +
-        '<div style="margin:8px 0 4px"><b>Total:</b> ' + al.length + ' alunos (' + nH + ' homens, ' + nM + ' mulheres)</div>' +
+        '<div style="margin:8px 0 4px"><b>Total:</b> ' + al.length + (al.length === 1 ? ' aluno (' : ' alunos (') + nH + (nH === 1 ? ' homem, ' : ' homens, ') + nM + (nM === 1 ? ' mulher)' : ' mulheres)') + '</div>' +
         assinaturas([['O Professor da Turma', profTurma(p)], dtSig('O Director de Turma', p), ['O Director da Escola', infoCfg().dir]], 10) + '</div>';
 }
 A.listaDo = function () {
@@ -4361,7 +4365,7 @@ function relHTML(escola, ano) {
     var dRows = dl.map(function (d) { return '<tr><td class="l">' + esc(d.nome) + '</td><td>' + d.av + '</td><td>' + d.pos + '</td><td>' + d.neg + '</td><td>' + pct1(d.pos / d.av) + '%</td></tr>'; }).join('');
     var nAl = tot.H + tot.M, p0 = ps[0], cfg = infoCfg();
     return '<div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt">' + cabOficial(p0, 'RELATÓRIO GERAL DA ESCOLA', [12, 11, 10]) +
-        '<div style="text-align:center;margin:6px 0 8px">' + ps.length + (ps.length === 1 ? ' turma' : ' turmas') + ' · ' + nAl + ' alunos (' + tot.H + ' homens, ' + tot.M + ' mulheres)</div>' +
+        '<div style="text-align:center;margin:6px 0 8px">' + ps.length + (ps.length === 1 ? ' turma' : ' turmas') + ' · ' + nAl + (nAl === 1 ? ' aluno (' : ' alunos (') + tot.H + (tot.H === 1 ? ' homem, ' : ' homens, ') + tot.M + (tot.M === 1 ? ' mulher)' : ' mulheres)') + '</div>' +
         '<div style="font-weight:700;margin:6px 0 3px;font-size:11pt">1. Matrícula e resultados por turma</div>' +
         '<table><thead><tr><th>Classe</th><th>Turma</th><th>Matric. HM</th><th>H</th><th>M</th><th>Aprov.</th><th>Reprov.</th><th>Desist.</th><th>Pend.</th><th>% Aprov.</th></tr></thead><tbody>' + corpo + '</tbody></table>' +
         '<div style="font-size:8.5pt;margin-top:3px">Aprovados e reprovados incluem situações equivalentes conforme a classe (transita, admitido). A percentagem é calculada sobre alunos com situação definida; desistentes e pendentes ficam de fora.</div>' +
@@ -4751,7 +4755,7 @@ function procHTML(p, a) {
     var foto = a.foto ? '<img src="' + safeImg(a.foto) + '" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block">' : '<div style="font-size:8pt;color:#999;text-align:center">Foto</div>';
     var cab = '<div style="display:flex;min-height:44mm"><div style="width:17.6%"></div><div style="width:64.3%;text-align:center">' +
         (typeof EMBLEMA !== 'undefined' ? '<img src="' + EMBLEMA + '" alt="" style="height:16mm">' : '') +
-        '<div style="font-weight:700;font-size:10pt">REPÚBLICA DE MOÇAMBIQUE</div><div style="font-weight:700;font-size:10pt;margin-bottom:2.1mm">MINISTÉRIO DA EDUCAÇÃO E DESENVOLVIMENTO HUMANO</div>' +
+        '<div class="ge-cab"><div style="font-weight:700;font-size:10pt">REPÚBLICA DE MOÇAMBIQUE</div><div style="font-weight:700;font-size:10pt;margin-bottom:2.1mm">MINISTÉRIO DA EDUCAÇÃO E DESENVOLVIMENTO HUMANO</div></div>' +
         '<div style="font-weight:700;font-size:15pt;margin-bottom:.7mm">PROCESSO DO ALUNO</div><div style="font-size:8pt">( ENSINO PRIMÁRIO E SECUNDÁRIO GERAL )</div></div>' +
         '<div style="width:18%;box-sizing:border-box;border:1pt solid #000;min-height:44mm;overflow:hidden">' + foto + '</div></div>';
     var esc1 = '<div style="display:flex;align-items:flex-end;margin:3mm 0 2mm 7.3%;width:84%"><span style="font-weight:700;font-size:12pt">ESCOLA</span><span class="f" style="font-weight:700;font-size:11pt">' + (p.escola ? esc(p.escola) : '&nbsp;') + '</span></div>';
@@ -4805,7 +4809,7 @@ fichaCard = function (p, a) {
     var rw = function (l, v) { return '<div class="sr" style="margin-top:6px"><span class="mu sm">' + l + '</span><span style="font-weight:600;text-align:right">' + (v ? esc(v) : '—') + '</span></div>'; };
     var sec = function (t) { return '<div class="tl" style="font-size:13px;font-weight:700;margin-top:14px;color:#1F3864">' + t + '</div>'; };
     var nasc = pNasc(a.nasc), foto = a.foto ? '<img src="' + safeImg(a.foto) + '" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block">' : '<span class="mu sm">Foto</span>';
-    var cab = '<div style="display:flex;gap:10px;align-items:flex-start;margin-top:8px"><div style="flex:1;text-align:center;font-size:11px;line-height:1.4"><b>REPÚBLICA DE MOÇAMBIQUE</b><br><b>MINISTÉRIO DA EDUCAÇÃO E DESENVOLVIMENTO HUMANO</b><div style="font-size:15px;font-weight:700;margin-top:6px">PROCESSO DO ALUNO</div><div style="font-size:10px">( ENSINO PRIMÁRIO E SECUNDÁRIO GERAL )</div></div>' +
+    var cab = '<div style="display:flex;gap:10px;align-items:flex-start;margin-top:8px"><div style="flex:1;text-align:center;font-size:11px;line-height:1.4"><span class="ge-cab"><b>REPÚBLICA DE MOÇAMBIQUE</b><br><b>MINISTÉRIO DA EDUCAÇÃO E DESENVOLVIMENTO HUMANO</b></span><div style="font-size:15px;font-weight:700;margin-top:6px">PROCESSO DO ALUNO</div><div style="font-size:10px">( ENSINO PRIMÁRIO E SECUNDÁRIO GERAL )</div></div>' +
         '<div style="width:75px;height:100px;flex:none;border:1px solid rgba(var(--ge-a1-rgb),.4);border-radius:6px;overflow:hidden;display:flex;align-items:center;justify-content:center">' + foto + '</div></div>';
     var fr = pFreq(a), freq = fr.length ? fr.map(function (r) {
         return '<div style="margin-top:8px;font-size:13px;line-height:1.4"><b>' + esc(r.esc || '—') + '</b><br><span class="mu sm">' + esc([r.dist, r.prov].filter(Boolean).join(' / ')) + ' · Classe ' + esc(r.cl || '—') + ' · Turma ' + esc(r.tu || '—') + '<br>Entrada ' + (pDtTxt(r.e) || '—') + ' · Saída ' + (pDtTxt(r.s) || '—') + '</span></div>';
@@ -5382,6 +5386,26 @@ vBackup = function () {
     return h + card;
 };
 
+/* ---------- v5.29.2: o Professor só vê e imprime a sua turma e as suas disciplinas ---------- */
+var PROF_PICK = ['pauta', 'caderneta', 'lista', 'estat'], PRINT_OK = 0;
+function vistaProf(all) {
+    return all.filter(function (p) { return podePauta(p.id); }).map(function (p) {
+        var l = (SESSAO.atr && SESSAO.atr[p.id]) || [];
+        if (l.indexOf('*') >= 0) return p;
+        var keep = (p.disciplinas || []).filter(function (d) { return l.indexOf(d) >= 0; });
+        if (keep.length === (p.disciplinas || []).length) return p;
+        var c = JSON.parse(JSON.stringify(p));
+        c.disciplinas = keep;
+        (c.alunos || []).forEach(function (a) { if (a.notas) Object.keys(a.notas).forEach(function (k) { if (keep.indexOf(k) < 0) delete a.notas[k]; }); });
+        if (c.ntcfg) Object.keys(c.ntcfg).forEach(function (k) { if (keep.indexOf(k) < 0) delete c.ntcfg[k]; });
+        c.__parcial = true;
+        return c;
+    });
+}
+function comVista(fn) {
+    var all = S.pautas; S.pautas = vistaProf(all); SCOPE = true;
+    try { return fn(); } finally { S.pautas = all; SCOPE = false; }
+}
 /* ---------- aplicação das permissões a cada ação e campo ---------- */
 Object.keys(A).forEach(function (k) {
     var f = A[k]; if (typeof f !== 'function') return;
@@ -5390,6 +5414,19 @@ Object.keys(A).forEach(function (k) {
         if (!r || r === 'adjunto') return f.apply(this, arguments);
         if (BLOCK[k] || (k === 'doExport' && d && (d.f === 'csv' || d.f === 'xlsx'))) { negar(); return; }
         if (r === 'professor' && d && d.id && S.pautas.some(function (p) { return p.id === d.id; }) && !podePauta(d.id)) { negar(); return; }
+        if (r === 'professor') {
+            var kk = d && d.k, self = this, args = arguments;
+            if ((k === 'pmPick' && PROF_PICK.indexOf(kk) < 0) || (k === 'pmDo' && kk !== 'caderneta')) { negar(); return; }
+            return comVista(function () {
+                if (k === 'pmPick' || k === 'pmDo') {
+                    var q = pmP();
+                    if (q && q.__parcial && kk === 'estat') { toast('Este documento só se imprime quando tem todas as disciplinas da turma atribuídas.'); return; }
+                    if (q && q.__parcial && k === 'pmDo' && parseInt(($('#pmd') || {}).value, 10) === -1) { toast('Escolha uma das disciplinas que lhe foram atribuídas.'); return; }
+                }
+                if (k === 'pmDo' || k === 'listaDo' || (k === 'pmPick' && (kk === 'pauta' || kk === 'estat'))) PRINT_OK = Date.now() + 8000;
+                return roRun(f, self, args);
+            });
+        }
         return roRun(f, this, arguments);
     };
 });
@@ -5968,8 +6005,20 @@ function srvPush(E, M, rel) {
                 });
             }
             if (m.h === h) return;
+            if (SESSAO.perfil === 'professor') {   /* v5.29.2: o Professor só envia as notas das suas disciplinas, juntas à versão actual do servidor */
+                return srvApi('GET', '/rest/v1/pautas?select=dados,versao&escola_id=eq.' + E + '&id=eq.' + encodeURIComponent(p.id)).then(function (g) {
+                    var row = g.ok && g.j && g.j[0];
+                    if (!row) { srvFalha(rel, 'pauta «' + (p.turma || p.id) + '»', g); return; }
+                    var mg = srvMescla(row.dados, p, (SESSAO.atr && SESSAO.atr[p.id]) || []);
+                    return srvApi('PATCH', '/rest/v1/pautas?escola_id=eq.' + E + '&id=eq.' + encodeURIComponent(p.id) + '&versao=eq.' + row.versao, { dados: mg }, { Prefer: 'return=representation' }).then(function (r) {
+                        if (r.ok && r.j && r.j.length) { var ix = S.pautas.indexOf(p); if (ix >= 0) S.pautas[ix] = mg; M[p.id] = { v: r.j[0].versao, h: hsh(mg) }; rel.push++; }
+                        else if (r.ok) rel.recus = (rel.recus || 0) + 1;
+                        else srvFalha(rel, 'pauta «' + (p.turma || p.id) + '»', r);
+                    });
+                });
+            }
             return srvApi('PATCH', '/rest/v1/pautas?escola_id=eq.' + E + '&id=eq.' + encodeURIComponent(p.id) + '&versao=eq.' + m.v, { dados: p }, { Prefer: 'return=representation' }).then(function (r) {
-                if (r.ok && r.j && r.j.length) { M[p.id] = { v: r.j[0].versao, h: h }; rel.push++; } else if (r.ok) rel.conf++; else srvFalha(rel, 'pauta «' + (p.turma || p.id) + '»', r);
+                if (r.ok && r.j && r.j.length) { M[p.id] = { v: r.j[0].versao, h: h }; rel.push++; } else if (r.ok) { if (SESSAO.perfil === 'professor') rel.recus = (rel.recus || 0) + 1; else rel.conf++; } else srvFalha(rel, 'pauta «' + (p.turma || p.id) + '»', r);
             });
         });
     });
@@ -5998,7 +6047,7 @@ function srvSync(manual) {
         return srvPull(r.j || [], E, M, rel);
     }).then(function () { return srvPush(E, M, rel); }).then(function () {
         SRV.busy = false; save(); lsSet('ge360_srv_ult', Date.now());
-        SRV.estado = rel.err ? 'ATENÇÃO: ' + rel.err + ' pauta(s) NÃO enviada(s) ao servidor (' + rel.errMsg + '). Será tentado de novo.' : (rel.semperm ? 'Sincronizado (' + rel.semperm + ' pauta(s) criada(s) neste perfil só existem neste aparelho: a Escola deve entrar e sincronizar)' : 'Sincronizado');
+        SRV.estado = rel.err ? 'ATENÇÃO: ' + rel.err + ' pauta(s) NÃO enviada(s) ao servidor (' + rel.errMsg + '). Será tentado de novo.' : (rel.recus ? 'ATENÇÃO: ' + rel.recus + ' pauta(s) NÃO gravada(s) no servidor: já não estão atribuídas a si ou foram alteradas por outra pessoa. Fale com a Direcção.' : rel.semperm ? 'Sincronizado (' + rel.semperm + ' pauta(s) criada(s) neste perfil só existem neste aparelho: a Escola deve entrar e sincronizar)' : 'Sincronizado');
         if (rel.err) { var agora = Date.now(); if (manual || agora - (SRV.avisoErro || 0) > 300000) { SRV.avisoErro = agora; toast(SRV.estado); } }
         if (rel.pull || rel.conf || rel.mescla) render();
         if (rel.conf) toast(rel.conf + (rel.conf === 1 ? ' conflito: guardada' : ' conflitos: guardadas') + ' cópia(s) "(versão do servidor)". Reveja as pautas.');
@@ -6033,7 +6082,7 @@ function admEscolasQ() {
 }
 function admView() {
     gate.innerHTML = '<div class="gb" style="max-width:560px;max-height:92vh;overflow:auto"><h1>Administrador Geral</h1><p class="mu sm" style="margin:0 0 10px">O Administrador cria as contas das escolas, acompanha os indicadores gerais de todas as escolas e pode suspender ou reativar cada escola. Cada Escola gere apenas as contas dos seus professores e da Secretaria.</p><div id="adm_l" class="sm">A carregar...</div>' +
-        '<button class="btn pri blk" style="margin-top:12px" data-act="admAno">Início do ano lectivo</button><button class="btn blk" style="margin-top:8px" data-act="admNova">Criar conta de escola</button><button class="btn blk" style="margin-top:8px" data-act="logout">Terminar sessão</button></div>';
+        '<button class="btn pri blk" style="margin-top:12px" data-act="admAno" data-pg="geral">Início do ano lectivo</button><button class="btn blk" style="margin-top:8px" data-act="admNova" data-pg="geral">Criar conta de escola</button><button class="btn blk" style="margin-top:8px" data-act="logout">Terminar sessão</button></div>';
     gate.className = 'on';
     Promise.all([
         admEscolasQ(),
@@ -8452,7 +8501,7 @@ html[data-theme="dark"]{--dz-grad:linear-gradient(135deg,#0b0720 0%,#0b0720 50%,
         var h2 = new Array(18).join('<th>H</th><th>M</th><th>HM</th>');
         var css = '<style>#printArea .itp table{table-layout:fixed;width:100%;border-collapse:collapse;font-size:6.5pt}#printArea .itp th,#printArea .itp td{border:.5pt solid #000;padding:1mm 0;text-align:center;background:none;overflow:hidden}' +
             '#printArea .itp td.l{text-align:left;padding-left:1mm;white-space:nowrap;font-size:7pt}#printArea .itp tr.st td{font-weight:700;background:#e8e8e8}#printArea .itp th{font-weight:700}</style>';
-        var cab = '<div style="text-align:center;font-weight:700;font-size:11pt">REPÚBLICA DE MOÇAMBIQUE</div><div style="text-align:center;font-weight:700;font-size:10pt">MINISTÉRIO DA EDUCAÇÃO E DESENVOLVIMENTO HUMANO</div>' +
+        var cab = '<div class="ge-cab"><div style="text-align:center;font-weight:700;font-size:11pt">REPÚBLICA DE MOÇAMBIQUE</div><div style="text-align:center;font-weight:700;font-size:10pt">MINISTÉRIO DA EDUCAÇÃO E DESENVOLVIMENTO HUMANO</div></div>' +
             '<div style="text-align:center;font-weight:700;font-size:13pt;margin-top:3mm">DISTRIBUIÇÃO DE IDADE POR CLASSE</div>' +
             '<div style="text-align:center;font-size:9pt;margin:1mm 0 3mm">Ano lectivo ' + esc(IT.ano) + ' · ' + (IT.escola ? esc(IT.escola) : 'Todas as escolas') + ' · ' + ' · Idade em anos completos a ' + RES_REF[IT.ref][2] + ' · H = homens, M = mulheres, HM = total</div>';
         printDoc(css + '<div class="itp" style="font-family:Arial,Helvetica,sans-serif;color:#000">' + cab + '<table><colgroup>' + col + '</colgroup><thead><tr><th rowspan="2">Classe</th>' + h1 + '</tr><tr>' + h2 + '</tr></thead><tbody>' + rows + '</tbody></table></div>',
@@ -9973,10 +10022,10 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
         var COLS = [['Matriculados', 'mat'], ['Novas entradas', 'nov'], ['Total', 'tot'], ['Desistentes', 'des'], ['Transferidos', 'transf'], ['PPF/PDF', 'ppf'], ['Anulou matrícula', 'anul'], ['Falecidos', 'fal'], ['Fim do trim.', 'fim'], ['Avaliados', 'ava'], ['Aprovados', 'aprov'], ['% Aprovados', 'pAp', 1], ['% Desistentes', 'pDes', 1]];
         function mapa() {
             var es = {}, cl = {}, all = [];
-            pautas().forEach(function (x) { var r; try { r = estCalc(x.dados, U.tri); } catch (e) { return; } (es[x.escola_id] = es[x.escola_id] || []).push(r); (cl[x.dados.classe] = cl[x.dados.classe] || []).push(r); all.push(r); });
-            var ge = Object.keys(es).map(function (id) { var i = escInfo(id); return { n: i.nome, d: i.dist, z: i.zip || 'Sem ZIP', l: es[id], o: escSoma(es[id]) }; }).sort(function (a, b) { return a.d.localeCompare(b.d) || a.n.localeCompare(b.n); });
-            var dm = {}, zm = {}; ge.forEach(function (g) { dm[g.d] = (dm[g.d] || []).concat(g.l); zm[g.z] = (zm[g.z] || []).concat(g.l); });
-            return { esc: ge, zip: Object.keys(zm).sort(window.geZipCmp).map(function (z) { return { n: z, o: escSoma(zm[z]) }; }), dist: Object.keys(dm).sort().map(function (d) { return { n: d, o: escSoma(dm[d]) }; }), cls: Object.keys(cl).sort(function (a, b) { return a - b; }).map(function (c) { return { n: c + 'ª classe', o: escSoma(cl[c]) }; }), tot: all.length ? escSoma(all) : null };
+            pautas().forEach(function (x) { var r; if (window.GE_MM && window.GE_MM.permite && !window.GE_MM.permite(x.escola_id, x.dados.classe)) return; try { r = estCalc(x.dados, U.tri); } catch (e) { return; } (es[x.escola_id] = es[x.escola_id] || []).push(r); (cl[x.dados.classe] = cl[x.dados.classe] || []).push(r); all.push(r); });
+            var ge = Object.keys(es).map(function (id) { var i = escInfo(id), q = window.GE_MM && window.GE_MM.geo ? window.GE_MM.geo(id) : { posto: 'Sem posto administrativo', loc: 'Sem localidade', prov: i.prov || 'Sem província' }; return { n: i.nome, d: i.dist, z: i.zip || 'Sem ZIP', po: q.posto, lo: q.loc, pv: q.prov, l: es[id], o: escSoma(es[id]) }; }).sort(function (a, b) { return a.d.localeCompare(b.d) || a.n.localeCompare(b.n); });
+            var dm = {}, zm = {}, pm = {}, lm = {}, vm = {}, rp = {}, rl = {}; ge.forEach(function (g) { dm[g.d] = (dm[g.d] || []).concat(g.l); zm[g.z] = (zm[g.z] || []).concat(g.l); var kp = g.d + '¦' + g.po, kl = kp + '¦' + g.lo; pm[kp] = (pm[kp] || []).concat(g.l); lm[kl] = (lm[kl] || []).concat(g.l); vm[g.pv] = (vm[g.pv] || []).concat(g.l); rp[kp] = g.po + ' (' + g.d + ')'; rl[kl] = g.lo + ' (' + g.po + ' · ' + g.d + ')'; }); var grp = function (m, rot) { return Object.keys(m).map(function (k) { return { n: rot ? rot[k] : k, o: escSoma(m[k]) }; }).sort(function (a, b) { return a.n.localeCompare(b.n, 'pt', { numeric: true }); }); };
+            return { loc: grp(lm, rl), posto: grp(pm, rp), prov: grp(vm), esc: ge, zip: Object.keys(zm).sort(window.geZipCmp).map(function (z) { return { n: z, o: escSoma(zm[z]) }; }), dist: Object.keys(dm).sort().map(function (d) { return { n: d, o: escSoma(dm[d]) }; }), cls: Object.keys(cl).sort(function (a, b) { return a - b; }).map(function (c) { return { n: c + 'ª classe', o: escSoma(cl[c]) }; }), tot: all.length ? escSoma(all) : null };
         }
         function cel(o, c) { return c[2] ? pf1(o[c[1]].HM) + '% (' + pf1(o[c[1]].M) + '%)' : o[c[1]].HM + ' (' + o[c[1]].M + ')'; }
         function tabM(tit, g, tot) { return '<h3>' + tit + '</h3>' + pe([tit.replace('Por ', '')].concat(COLS.map(function (c) { return c[0]; })), g.map(function (x) { return [esc(x.n)].concat(COLS.map(function (c) { return cel(x.o, c); })); }).concat(tot ? [['<b>TOTAL</b>'].concat(COLS.map(function (c) { return '<b>' + cel(tot, c) + '</b>'; }))] : [])); }
@@ -9984,7 +10033,7 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
             if (!pronto()) return avis(); var m = mapa();
             if (!m.tot) return ctl() + '<div class="bx mu">Sem pautas para o ano seleccionado.</div>';
             return ctl() + '<p class="mu sm">Mapa de estatística do ' + U.tri + '.º trimestre, somado a partir das pautas de ' + m.esc.length + ' escola(s). Valores: total (entre parênteses, raparigas). Os campos preenchidos à mão em cada escola são respeitados.</p>' +
-                '<button class="btn pri" data-ca="mapXlsx">Exportar Excel (várias folhas)</button>' + tabM('Por ZIP', m.zip, m.tot) + tabM('Por distrito', m.dist, m.tot) + tabM('Por escola', m.esc, m.tot) + tabM('Por classe', m.cls, m.tot) +
+                '<button class="btn pri" data-ca="mapXlsx">Exportar Excel (várias folhas)</button>' + tabM('Por ZIP', m.zip, m.tot) + tabM('Por localidade', m.loc, m.tot) + tabM('Por posto administrativo', m.posto, m.tot) + tabM('Por distrito', m.dist, m.tot) + tabM('Por província', m.prov, m.tot) + tabM('Nacional', [{ n: 'Nacional', o: m.tot }], null) + tabM('Por escola', m.esc, m.tot) + tabM('Por classe', m.cls, m.tot) +
                 '<h3>Dados administrativos</h3>' + m.esc.map(function (g) { return ''; }).join('') + Object.keys(CP.n).map(function (id) { var i = escInfo(id); return '<div class="bx" style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span><b>' + esc(i.nome) + '</b><br><span class="mu sm">' + esc([i.dist, i.zip, i.prov].filter(Boolean).join(' · ')) + '</span></span><button class="btn" data-ca="mapEd" data-id="' + esc(id) + '">Editar</button></div>'; }).join('');
         }
         /* 3. evolução por trimestre calculada directamente das notas (sem retratos) */
@@ -10023,19 +10072,60 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
             return h;
         }
         /* Situação psicossocial (idade, órfãos, NEE) somada por ZIP, a partir das pautas de todas as escolas */
-        var PX = { t: 'a1', zip: '', esc: '' };
-        function pxEscopo() {
-            var todas = pautas().filter(function (x) { var c = parseInt(x.dados.classe, 10); return c >= 1 && c <= 12; }), SZ = 'Sem ZIP';
-            var zips = [], vz = {}; todas.forEach(function (x) { var z = escInfo(x.escola_id).zip || SZ; if (!vz[z]) { vz[z] = 1; zips.push(z); } }); zips.sort(window.geZipCmp);
-            if (PX.zip && zips.indexOf(PX.zip) < 0) PX.zip = '';
-            var porZip = todas.filter(function (x) { return !PX.zip || (escInfo(x.escola_id).zip || SZ) === PX.zip; });
-            var escs = [], ve = {}; porZip.forEach(function (x) { if (!ve[x.escola_id]) { ve[x.escola_id] = 1; escs.push([x.escola_id, escInfo(x.escola_id).nome]); } }); escs.sort(function (a, b) { return String(a[1]).localeCompare(String(b[1]), 'pt'); });
-            if (PX.esc && !ve[PX.esc]) PX.esc = '';
-            var alvo = porZip.filter(function (x) { return !PX.esc || x.escola_id === PX.esc; }), por = {};
-            alvo.forEach(function (x) { (por[x.escola_id] = por[x.escola_id] || []).push(x.dados); });
-            return { zips: zips, escs: escs, alvo: alvo, grupos: Object.keys(por).map(function (k) { return por[k]; }), nEsc: Object.keys(por).length };
+        /* v5.27: tipo de escola e níveis territoriais (Psicossocial e Professores) */
+        var NVT = [['nac', 'Nacional (todas as escolas)'], ['prov', 'Por província'], ['dist', 'Por distrito'], ['posto', 'Por posto administrativo'], ['loc', 'Por localidade'], ['zip', 'Por ZIP']];
+        var SUBT = { zip: 'escola', loc: 'zip', posto: 'loc', dist: 'posto', prov: 'dist', nac: 'prov' };
+        var ROTT = { escola: 'escola', zip: 'ZIP', loc: 'localidade', posto: 'posto administrativo', dist: 'distrito', prov: 'província' };
+        function geoE(id) {
+            var q = null, i = escInfo(id);
+            try { q = window.GE_MM && window.GE_MM.geo ? window.GE_MM.geo(id) : null; } catch (e) { q = null; }
+            q = q || {};
+            return { zip: q.zip || i.zip || 'Sem ZIP', dist: q.dist || i.dist || 'Sem distrito', posto: q.posto || 'Sem posto administrativo', loc: q.loc || 'Sem localidade', prov: q.prov || i.prov || 'Sem província' };
         }
-        function pxEnte() { return PX.esc ? escInfo(PX.esc).nome : PX.zip ? (PX.zip === 'Sem ZIP' ? 'Escolas sem ZIP' : 'ZIP ' + PX.zip) : 'Todas as escolas'; }
+        /* pautas de classes fora do tipo da escola não contam (mesmo critério dos outros relatórios) */
+        function noTipoT(x) { try { return !(window.GE_MM && window.GE_MM.permite && x.dados && !window.GE_MM.permite(x.escola_id, x.dados.classe)); } catch (e) { return true; } }
+        function chvT(g, nv) { return nv === 'zip' ? g.zip : nv === 'loc' ? [g.dist, g.posto, g.loc].join('¦') : nv === 'posto' ? [g.dist, g.posto].join('¦') : nv === 'dist' ? g.dist : nv === 'prov' ? g.prov : ''; }
+        function nmT(g, nv) { return nv === 'zip' ? g.zip : nv === 'loc' ? g.loc : nv === 'posto' ? g.posto : nv === 'dist' ? g.dist : nv === 'prov' ? g.prov : ''; }
+        function rotNT(g, nv) {
+            var nm = nmT(g, nv); if (nv === 'zip') return nm === 'Sem ZIP' ? nm : 'ZIP ' + nm;
+            var pai = (nv === 'loc' ? [g.posto, g.dist] : nv === 'posto' ? [g.dist] : []).filter(function (z) { return z && !/^Sem /.test(z); });
+            return /^Sem /.test(nm) ? nm : nm + (pai.length ? ' (' + pai.join(' · ') + ')' : '');
+        }
+        function enteT(g, nv) {
+            var nm = nmT(g, nv), sem = /^Sem /.test(nm);
+            return nv === 'zip' ? (sem ? 'Escolas sem ZIP' : 'ZIP ' + nm) : nv === 'loc' ? (sem ? 'Localidade não indicada' : 'Localidade de ' + nm) : nv === 'posto' ? (sem ? 'Posto Administrativo não indicado' : 'Posto Administrativo de ' + nm) : nv === 'dist' ? (sem ? 'Distrito não indicado' : 'Distrito de ' + nm) : nv === 'prov' ? (sem ? 'Província não indicada' : 'Província de ' + nm) : 'Todas as escolas';
+        }
+        function cmpT(nv) {
+            return function (a, b) {
+                var sa = /^Sem /.test(a.n), sb = /^Sem /.test(b.n); if (sa !== sb) return sa ? 1 : -1;
+                if (nv === 'zip' && window.geZipCmp) return window.geZipCmp(a.n, b.n);
+                return a.l.localeCompare(b.l, 'pt', { numeric: true });
+            };
+        }
+        /* opções de um nível a partir de uma lista de localizações; devolve [{k, l, n, g}] */
+        function opcT(G, nv) { var vo = {}, o = []; G.forEach(function (g) { var k = chvT(g, nv); if (!vo[k]) { vo[k] = 1; o.push({ k: k, l: rotNT(g, nv), n: nmT(g, nv), g: g }); } }); return o.sort(cmpT(nv)); }
+        var PX = { t: 'a1', nv: 'nac', val: '', esc: '', ente: 'Todas as escolas' };
+        function pxEscopo() {
+            var todas = pautas().filter(function (x) { var c = parseInt(x.dados.classe, 10); return c >= 1 && c <= 12 && noTipoT(x); }), gc = {};
+            var geo = function (id) { return gc[id] = gc[id] || geoE(id); };
+            if (!NVT.some(function (n) { return n[0] === PX.nv; })) PX.nv = 'nac';
+            var ops = [];
+            if (PX.nv !== 'nac') {
+                ops = opcT(todas.map(function (x) { return geo(x.escola_id); }), PX.nv);
+                if (!ops.some(function (o) { return o.k === PX.val; })) PX.val = ops.length ? ops[0].k : '';
+            } else PX.val = '';
+            var op = ops.filter(function (o) { return o.k === PX.val; })[0]; PX.ente = op ? enteT(op.g, PX.nv) : 'Todas as escolas';
+            var noNivel = todas.filter(function (x) { return PX.nv === 'nac' || chvT(geo(x.escola_id), PX.nv) === PX.val; });
+            var escs = [], ve = {}; noNivel.forEach(function (x) { if (!ve[x.escola_id]) { ve[x.escola_id] = 1; escs.push([x.escola_id, escInfo(x.escola_id).nome]); } }); escs.sort(function (a, b) { return String(a[1]).localeCompare(String(b[1]), 'pt'); });
+            if (PX.esc && !ve[PX.esc]) PX.esc = '';
+            var alvo = noNivel.filter(function (x) { return !PX.esc || x.escola_id === PX.esc; }), por = {};
+            alvo.forEach(function (x) { (por[x.escola_id] = por[x.escola_id] || []).push(x.dados); });
+            return { ops: ops, escs: escs, alvo: alvo, noNivel: noNivel, geo: geo, grupos: Object.keys(por).map(function (k) { return por[k]; }), nEsc: Object.keys(por).length };
+        }
+        function pxEnte() { return PX.esc ? escInfo(PX.esc).nome : PX.ente; }
+        /* cabeçalho e assinaturas conforme o nível */
+        function pxCab(E) { return PX.esc || (PX.nv !== 'nac' && PX.nv !== 'prov') ? '<div>GOVERNO DO DISTRITO DE ' + esc(pxDist(E)) + '</div><div>SERVIÇO DISTRITAL DE EDUCAÇÃO, JUVENTUDE E TECNOLOGIA</div><div>REPARTIÇÃO DE EDUCAÇÃO GERAL</div>' : ''; }
+        function pxAss() { var sd = ['Director do SDEJT', '']; return PX.esc ? [['Director da Escola', ''], sd] : PX.nv === 'zip' ? [['Chefe da ZIP', ''], sd] : PX.nv === 'loc' ? [['Chefe da Localidade', ''], sd] : PX.nv === 'posto' ? [['Chefe do Posto Administrativo', ''], sd] : PX.nv === 'dist' ? [['Chefe da Repartição de Educação Geral', ''], sd] : PX.nv === 'prov' ? [['Director Provincial de Educação', '']] : [['Responsável pela consolidação', '']]; }
         function pxDist(E) { var d = {}; E.alvo.forEach(function (x) { d[escInfo(x.escola_id).dist] = 1; }); var k = Object.keys(d); return (k.length === 1 && k[0] !== 'Sem distrito' ? k[0] : 'Mocuba').toUpperCase(); }
         function pxNota(aid, au, E) {
             var t = window.GE_ANX.ANEXOS[aid].tipo, rf = RES_REF[U.ref || '3'] || RES_REF['3'];
@@ -10048,37 +10138,41 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
         function pxPagina(aid, au, E, ultimo) {
             var X = window.GE_ANX, A = X.ANEXOS[aid], big = A.tipo === 'idade' || aid === 'a5', rf = RES_REF[U.ref || '3'] || RES_REF['3'];
             return '<div class="axp' + (big ? ' big' : '') + (A.tipo === 'nee' ? ' nee' : '') + '" style="color:#000;font-family:Times New Roman,Times,serif' + (ultimo ? '' : ';page-break-after:always') + '">' +
-                '<div style="text-align:center;font-weight:700;font-size:12pt;line-height:1.25"><div><img src="' + EMBLEMA + '" style="height:18mm" alt=""></div><div>REPÚBLICA DE MOÇAMBIQUE</div><div>GOVERNO DO DISTRITO DE ' + esc(pxDist(E)) + '</div><div>SERVIÇO DISTRITAL DE EDUCAÇÃO, JUVENTUDE E TECNOLOGIA</div><div>REPARTIÇÃO DE EDUCAÇÃO GERAL</div><div>' + esc(pxEnte()) + '</div></div>' +
+                '<div class="ge-cab" style="text-align:center;font-weight:700;font-size:12pt;line-height:1.25"><div><img src="' + EMBLEMA + '" style="height:18mm" alt=""></div><div>REPÚBLICA DE MOÇAMBIQUE</div>' + pxCab(E) + '<div>' + esc(pxEnte()) + '</div></div>' +
                 '<div style="text-align:center;font-weight:700;font-size:12pt;margin-top:5mm"><u>ANEXO ' + A.n + ' — ' + esc(A.tit.toUpperCase()) + '</u></div>' +
                 '<div style="text-align:center;font-size:10pt;margin-top:1mm">Ano lectivo ' + esc(U.ano) + ' · ' + esc(pxEnte()) + (A.tipo === 'idade' ? ' · Idade em anos completos a ' + rf[2] : '') + '</div>' +
-                X.tabela(aid, au) + assinaturas([[PX.esc ? 'Director da Escola' : PX.zip ? 'Chefe da ZIP' : 'Chefe da Repartição de Educação Geral', ''], ['Director do SDEJT', '']], 10) + '</div>';
+                X.tabela(aid, au) + assinaturas(pxAss(), 10) + '</div>';
         }
         function vPsico() {
             if (!pronto()) return avis();
             var X = window.GE_ANX; if (!X) return ctl() + '<div class="bx mu">Os Anexos 1 a 6 não estão disponíveis nesta versão.</div>';
             var E = pxEscopo(), ref = U.ref || '3', A = X.ANEXOS[PX.t] ? X.ANEXOS[PX.t] : X.ANEXOS.a1;
             if (!X.ANEXOS[PX.t]) PX.t = 'a1';
-            var zo = [['', 'Todas as ZIP']].concat(E.zips.map(function (z) { return [z, z === 'Sem ZIP' ? z : 'ZIP ' + z]; })), eo = [['', 'Todas as escolas']].concat(E.escs);
-            var barra = '<div class="bx" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">ZIP ' + sel('m2_pz', zo, PX.zip) + ' Escola ' + sel('m2_pe', eo, PX.esc) + ' Idade a ' + sel('m2_ref', [['1', '31 de Março'], ['2', '30 de Junho'], ['3', '31 de Dezembro']], ref) + '</div>';
+            var zo = E.ops.map(function (o) { return [o.k, o.l]; }), eo = [['', 'Todas as escolas']].concat(E.escs);
+            var barra = '<div class="bx" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">Nível ' + sel('m2_pn', NVT, PX.nv) + (PX.nv !== 'nac' ? ' ' + sel('m2_pz', zo, PX.val) : '') + ' Escola ' + sel('m2_pe', eo, PX.esc) + ' Idade a ' + sel('m2_ref', [['1', '31 de Março'], ['2', '30 de Junho'], ['3', '31 de Dezembro']], ref) + '</div>';
             var tabs = '<div class="ax-tabs">' + X.ORDEM.map(function (k) { return '<button type="button" class="btn' + (PX.t === k ? ' pri' : '') + '" data-ca="pxTab" data-v="' + k + '">Anexo ' + X.ANEXOS[k].n + '</button>'; }).join('') + '</div>';
-            if (!E.alvo.length) return ctl() + barra + '<div class="bx mu">Sem pautas (1.ª a 12.ª classe) para o ano e a selecção escolhidos.</div>';
+            if (!E.alvo.length) return ctl() + barra + '<div class="bx mu">Sem pautas (1.ª a 12.ª classe do tipo de cada escola) para o ano e a selecção escolhidos.</div>';
             var au = X.calc(E.grupos, ref);
             return ctl() + barra + tabs +
                 '<h3 style="margin:14px 0 2px;font-size:15px">Anexo ' + A.n + ' — ' + esc(A.tit) + '</h3><p class="mu sm" style="margin-top:4px;line-height:1.45">' + pxNota(PX.t, au, E) + '</p>' +
                 '<div class="ax-w">' + X.tabela(PX.t, au) + '</div>' +
                 '<div class="row" style="margin-top:14px;flex-wrap:wrap"><button class="btn pri blk" data-ca="pxPrint">Imprimir Anexo ' + A.n + '</button><button class="btn blk" style="margin-top:8px" data-ca="pxPrintAll">Imprimir todos (Anexos 1 a 6)</button></div>' +
-                '<h3 style="margin-top:22px">Resumo por ZIP</h3>' + vPsicoZip();
+                '<h3 style="margin-top:22px">Resumo por ' + ROTT[SUBT[PX.nv]] + '</h3>' + vPsicoZip();
         }
         function vPsicoZip() {
-            if (!pronto()) return avis(); var P = pautas().filter(function (x) { var c = parseInt(x.dados.classe, 10); return !U.cl || (U.cl === '16' ? c >= 1 && c <= 6 : U.cl === '712' ? c >= 7 && c <= 12 : c === parseInt(U.cl, 10)); });
+            if (!pronto()) return avis();
+            var E0 = pxEscopo(), sub = SUBT[PX.nv], gcache = {};
+            var P = E0.noNivel.filter(function (x) { var c = parseInt(x.dados.classe, 10); return !U.cl || (U.cl === '16' ? c >= 1 && c <= 6 : U.cl === '712' ? c >= 7 && c <= 12 : c === parseInt(U.cl, 10)); });
             var cls = [['', 'Todas as classes'], ['16', '1.ª–6.ª (Anexos 1 a 3)'], ['712', '7.ª–12.ª (Anexos 4 a 6)']]; for (var ci = 1; ci <= 12; ci++) cls.push([String(ci), ci + '.ª classe']);
-            var selC = '<div class="bx" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">Classe ' + sel('m2_cl', cls, U.cl || '')+ '</div>';
-            if (!P.length) return selC + '<div class="bx mu">Sem pautas para o ano e classe seleccionados.</div>';
-            var rf = RES_REF[U.ref || '3'] || RES_REF['3'], G = {}, SEMZ = 'Sem ZIP', T = { H: 0, M: 0, o: [{ H: 0, M: 0 }, { H: 0, M: 0 }, { H: 0, M: 0 }], oH: 0, oM: 0, nH: 0, nM: 0 };
+            var selC = '<div class="bx" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">Classe ' + sel('m2_cl', cls, U.cl || '') + '</div>';
+            if (!P.length) return selC + '<div class="bx mu">Sem pautas para o ano, o nível e a classe seleccionados.</div>';
+            var rf = RES_REF[U.ref || '3'] || RES_REF['3'], G = {}, ROT = {};
             var novo = function () { return { H: 0, M: 0, o: [{ H: 0, M: 0 }, { H: 0, M: 0 }, { H: 0, M: 0 }], oH: 0, oM: 0, nH: 0, nM: 0, nee: {}, ida: {}, sem: { H: 0, M: 0 } }; };
             var ORF = ['De pai', 'De mãe', 'De ambos'], tipos = {}, idades = {};
             P.forEach(function (x) {
-                var z = escInfo(x.escola_id).zip || SEMZ, g = G[z] = G[z] || novo(), ano = parseInt(x.dados.ano, 10) || new Date().getFullYear();
+                var g0 = E0.geo(x.escola_id), k, rt, nm;
+                if (sub === 'escola') { k = 'e:' + x.escola_id; rt = escInfo(x.escola_id).nome; nm = rt; } else { k = chvT(g0, sub); rt = rotNT(g0, sub); nm = nmT(g0, sub); }
+                var g = G[k] = G[k] || novo(); ROT[k] = { l: rt, n: nm }; var ano = parseInt(x.dados.ano, 10) || new Date().getFullYear();
                 x.dados.alunos.forEach(function (a) {
                     var sx = String(a.sexo || '').toUpperCase().charAt(0) === 'M' ? 'M' : 'H', o = ORF.indexOf(a.orfao), m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(String(a.nasc || '').trim());
                     g[sx]++; if (o >= 0) { g.o[o][sx]++; g['o' + sx]++; }
@@ -10087,53 +10181,74 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
                     if (id >= 0 && id < 100) { g.ida[id] = g.ida[id] || { H: 0, M: 0 }; g.ida[id][sx]++; idades[id] = 1; } else g.sem[sx]++;
                 });
             });
-            var zs = Object.keys(G).sort(window.geZipCmp), hm = function (o) { return o ? (o.H + o.M) + ' (' + o.M + ')' : '0 (0)'; };
-            var soma = function (L) { var t = novo(); L.forEach(function (k) { var g = G[k]; ['H', 'M', 'oH', 'oM', 'nH', 'nM'].forEach(function (c) { t[c] += g[c]; }); [0, 1, 2].forEach(function (i) { t.o[i].H += g.o[i].H; t.o[i].M += g.o[i].M; }); ['nee', 'ida'].forEach(function (c) { Object.keys(g[c]).forEach(function (q) { t[c][q] = t[c][q] || { H: 0, M: 0 }; t[c][q].H += g[c][q].H; t[c][q].M += g[c][q].M; }); }); t.sem.H += g.sem.H; t.sem.M += g.sem.M; }); return t; };
-            var comZ = zs.filter(function (k) { return k !== SEMZ; }), lin = function (n, g, b) { var f = function (v) { return b ? '<b>' + v + '</b>' : v; }; return [f(esc(n)), f(g.H), f(g.M), f(g.H + g.M), f(g.o[0].H + g.o[0].M), f(g.o[1].H + g.o[1].M), f(g.o[2].H + g.o[2].M), f(g.oH + g.oM), f(g.nH + g.nM)]; };
-            var rows = zs.map(function (k) { return lin(k, G[k]); }); rows.push(lin('Geral de todas as ZIP', soma(comZ), 1)); rows.push(lin('GERAL de todas as escolas', soma(zs), 1));
-            var tot = soma(zs), cab = zs.map(function (k) { return k; }).concat(['TOTAL']);
+            var zs = Object.keys(G).sort(function (a, b) {
+                var A = ROT[a], B = ROT[b], sa = sub !== 'escola' && /^Sem /.test(A.n), sb = sub !== 'escola' && /^Sem /.test(B.n); if (sa !== sb) return sa ? 1 : -1;
+                if (sub === 'zip' && window.geZipCmp) return window.geZipCmp(A.n, B.n);
+                return A.l.localeCompare(B.l, 'pt', { numeric: true });
+            }), hm = function (o) { return o ? (o.H + o.M) + ' (' + o.M + ')' : '0 (0)'; };
+            var soma = function (Lk) { var t = novo(); Lk.forEach(function (k) { var g = G[k]; ['H', 'M', 'oH', 'oM', 'nH', 'nM'].forEach(function (c) { t[c] += g[c]; }); [0, 1, 2].forEach(function (i) { t.o[i].H += g.o[i].H; t.o[i].M += g.o[i].M; }); ['nee', 'ida'].forEach(function (c) { Object.keys(g[c]).forEach(function (q) { t[c][q] = t[c][q] || { H: 0, M: 0 }; t[c][q].H += g[c][q].H; t[c][q].M += g[c][q].M; }); }); t.sem.H += g.sem.H; t.sem.M += g.sem.M; }); return t; };
+            var lin = function (n, g, b) { var f = function (v) { return b ? '<b>' + v + '</b>' : v; }; return [f(esc(n)), f(g.H), f(g.M), f(g.H + g.M), f(g.o[0].H + g.o[0].M), f(g.o[1].H + g.o[1].M), f(g.o[2].H + g.o[2].M), f(g.oH + g.oM), f(g.nH + g.nM)]; };
+            var tot = soma(zs), rows = zs.map(function (k) { return lin(ROT[k].l, G[k]); }); rows.push(lin('TOTAL — ' + PX.ente, tot, 1));
+            var cab = zs.map(function (k) { return ROT[k].l; }).concat(['TOTAL']);
             var mat = function (chaves, campo, tit, vazio) { var ks = Object.keys(chaves).sort(function (a, b) { return isNaN(a) ? a.localeCompare(b, 'pt') : a - b; }); if (!ks.length) return '<div class="bx mu">' + vazio + '</div>'; return pe([tit].concat(cab), ks.map(function (q) { return [esc(q)].concat(zs.map(function (k) { return hm(G[k][campo][q]); }), [hm(tot[campo][q])]); })); };
-            return selC + '<p class="mu sm">Somado a partir das fichas dos alunos de todas as escolas, por ZIP (equivale aos Anexos 1 a 6 quando escolhe 1.ª–6.ª ou 7.ª–12.ª). Valores: total (entre parênteses, raparigas).</p><h3>Alunos, órfãos e NEE por ZIP</h3>' +
-                pe(['ZIP', 'Alunos H', 'Alunos M', 'Alunos HM', 'Órfãos de pai', 'Órfãos de mãe', 'Órfãos de ambos', 'Total órfãos', 'Com NEE'], rows) +
+            var rt = ROTT[sub], Rt = rt.charAt(0).toUpperCase() + rt.slice(1);
+            return selC + '<p class="mu sm">Somado a partir das fichas dos alunos de ' + esc(PX.ente) + ', por ' + esc(rt) + ' (equivale aos Anexos 1 a 6 quando escolhe 1.ª–6.ª ou 7.ª–12.ª). Só contam as classes do tipo de cada escola. Valores: total (entre parênteses, raparigas).</p><h3>Alunos, órfãos e NEE por ' + esc(rt) + '</h3>' +
+                pe([Rt, 'Alunos H', 'Alunos M', 'Alunos HM', 'Órfãos de pai', 'Órfãos de mãe', 'Órfãos de ambos', 'Total órfãos', 'Com NEE'], rows) +
                 '<h3>NEE por tipo</h3>' + mat(tipos, 'nee', 'Tipo de NEE', 'Sem alunos com NEE registados.') + '<h3>Alunos por idade</h3>' + mat(idades, 'ida', 'Idade', 'Sem datas de nascimento.') +
                 '<p class="mu sm">Sem data de nascimento válida: ' + (tot.sem.H + tot.sem.M) + ' aluno(s).</p>';
         }
-        cons.addEventListener('change', function (ev) { var t = ev.target; if (!t || !t.id) return; if (t.id === 'm2_pz') { PX.zip = t.value; PX.esc = ''; consRender(); } else if (t.id === 'm2_pe') { PX.esc = t.value; consRender(); } else if (t.id === 'm2_cl') { U.cl = t.value; consRender(); } else if (t.id === 'm2_ref') { U.ref = t.value; consRender(); } });
+        cons.addEventListener('change', function (ev) { var t = ev.target; if (!t || !t.id) return; if (t.id === 'm2_pn') { PX.nv = t.value; PX.val = ''; PX.esc = ''; consRender(); } else if (t.id === 'm2_pz') { PX.val = t.value; PX.esc = ''; consRender(); } else if (t.id === 'm2_pe') { PX.esc = t.value; consRender(); } else if (t.id === 'm2_cl') { U.cl = t.value; consRender(); } else if (t.id === 'm2_ref') { U.ref = t.value; consRender(); } });
         /* Professores: ficha individual por escola e somatórios por ZIP e geral */
         var PR = { t: 0, l: [], load: false, err: '' };
         function carregarProf() {
             if (PR.load) return; PR.load = true;
             srvApi('GET', '/rest/v1/perfis?select=user_id,escola_id,nome,ativo,ficha&papel=eq.professor&order=nome').then(function (r) { if (r.ok) { PR.l = r.j || []; PR.err = ''; } else PR.err = 'Não foi possível ler os professores (' + r.st + '). Execute o ficheiro 7_ficha_professores.sql no Supabase.'; PR.t = Date.now(); }).catch(function () { PR.t = PR.t || 1; PR.err = 'Sem ligação ao servidor.'; }).then(function () { PR.load = false; if (CU.tab === 'prof') consRender(); });
         }
+        /* v5.27: níveis territoriais nos Professores. O tipo de escola não se aplica aqui: a ficha do professor não tem classe (1.ª e 2.ª turma são texto livre). */
+        var PRF = { nv: 'nac', val: '' };
         function listaProf() {
-            return PR.l.filter(function (u) { return u.ativo !== false; }).map(function (u) { var i = escInfo(u.escola_id), f = u.ficha || {}; return { e: i.nome, z: i.zip || 'Sem ZIP', n: u.nome, categoria: f.categoria || 'Sem categoria', funcao: f.funcao || 'Sem função', t1: f.turma1 || '', t2: f.turma2 || '', ct: f.contacto || '' }; }).sort(function (a, b) { return (a.z === 'Sem ZIP') - (b.z === 'Sem ZIP') || window.geZipCmp(a.z, b.z) || a.e.localeCompare(b.e) || a.n.localeCompare(b.n); });
+            return PR.l.filter(function (u) { return u.ativo !== false; }).map(function (u) { var i = escInfo(u.escola_id), g = geoE(u.escola_id), f = u.ficha || {}; return { eid: u.escola_id, g: g, e: i.nome, z: g.zip, n: u.nome, categoria: f.categoria || 'Sem categoria', funcao: f.funcao || 'Sem função', t1: f.turma1 || '', t2: f.turma2 || '', ct: f.contacto || '' }; }).sort(function (a, b) { return (a.z === 'Sem ZIP') - (b.z === 'Sem ZIP') || window.geZipCmp(a.z, b.z) || a.e.localeCompare(b.e) || a.n.localeCompare(b.n); });
         }
-        function matProf(L, gf, campo, tit, zipMode) {
-            var vs = {}, g = {}, conta = function (A, v) { return A.filter(function (p) { return p[campo] === v; }).length; };
-            L.forEach(function (p) { var k = gf(p); vs[p[campo]] = 1; g[k] = g[k] || []; g[k].push(p); });
-            var V = Object.keys(vs).sort(), ks = Object.keys(g).sort(window.geZipCmp);
-            var lin = function (n, A, b) { var f = function (x) { return b ? '<b>' + x + '</b>' : x; }; return [f(esc(n)), f(A.length)].concat(V.map(function (v) { return f(conta(A, v)); })); };
-            var rows = ks.map(function (k) { return lin(k, g[k]); });
-            if (zipMode) rows.push(lin('Geral de todas as ZIP', L.filter(function (p) { return p.z !== 'Sem ZIP'; }), 1));
-            rows.push(lin('GERAL de todas as escolas', L, 1));
+        /* lista no nível escolhido: { L, ops, ente, todos } */
+        function profNivel() {
+            var L0 = listaProf(), ops = [];
+            if (!NVT.some(function (n) { return n[0] === PRF.nv; })) PRF.nv = 'nac';
+            if (PRF.nv !== 'nac') {
+                ops = opcT(L0.map(function (p) { return p.g; }), PRF.nv);
+                if (!ops.some(function (o) { return o.k === PRF.val; })) PRF.val = ops.length ? ops[0].k : '';
+            } else PRF.val = '';
+            var op = ops.filter(function (o) { return o.k === PRF.val; })[0];
+            return { todos: L0.length, ops: ops, ente: op ? enteT(op.g, PRF.nv) : 'Todas as escolas', L: L0.filter(function (p) { return PRF.nv === 'nac' || chvT(p.g, PRF.nv) === PRF.val; }) };
+        }
+        function matProf(L, sub, campo, tit, ente) {
+            var vs = {}, g = {}, ord = [], conta = function (A, v) { return A.filter(function (p) { return p[campo] === v; }).length; };
+            L.forEach(function (p) {
+                var k = sub === 'escola' ? 'e:' + p.eid : chvT(p.g, sub); vs[p[campo]] = 1;
+                if (!g[k]) { g[k] = []; ord.push({ k: k, l: sub === 'escola' ? p.e : rotNT(p.g, sub), n: sub === 'escola' ? p.e : nmT(p.g, sub) }); } g[k].push(p);
+            });
+            ord.sort(sub === 'escola' ? function (a, b) { return a.l.localeCompare(b.l, 'pt'); } : cmpT(sub));
+            var V = Object.keys(vs).sort(), lin = function (n, A, b) { var f = function (x) { return b ? '<b>' + x + '</b>' : x; }; return [f(esc(n)), f(A.length)].concat(V.map(function (v) { return f(conta(A, v)); })); };
+            var rows = ord.map(function (o) { return lin(o.l, g[o.k]); }); rows.push(lin('TOTAL — ' + ente, L, 1));
             return pe([tit, 'Professores'].concat(V), rows);
         }
         function vProf() {
             if (!pronto()) return avis(); if (Date.now() - PR.t > 120000) carregarProf(); if (!PR.t) return avis();
             if (PR.err) return '<div class="bx mu">' + esc(PR.err) + '</div>';
-            var L = listaProf(); if (!L.length) return '<div class="bx mu">Ainda não há professores inscritos nas escolas.</div>';
-            var h = '<p class="mu sm">Professores inscritos pelas escolas (' + L.length + '). A ficha é preenchida por cada Director-adjunto na inscrição do professor.</p><button class="btn pri" data-ca="profCsv">Exportar CSV</button>' +
-                '<h3>Por ZIP: categoria</h3>' + matProf(L, function (p) { return p.z; }, 'categoria', 'ZIP', 1) + '<h3>Por ZIP: função</h3>' + matProf(L, function (p) { return p.z; }, 'funcao', 'ZIP', 1) +
-                '<h3>Por escola: categoria</h3>' + matProf(L, function (p) { return p.e; }, 'categoria', 'Escola') + '<h3>Por escola: função</h3>' + matProf(L, function (p) { return p.e; }, 'funcao', 'Escola') + '<h3>Lista individual por escola</h3>';
-            var ult = '';
-            L.forEach(function (p) { if (p.e !== ult) { ult = p.e; h += '<h4 style="margin:10px 0 4px">' + esc(p.e) + ' <span class="mu sm">· ' + esc(p.z) + '</span></h4>'; } });
-            var porE = {}; L.forEach(function (p) { (porE[p.e] = porE[p.e] || []).push(p); });
-            h = h.replace(/<h4[\s\S]*$/, '') + Object.keys(porE).map(function (e) { var A = porE[e]; return '<h4 style="margin:10px 0 4px">' + esc(e) + ' <span class="mu sm">· ' + esc(A[0].z) + ' · ' + A.length + ' professor(es)</span></h4>' + pe(['Nome', 'Categoria', 'Função', '1.ª turma', '2.ª turma', 'Contacto'], A.map(function (p) { return [esc(p.n), esc(p.categoria), esc(p.funcao), esc(p.t1), esc(p.t2), esc(p.ct)]; })); }).join('');
-            return h;
+            var N = profNivel(), L = N.L; if (!N.todos) return '<div class="bx mu">Ainda não há professores inscritos nas escolas.</div>';
+            var barra = '<div class="bx" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">Nível ' + sel('m2_rn', NVT, PRF.nv) + (PRF.nv !== 'nac' ? ' ' + sel('m2_rv', N.ops.map(function (o) { return [o.k, o.l]; }), PRF.val) : '') + '</div>';
+            if (!L.length) return barra + '<div class="bx mu">Sem professores neste nível.</div>';
+            var sub = SUBT[PRF.nv], rt = ROTT[sub], Rt = rt.charAt(0).toUpperCase() + rt.slice(1);
+            var h = barra + '<p class="mu sm">Professores inscritos pelas escolas: ' + L.length + ' em ' + esc(N.ente) + '. A ficha é preenchida por cada Director-adjunto na inscrição do professor.</p><button class="btn pri" data-ca="profCsv">Exportar CSV</button>' +
+                '<h3>Por ' + esc(rt) + ': categoria</h3>' + matProf(L, sub, 'categoria', Rt, N.ente) + '<h3>Por ' + esc(rt) + ': função</h3>' + matProf(L, sub, 'funcao', Rt, N.ente);
+            if (sub !== 'escola') h += '<h3>Por escola: categoria</h3>' + matProf(L, 'escola', 'categoria', 'Escola', N.ente) + '<h3>Por escola: função</h3>' + matProf(L, 'escola', 'funcao', 'Escola', N.ente);
+            h += '<h3>Lista individual por escola</h3>';
+            var porE = {}, ordE = []; L.forEach(function (p) { if (!porE[p.eid]) { porE[p.eid] = []; ordE.push(p.eid); } porE[p.eid].push(p); });
+            return h + ordE.map(function (id) { var A = porE[id]; return '<h4 style="margin:10px 0 4px">' + esc(A[0].e) + ' <span class="mu sm">· ' + esc(A[0].z) + ' · ' + A.length + ' professor(es)</span></h4>' + pe(['Nome', 'Categoria', 'Função', '1.ª turma', '2.ª turma', 'Contacto'], A.map(function (p) { return [esc(p.n), esc(p.categoria), esc(p.funcao), esc(p.t1), esc(p.t2), esc(p.ct)]; })); }).join('');
         }
+        cons.addEventListener('change', function (ev) { var t = ev.target; if (!t || !t.id) return; if (t.id === 'm2_rn') { PRF.nv = t.value; PRF.val = ''; consRender(); } else if (t.id === 'm2_rv') { PRF.val = t.value; consRender(); } });
         cons.addEventListener('click', function (ev) {
             var b = ev.target.closest ? ev.target.closest('[data-ca="profCsv"]') : null; if (!b || !consPode()) return;
-            var r = [['ZIP', 'Escola', 'Professor', 'Categoria', 'Função', '1.ª turma', '2.ª turma', 'Contacto']].concat(listaProf().map(function (p) { return [p.z, p.e, p.n, p.categoria, p.funcao, p.t1, p.t2, p.ct]; }));
+            var r = [['Província', 'Distrito', 'Posto administrativo', 'Localidade', 'ZIP', 'Escola', 'Professor', 'Categoria', 'Função', '1.ª turma', '2.ª turma', 'Contacto']].concat(profNivel().L.map(function (p) { return [p.g.prov, p.g.dist, p.g.posto, p.g.loc, p.z, p.e, p.n, p.categoria, p.funcao, p.t1, p.t2, p.ct]; }));
             download(new Blob(['\ufeff' + toCSV(r)], { type: 'text/csv;charset=utf-8' }), 'professores_' + stamp() + '.csv');
         });
         var V2 = { mapas: vMapas, evol3: vEv3, psico: vPsico, prof: vProf, msg: vMsg }, TABS = [['mapas', 'Mapas oficiais'], ['evol3', 'Evolução por trimestre'], ['psico', 'Psicossocial (Anexos 1 a 6)'], ['prof', 'Professores'], ['msg', 'Mensagens']];
@@ -10151,7 +10266,7 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
                 printDoc(XX.PCSS + LS.map(function (k, i) { return pxPagina(k, AU, EE, i === LS.length - 1); }).join(''), 'A4 landscape', '10mm', a === 'pxPrint' ? 'Folha A4 horizontal. Na janela de impressão, escolha a impressora ou Guardar como PDF.' : 'Seis anexos, um por folha A4 horizontal. Na janela de impressão, escolha a impressora ou Guardar como PDF.');
             }
             else if (a === 'mapEd') { var M = ld(K_META, {}), k = 'S:' + id, m = M[k] || {}, i = escInfo(id), d = window.prompt('Distrito:', i.dist === 'Sem distrito' ? '' : i.dist); if (d === null) return; var z = window.prompt('Posto administrativo / ZIP:', m.zip || ''); if (z === null) return; var p = window.prompt('Província:', m.prov || ''); if (p === null) return; m.dist = d.trim(); m.zip = z.trim(); m.prov = p.trim(); M[k] = m; sv(K_META, M); consRender(); }
-            else if (a === 'mapXlsx') { var mp = mapa(), ev = evol(); download(xlsxMulti([{ n: 'Por ZIP', m: mRows(mp.zip, mp.tot, 'ZIP') }, { n: 'Por distrito', m: mRows(mp.dist, mp.tot, 'Distrito') }, { n: 'Por escola', m: mRows(mp.esc, mp.tot, 'Escola') }, { n: 'Por classe', m: mRows(mp.cls, mp.tot, 'Classe') }, { n: 'Evolução trimestral', m: [['Escola', '1.º trim. (%)', '2.º trim. (%)', '3.º trim. (%)', 'Variação (p.p.)']].concat(ev.map(function (x) { return [x.n].concat(x.v.map(function (v) { return v === null ? '' : Math.round(v * 10) / 10; }), [x.df === null ? '' : x.df]); })) }]), 'mapas_distrito_' + U.ano + '_T' + U.tri + '_' + stamp() + '.xlsx'); }
+            else if (a === 'mapXlsx') { var mp = mapa(), ev = evol(); download(xlsxMulti([{ n: 'Por ZIP', m: mRows(mp.zip, mp.tot, 'ZIP') }, { n: 'Por localidade', m: mRows(mp.loc, mp.tot, 'Localidade') }, { n: 'Por posto administrativo', m: mRows(mp.posto, mp.tot, 'Posto administrativo') }, { n: 'Por distrito', m: mRows(mp.dist, mp.tot, 'Distrito') }, { n: 'Por província', m: mRows(mp.prov, mp.tot, 'Província') }, { n: 'Nacional', m: mRows([{ n: 'Nacional', o: mp.tot }], null, 'Nível') }, { n: 'Por escola', m: mRows(mp.esc, mp.tot, 'Escola') }, { n: 'Por classe', m: mRows(mp.cls, mp.tot, 'Classe') }, { n: 'Evolução trimestral', m: [['Escola', '1.º trim. (%)', '2.º trim. (%)', '3.º trim. (%)', 'Variação (p.p.)']].concat(ev.map(function (x) { return [x.n].concat(x.v.map(function (v) { return v === null ? '' : Math.round(v * 10) / 10; }), [x.df === null ? '' : x.df]); })) }]), 'mapas_distrito_' + U.ano + '_T' + U.tri + '_' + stamp() + '.xlsx'); }
             else if (a === 'msgRef') { CM.t = 0; CM.load = false; msgs(); }
             else if (a === 'msgEnv') {
                 var as = ($('#mg_ass').value || '').trim(), tx = ($('#mg_txt').value || '').trim(); if (!as || !tx) { toast('Preencha o assunto e a mensagem.'); return; }
@@ -10299,7 +10414,7 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
             var r = m.esc.filter(function (x) { return x.o.ava.HM > 0; }).sort(function (a, b) { return b.o.pAp.HM - a.o.pAp.HM; }), t = m.tot, ev = G.GE_evol();
             var concl = '<li>Foram compiladas ' + m.esc.length + ' escola(s), com ' + t.tot.HM + ' alunos matriculados (' + t.tot.M + ' raparigas).</li><li>Aproveitamento global: ' + pf1(t.pAp.HM) + '% (raparigas: ' + pf1(t.pAp.M) + '%). Desistência global: ' + pf1(t.pDes.HM) + '%.</li>' + (r.length > 1 ? '<li>Maior aproveitamento: ' + esc(r[0].n) + ' (' + pf1(r[0].o.pAp.HM) + '%). Menor: ' + esc(r[r.length - 1].n) + ' (' + pf1(r[r.length - 1].o.pAp.HM) + '%).</li>' : '');
             var ec = ev.length ? '<div style="font-weight:bold;margin:12px 0 4px">Evolução do aproveitamento por trimestre</div><table style="border-collapse:collapse;width:100%"><tr>' + ['Escola', '1.º trim.', '2.º trim.', '3.º trim.', 'Variação'].map(function (x) { return '<th style="' + st + ';background:#eee">' + x + '</th>'; }).join('') + '</tr>' + ev.map(function (x) { return '<tr><td style="' + st + ';text-align:left">' + esc(x.n) + '</td>' + x.v.map(function (v) { return '<td style="' + st + '">' + (v === null ? '—' : cP(v)) + '</td>'; }).join('') + '<td style="' + st + '">' + (x.df === null ? '—' : String(x.df).replace('.', ',') + ' p.p.') + '</td></tr>'; }).join('') + '</table>' : '';
-            printDoc('<div class="rt" style="font-family:Arial,sans-serif;font-size:11px;color:#000"><div style="text-align:center;font-weight:bold;line-height:1.35">REPÚBLICA DE MOÇAMBIQUE<br>' + esc(cab).replace(/\n/g, '<br>') + '</div><h2 style="text-align:center;margin:14px 0 2px">RELATÓRIO TRIMESTRAL DE ESTATÍSTICA ESCOLAR</h2><p style="text-align:center;margin:0 0 8px">' + U.tri + '.º Trimestre · Ano lectivo ' + esc(U.ano) + '</p>' + T('Por ZIP', m.zip) + T('Por distrito', m.dist) + T('Por escola', m.esc) + T('Por classe', m.cls) + ec + '<div style="font-weight:bold;margin:12px 0 4px">Conclusões</div><ul style="margin:0;padding-left:18px;line-height:1.6">' + concl + '</ul><div style="display:flex;justify-content:space-around;margin-top:40px;text-align:center"><div style="width:40%;border-top:1px solid #000;padding-top:4px">O Responsável<br><b>' + esc(SESSAO ? SESSAO.nome : '') + '</b></div><div style="width:40%;border-top:1px solid #000;padding-top:4px">Visto / Carimbo</div></div><div style="margin-top:12px;font-size:8px;color:#666;text-align:center">Emitido em ' + cD(Date.now()) + ' · Gestão Escolar 360°</div></div>', 'A4 landscape', '10mm', 'Folha A4 horizontal. Para PDF, escolha "Guardar como PDF".');
+            printDoc('<div class="rt" style="font-family:Arial,sans-serif;font-size:11px;color:#000"><div class="ge-cab" style="text-align:center;font-weight:bold;line-height:1.35">REPÚBLICA DE MOÇAMBIQUE<br>' + esc(cab).replace(/\n/g, '<br>') + '</div><h2 style="text-align:center;margin:14px 0 2px">RELATÓRIO TRIMESTRAL DE ESTATÍSTICA ESCOLAR</h2><p style="text-align:center;margin:0 0 8px">' + U.tri + '.º Trimestre · Ano lectivo ' + esc(U.ano) + '</p>' + T('Por ZIP', m.zip) + T('Por distrito', m.dist) + T('Por escola', m.esc) + T('Por classe', m.cls) + ec + '<div style="font-weight:bold;margin:12px 0 4px">Conclusões</div><ul style="margin:0;padding-left:18px;line-height:1.6">' + concl + '</ul><div style="display:flex;justify-content:space-around;margin-top:40px;text-align:center"><div style="width:40%;border-top:1px solid #000;padding-top:4px">O Responsável<br><b>' + esc(SESSAO ? SESSAO.nome : '') + '</b></div><div style="width:40%;border-top:1px solid #000;padding-top:4px">Visto / Carimbo</div></div><div style="margin-top:12px;font-size:8px;color:#666;text-align:center">Emitido em ' + cD(Date.now()) + ' · Gestão Escolar 360°</div></div>', 'A4 landscape', '10mm', 'Folha A4 horizontal. Para PDF, escolha "Guardar como PDF".');
         }
         /* 3. supervisor distrital (só leitura) */
         var SUP = { l: null };
@@ -10373,7 +10488,7 @@ html[data-theme="dark"] #gate#gate > .gb{box-shadow:0 22px 60px rgba(0,0,0,.6),0
                 return Promise.all([srvApi('GET', '/rest/v1/trimestres?select=*&' + q), srvApi('GET', '/rest/v1/submissoes?select=*&escola_id=eq.' + encodeURIComponent(SESSAO.escola_id) + '&' + q), srvApi('GET', '/rest/v1/conselho_turma?select=*&order=em.desc&escola_id=eq.' + encodeURIComponent(SESSAO.escola_id))]);
             }).then(function (rs) { TR.rows = (rs[0].ok && rs[0].j) || []; TR.sub = {}; ((rs[1].ok && rs[1].j) || []).forEach(function (x) { TR.sub[x.trimestre] = x; }); TR.con = (rs[2].ok && rs[2].j) || []; TR.t = Date.now(); }).catch(function () { TR.t = Date.now(); }).then(function () { TR.load = false; aplicar(); redo(); });
         }
-        setInterval(function () { if (sch() && Date.now() - TR.t > 120000) loadSch(); }, 4000);
+        setInterval(function () { if (sch() && Date.now() - TR.t > 120000) loadSch(); }, 8000); /* v5.22: 4s->8s, menos carga no servidor com muitas escolas ao mesmo tempo */
         /* bloqueio das células de nota */
         function aplicar() { if (!sch()) return; [].forEach.call(document.querySelectorAll('input[data-in="nota"]'), function (i) { var m = bloq(+String(i.dataset.t).slice(1)); if (m) { i.readOnly = true; i.title = m; i.style.opacity = '.55'; i.dataset.gl = '1'; } else if (i.dataset.gl) { i.readOnly = false; i.style.opacity = ''; i.title = ''; i.dataset.gl = ''; } }); }
         var tmo; new MutationObserver(function () { clearTimeout(tmo); tmo = setTimeout(aplicar, 60); }).observe(document.body, { childList: true, subtree: true });
@@ -11552,31 +11667,69 @@ function info(d){
 st.textContent+='#pdlg .pb{max-height:92vh;overflow:auto}#pdlg label.f{display:block;margin:8px 0 3px;font-weight:700;font-size:13px}'+
 '#pdlg select,#pdlg input[type=number]{width:100%;min-height:42px;border:1px solid #1F3864;border-radius:10px;padding:0 10px;font:15px system-ui,Arial,sans-serif;background:#fff;color:#111;box-sizing:border-box}'+
 '#pdlg .cu{display:none;gap:8px;margin-top:8px}#pdlg .cu input{flex:1}#pdlg .ck{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13.5px}#pdlg .ck input{width:20px;height:20px}'+
-'#pdlg .in{margin:8px 0 0;font-size:12.5px;color:#444}';
+'#pdlg .in{margin:8px 0 0;font-size:12.5px;color:#444}#pdlg input[type=text]{width:100%;min-height:42px;border:1px solid #1F3864;border-radius:10px;padding:0 10px;font:15px system-ui,Arial,sans-serif;background:#fff;color:#111;box-sizing:border-box}';
 window.addEventListener('afterprint',pgRepor);
+/* v5.28: opções de cabeçalho, assinaturas e data no painel de impressão (só aparecem se o documento as tiver) */
+function eh(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+var EX={orig:null,app:null};
+function paEl(){ return document.getElementById('printArea'); }
+function baseHtml(){ var pa=paEl(); if(!pa) return ''; if(EX.app!==null && EX.orig!==null && pa.innerHTML===EX.app) return EX.orig; EX.orig=pa.innerHTML; EX.app=null; return EX.orig; }
+function montarExtras(d){
+  var box=d.querySelector('#pd_ex'); if(!box) return;
+  var w=document.createElement('div'); w.innerHTML=baseHtml();
+  var temCab=!!w.querySelector('.ge-cab'), temAss=!!w.querySelector('.ge-ass'), h='';
+  if(temCab) h+='<label class="ck"><input type="checkbox" id="pd_cab" checked> Mostrar o cabeçalho oficial</label>';
+  if(temAss){
+    h+='<label class="ck"><input type="checkbox" id="pd_ass" checked> Mostrar assinaturas e data</label><div id="pd_assx"><label class="f" for="pd_dt">Local e data (vazio = fica para preencher à mão)</label><input type="text" id="pd_dt" placeholder="ex.: Mocuba, 21 de Novembro de 2026">';
+    var vistos={}, i=0; [].forEach.call(w.querySelectorAll('.ge-ass .ge-lb'),function(e){ var t=e.textContent.trim(); if(t && !vistos[t]){ vistos[t]=1; h+='<label class="f" for="pd_n'+i+'">Nome — '+eh(t)+' (vazio = como está)</label><input type="text" id="pd_n'+i+'" data-l="'+eh(t)+'">'; i++; } });
+    h+='</div>';
+  }
+  if(!temCab && !temAss) h='<div class="in">Este documento não tem cabeçalho nem assinaturas editáveis.</div>';
+  box.innerHTML=h;
+}
+function aplicarExtras(d){
+  var pa=paEl(); if(!pa) return; var q=function(i){ return d.querySelector('#'+i); };
+  if(!q('pd_cab') && !q('pd_ass')) return;
+  var w=document.createElement('div'); w.innerHTML=baseHtml();
+  if(q('pd_cab') && !q('pd_cab').checked) [].forEach.call(w.querySelectorAll('.ge-cab'),function(e){ e.parentNode.removeChild(e); });
+  if(q('pd_ass')){
+    if(!q('pd_ass').checked) [].forEach.call(w.querySelectorAll('.ge-ass'),function(e){ e.parentNode.removeChild(e); });
+    else {
+      var dt=(q('pd_dt').value||'').trim();
+      if(dt) [].forEach.call(w.querySelectorAll('.ge-ass .ge-dt'),function(e){ e.textContent='Local e data: '+dt; });
+      var nomes={}; [].forEach.call(d.querySelectorAll('#pd_assx input[data-l]'),function(i){ var v=(i.value||'').trim(); if(v) nomes[i.getAttribute('data-l')]=v; });
+      [].forEach.call(w.querySelectorAll('.ge-ass .ge-lb'),function(lb){ var v=nomes[lb.textContent.trim()]; if(!v) return; var nm=lb.parentNode.querySelector('.ge-nm'); if(nm) nm.textContent=v; else { nm=document.createElement('span'); nm.className='ge-nm'; nm.textContent=v; lb.parentNode.insertBefore(nm,lb); lb.parentNode.insertBefore(document.createElement('br'),lb); } });
+    }
+  }
+  pa.innerHTML=w.innerHTML; EX.app=pa.innerHTML;
+}
 function abrir(){
   fechar(); pgRepor();
   var d=document.createElement('div'); d.id='pdlg';
-  d.innerHTML='<div class="pb" role="dialog" aria-modal="true"><h3>Imprimir documento</h3><p>Escolha o papel e a orientação. Se a impressora não for detetada, descarregue o ficheiro e imprima mais tarde.</p>'+
+  d.innerHTML='<div class="pb" role="dialog" aria-modal="true"><h3>Imprimir documento</h3><p>Escolha o papel, a orientação e o que aparece no documento. Depois descarregue o PDF ou imprima.</p>'+
    '<label class="f" for="pd_pp">Tamanho do papel</label><select id="pd_pp"><option value="auto">Como o documento (automático)</option><option value="A3">A3 (297 × 420 mm)</option><option value="A4">A4 (210 × 297 mm)</option><option value="A5">A5 (148 × 210 mm)</option><option value="A6">A6 (105 × 148 mm)</option><option value="B4">B4 (250 × 353 mm)</option><option value="B5">B5 (176 × 250 mm)</option><option value="CARTA">Carta / Letter (216 × 279 mm)</option><option value="OFICIO">Ofício / Legal (216 × 356 mm)</option><option value="FOLIO">Fólio (210 × 330 mm)</option><option value="CUSTOM">Outro tamanho (escrever medidas)…</option></select>'+
    '<div class="cu" id="pd_cu"><input id="pd_w" type="number" inputmode="decimal" min="50" max="1500" step="any" placeholder="Largura (mm)" value="210"><input id="pd_h" type="number" inputmode="decimal" min="50" max="1500" step="any" placeholder="Altura (mm)" value="297"></div>'+
    '<label class="f" for="pd_or">Orientação da página</label><select id="pd_or"><option value="auto">Como o documento (automática)</option><option value="portrait">Vertical</option><option value="landscape">Horizontal</option></select>'+
    '<label class="ck"><input type="checkbox" id="pd_aj" checked> Ajustar o conteúdo à largura da folha</label><div class="in" id="pd_in"></div>'+
-   '<button class="p" data-a="imp">Imprimir / Guardar como PDF</button>'+
+   '<div id="pd_ex"></div>'+
+   '<button class="p" data-a="pdf">Descarregar PDF</button>'+
+   '<button data-a="imp">Imprimir</button>'+
    '<button data-a="html">Descarregar (abre em qualquer aparelho)</button>'+
    '<button data-a="doc">Descarregar em Word (.doc)</button>'+
    '<button data-a="x">Cancelar</button></div>';
-  var ch=function(){ info(d); }; d.addEventListener('change',ch); d.addEventListener('input',ch);
+  var ch=function(){ info(d); var a=d.querySelector('#pd_ass'), x=d.querySelector('#pd_assx'); if(a&&x) x.style.display=a.checked?'':'none'; }; d.addEventListener('change',ch); d.addEventListener('input',ch);
   d.addEventListener('click',function(e){
     var a=e.target&&e.target.getAttribute&&e.target.getAttribute('data-a');
     if(e.target===d||a==='x'){ fechar(); return; }
     if(!a) return;
     if(!aplicar(d)) return;
-    if(a==='imp'){ fechar(); setTimeout(function(){ try{ prev.call(window); }catch(x){ if(typeof toast==='function') toast('Impressão indisponível. Use Descarregar.'); abrir(); } },150); }
+    aplicarExtras(d);
+    if(a==='pdf'){ fechar(); setTimeout(function(){ try{ if(window.geGerarPDF) window.geGerarPDF(function(){ try{ prev.call(window); }catch(x){} }); else prev.call(window); }catch(x){ if(typeof toast==='function') toast('Não foi possível gerar o PDF. Use Imprimir.'); } },150); }
+    else if(a==='imp'){ fechar(); setTimeout(function(){ try{ prev.call(window); }catch(x){ if(typeof toast==='function') toast('Impressão indisponível. Use Descarregar.'); abrir(); } },150); }
     else if(a==='html'){ var h1=pagina(false); pgRepor(); baixar(new Blob([h1],{type:'text/html;charset=utf-8'}),nome()+'.html'); if(typeof toast==='function') toast('Documento descarregado.'); fechar(); }
     else if(a==='doc'){ var h2=pagina(true); pgRepor(); baixar(new Blob(['\ufeff'+h2],{type:'application/msword'}),nome()+'.doc'); if(typeof toast==='function') toast('Documento Word descarregado.'); fechar(); }
   });
-  document.body.appendChild(d); info(d);
+  document.body.appendChild(d); montarExtras(d); info(d);
 }
 window.print=function(){
   var pa=document.getElementById('printArea');
@@ -13376,6 +13529,7 @@ throw { msg: 'Não foi possível ler os dados das escolas. [' + dt(rs[0], 'escol
     var P = G.GE_pautas ? G.GE_pautas() : [], out = [];
     P.forEach(function (x) {
       var d = x.dados; if (!d) return;
+      if (G.GE_MM && G.GE_MM.permite && !G.GE_MM.permite(x.escola_id, d.classe)) return;
       if (AD.esc && x.escola_id !== AD.esc) return;
       if (AD.cl && String(d.classe) !== AD.cl) return;
       out.push({ eid: x.escola_id, escola: G.GE_escInfo(x.escola_id).nome, p: d, l: nomes(d, AD) });
@@ -13386,7 +13540,7 @@ throw { msg: 'Não foi possível ler os dados das escolas. [' + dt(rs[0], 'escol
   function vAlAdm() {
     if (!G.GE_pronto()) return G.GE_avis();
     var P = G.GE_pautas(), escs = {}, cl = {};
-    P.forEach(function (x) { escs[x.escola_id] = 1; if (x.dados) cl[x.dados.classe] = 1; });
+    P.forEach(function (x) { if (x.dados && G.GE_MM && G.GE_MM.permite && !G.GE_MM.permite(x.escola_id, x.dados.classe)) return; escs[x.escola_id] = 1; if (x.dados) cl[x.dados.classe] = 1; });
     if (AD.esc && !escs[AD.esc]) AD.esc = '';
     if (AD.cl && !cl[AD.cl]) AD.cl = '';
     var sel = function (id, opts, val) {
@@ -13949,6 +14103,7 @@ html:root:root #gate .gb{max-height:none!important;overflow:visible!important}
     var PAPEL = { A3: [297, 420], A4: [210, 297], A5: [148, 210], LETTER: [216, 279], LEGAL: [216, 356] }, PX = 96 / 25.4, ocupado = false;
     function pagina() {
         var e = document.getElementById('pgcss'), t = e ? e.textContent : '', m = /size:\s*([A-Za-z0-9]+)(?:\s+(landscape|portrait))?/i.exec(t), mg = /margin:\s*([\d.]+)\s*mm/i.exec(t);
+        var mm2 = /size:\s*([\d.]+)mm\s+([\d.]+)mm/i.exec(t); if (mm2) return { w: parseFloat(mm2[1]), h: parseFloat(mm2[2]), m: mg ? parseFloat(mg[1]) : 12 };
         var d = (m && PAPEL[m[1].toUpperCase()]) || PAPEL.A4, h = d[0], v = d[1];
         if (m && /landscape/i.test(m[2] || '')) { h = d[1]; v = d[0]; }
         return { w: h, h: v, m: mg ? parseFloat(mg[1]) : 12 };
@@ -14041,7 +14196,7 @@ html:root:root #gate .gb{max-height:none!important;overflow:visible!important}
         if (ocupado) return;
         var pa = document.getElementById('printArea');
         if (!pa || !pa.innerHTML.trim()) { return anterior.apply(window, arguments); }
-        gerar(function () { anterior.call(window); });
+        return anterior.apply(window, arguments);   /* v5.28: abre o painel de impressão (PDF ou Imprimir, papel, cabeçalho, assinaturas) */
     };
     window.geGerarPDF = gerar; window.gePdfTeste = { pagina: pagina, quebras: quebras, montarPDF: montarPDF };
 })();
@@ -14359,15 +14514,20 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
     /* ---------- painel do Administrador Geral ---------- */
     function vPainelAdm() {
         if (!G.GE_pronto || !G.GE_pronto()) return G.GE_avis ? G.GE_avis() : '';
-        var L = G.GE_pautas(), ctl = G.GE_ctl ? G.GE_ctl() : '';
+        var L = (G.GE_pautas() || []).filter(function (x) { return !(G.GE_MM && G.GE_MM.permite && x.dados && !G.GE_MM.permite(x.escola_id, x.dados.classe)); }), ctl = G.GE_ctl ? G.GE_ctl() : '';
         if (!L.length) return ctl + '<div class="bx mu">Sem pautas para o ano seleccionado.</div>';
         var info = {}; function inf(id) { return info[id] = info[id] || G.GE_escInfo(id); }
+        var geoC = {}; function gg(id) { return geoC[id] = geoC[id] || (G.GE_MM && G.GE_MM.geo ? G.GE_MM.geo(id) : { dist: 'Sem distrito', posto: 'Sem posto administrativo', loc: 'Sem localidade', prov: 'Sem província' }); }
+        function semN(x) { return /^Sem /.test(x) ? null : x; }
         var lista = L.map(function (x) { return { p: x.dados, escola: inf(x.escola_id).nome, id: x.escola_id }; });
         var pedido = G.GE_U && /^[123]/.test(String(G.GE_U.tri || '')) ? String(parseInt(G.GE_U.tri, 10)) : 'auto', R = refer(lista.map(function (x) { return x.p; }), pedido), tr = R.tri;
         var A = agrega(lista, function (it) { return it.id; }, tr), T = A.T;
         var AC = agrega(lista, function (it) { return it.p.classe; }, tr);
         var AD = agrega(lista, function (it) { return inf(it.id).dist; }, tr);
         var AZ = agrega(lista, function (it) { return inf(it.id).zip || null; }, tr);
+        var AL = agrega(lista, function (it) { var q = gg(it.id); return semN(q.loc) === null ? null : q.loc + ' (' + q.posto + ' · ' + q.dist + ')'; }, tr);
+        var AP = agrega(lista, function (it) { var q = gg(it.id); return semN(q.posto) === null ? null : q.posto + ' (' + q.dist + ')'; }, tr);
+        var AV = agrega(lista, function (it) { return semN(gg(it.id).prov); }, tr);
         var esc = Object.keys(A.G).map(function (id) { var o = A.G[id]; return { id: id, l: inf(id).nome, s: num(o.al) + ' alunos · ' + o.turmas + ' turmas', v: aprov(o), o: o }; }).sort(function (a, b) { return (b.v === null ? -1 : b.v) - (a.v === null ? -1 : a.v); });
         var al = [];
         esc.filter(function (e) { return e.v !== null && e.v < 50; }).slice(-6).reverse().forEach(function (e) { al.push({ t: 'no', h: '<em>' + X(e.l) + '</em>: aproveitamento de ' + f1(e.v) + '.' }); });
@@ -14383,7 +14543,7 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
             cartao('Escolas por aproveitamento', '<div class="gx-sc">' + hbars(esc, false) + '</div><p class="gx-n">Linha tracejada = 50%.</p>', true) +
             (evOk ? cartao('Evolução por trimestre (média das escolas)', linhas([{ n: 'Aproveitamento', c: 'var(--g-ok)', v: mv }, { n: 'Desistência', c: 'var(--g-de)', dash: 1, v: md }], ['1.º trim.', '2.º trim.', '3.º trim.'])) : '') +
             cartao('Homens e mulheres', genero(T)) +
-            grp(AD.G, 'Aproveitamento por distrito') + grp(AZ.G, 'Aproveitamento por ZIP') +
+            grp(AZ.G, 'Aproveitamento por ZIP') + grp(AL.G, 'Aproveitamento por localidade') + grp(AP.G, 'Aproveitamento por posto administrativo') + grp(AD.G, 'Aproveitamento por distrito') + grp(AV.G, 'Aproveitamento por província') +
             cartao('Escolas a acompanhar', alertas(al)) + '</div></section>';
     }
     function registaAdm() {
@@ -14404,15 +14564,25 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
     if (!(G.GE_V2 && G.GE_TABS && G.GE_pautas && G.GE_COLS && G.GE_cel && typeof cons !== 'undefined' && typeof consRender === 'function' && typeof estCalc === 'function' && typeof escSoma === 'function' && typeof printDoc === 'function')) return;
     if (G.GE_V2.mapaman) return;
     var KEY = 'ge360_mapaman', CL = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'], C1 = ['1', '2', '3'], C2 = ['4', '5', '6'], C3 = ['7', '8', '9'], C4 = ['10', '11', '12'];
-    var CICLOS = [['c1', 'I Ciclo — subtotal (1.ª–3.ª)', 'Ensino Primário · I Ciclo (1.ª–3.ª)', C1], ['c2', 'II Ciclo — subtotal (4.ª–6.ª)', 'Ensino Primário · II Ciclo (4.ª–6.ª)', C2], ['c3', 'I Ciclo ESG — subtotal (7.ª–9.ª)', 'Ensino Secundário · I Ciclo (7.ª–9.ª)', C3], ['c4', 'II Ciclo ESG — subtotal (10.ª–12.ª)', 'Ensino Secundário · II Ciclo (10.ª–12.ª)', C4]];
+    /* v5.26: tipo de escola, por escola — filtra as classes mostradas (pedido do utilizador). «Geral» mantém sempre 1.ª–12.ª */
+var TIPOS = [['geral', 'Geral (1.ª–12.ª)', ['c1', 'c2', 'c3', 'c4']], ['primaria', 'Escola Primária (1.ª–6.ª)', ['c1', 'c2']], ['basica', 'Escola Básica (1.ª–9.ª)', ['c1', 'c2', 'c3']], ['secundaria', 'Escola Secundária (7.ª–12.ª)', ['c3', 'c4']]];
+function ciclosDe(tipo) { var t = TIPOS.filter(function (x) { return x[0] === tipo; })[0]; return t ? t[2] : TIPOS[0][2]; }
+var CICLOS = [['c1', 'I Ciclo — subtotal (1.ª–3.ª)', 'Ensino Primário · I Ciclo (1.ª–3.ª)', C1], ['c2', 'II Ciclo — subtotal (4.ª–6.ª)', 'Ensino Primário · II Ciclo (4.ª–6.ª)', C2], ['c3', 'I Ciclo ESG — subtotal (7.ª–9.ª)', 'Ensino Secundário · I Ciclo (7.ª–9.ª)', C3], ['c4', 'II Ciclo ESG — subtotal (10.ª–12.ª)', 'Ensino Secundário · II Ciclo (10.ª–12.ª)', C4]];
     var NM = { '1': 'Primeira', '2': 'Segunda', '3': 'Terceira', '4': 'Quarta', '5': 'Quinta', '6': 'Sexta' };
     var CATS = [['inicio', 'Matriculados no início do trimestre'], ['novas', 'Novas entradas'], ['desist', 'Desistentes'], ['transf', 'Transferidos'], ['ppf', 'PPF / PDF'], ['anulou', 'Anulou matrícula'], ['faleceu', 'Falecidos'], ['avaliados', 'Alunos avaliados'], ['aprovados', 'Aprovados']];
-    var MM = { nivel: 'escola', esc: null, zip: null, dist: null, ab: null, add: false, ano: String(new Date().getFullYear()), tri: '1', sync: '', auto: {} };
+    var MM = { nivel: 'escola', esc: null, zip: null, dist: null, loc: null, posto: null, prov: null, ab: null, add: false, ano: String(new Date().getFullYear()), tri: '1', sync: '', auto: {} };
     function X(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
     function num(v) { var n = parseFloat(v); return isNaN(n) ? 0 : n; }
     function pc(a, b) { return b > 0 ? a / b * 100 : 0; }
-    function ld() { try { var v = JSON.parse(localStorage.getItem(KEY)); if (v && v.d && Array.isArray(v.escolas)) return v; } catch (e) { } return { v: 1, escolas: [], d: {} }; }
+    function migrarTipos(d) { var o = {}; Object.keys(d || {}).forEach(function (per) { Object.keys(d[per] || {}).forEach(function (id) { var e = d[per][id]; if (e && e.tipo && e.tipo !== 'geral' && (!o[id] || (e.t || 0) > o[id].t)) o[id] = { v: e.tipo, t: e.t || 0 }; }); }); return o; }
+    function ld() { try { var v = JSON.parse(localStorage.getItem(KEY)); if (v && v.d && Array.isArray(v.escolas)) { if (!v.tipos) v.tipos = migrarTipos(v.d); return v; } } catch (e) { } return { v: 1, escolas: [], d: {}, tipos: {} }; }
     var DB = ld();
+    /* v5.26b: o tipo de escola é guardado por escola (não por ano/trimestre) em DB.tipos */
+    var ID_OF = typeof WeakMap === 'function' ? new WeakMap() : null;
+    function marca(e, id) { if (ID_OF && e) ID_OF.set(e, id); return e; }
+    function tipoDe(id) { var x = DB.tipos && DB.tipos[id]; return x && x.v ? x.v : 'geral'; }
+    function clsDe(tipo) { var cp = ciclosDe(tipo), o = []; CICLOS.forEach(function (ci) { if (cp.indexOf(ci[0]) !== -1) ci[3].forEach(function (c) { o.push(c); }); }); return o; }
+    function permite(e, cn) { var id = ID_OF && ID_OF.get(e); return !id || clsDe(tipoDe(id)).indexOf(cn) !== -1; }
     function rAdmL() { try { return !!(SESSAO && SESSAO.perfil === 'admin_geral' && SESSAO.remoto && srvOn()); } catch (e) { return false; } }
     function pronto() { try { return !!(G.GE_pronto && G.GE_pronto()); } catch (e) { return false; } }
     function periodo() { var U = G.GE_U || {}; return pronto() ? { ano: String(U.ano || MM.ano), tri: String(U.tri || MM.tri) } : { ano: MM.ano, tri: MM.tri }; }
@@ -14438,11 +14608,14 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
             if (!S || !S.d) { if (DB.escolas.length || Object.keys(DB.d).length) envia(); return; }
             var mudou = false, falta = false, ids = {}; DB.escolas.forEach(function (e) { ids[e.id] = 1; });
             (S.escolas || []).forEach(function (e) { if (!ids[e.id]) { DB.escolas.push(e); mudou = true; } });
+            var St = S.tipos || migrarTipos(S.d); DB.tipos = DB.tipos || {};
+            Object.keys(St).forEach(function (id) { var s = St[id], l = DB.tipos[id]; if (!l || (s.t || 0) > (l.t || 0)) { DB.tipos[id] = s; mudou = true; } });
             Object.keys(S.d).forEach(function (per) {
                 DB.d[per] = DB.d[per] || {};
                 Object.keys(S.d[per]).forEach(function (id) { var s = S.d[per][id], l = DB.d[per][id]; if (!l || (s.t || 0) > (l.t || 0)) { DB.d[per][id] = s; mudou = true; } });
             });
             Object.keys(DB.d).forEach(function (per) { Object.keys(DB.d[per]).forEach(function (id) { var s = S.d[per] && S.d[per][id]; if (!s || (DB.d[per][id].t || 0) > (s.t || 0)) falta = true; }); });
+            Object.keys(DB.tipos).forEach(function (id) { var s = St[id]; if (!s || (DB.tipos[id].t || 0) > (s.t || 0)) falta = true; });
             if (mudou) { try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) { } if (CU.tab === 'mapaman') consRender(); }
             if (falta) envia(); else { MM.sync = 'ok'; pintaSync(); }
         });
@@ -14453,13 +14626,20 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
     function ensure(id) {
         var k = pkey(); DB.d[k] = DB.d[k] || {};
         var e = DB.d[k][id]; if (!e) { e = DB.d[k][id] = { c: {}, h: {}, t: 0 }; }
-        CL.forEach(function (cn) { e.c[cn] = e.c[cn] || blankC(); }); e.h = e.h || {}; return e;
+        CL.forEach(function (cn) { e.c[cn] = e.c[cn] || blankC(); }); e.h = e.h || {}; return marca(e, id);
     }
-    function peek(id) { var e = DB.d[pkey()] && DB.d[pkey()][id]; return e && e.c ? e : null; }
+    function peek(id) { var e = DB.d[pkey()] && DB.d[pkey()][id]; return e && e.c ? marca(e, id) : null; }
+    function lj(k) { try { var v = JSON.parse(localStorage.getItem(k)); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } }
+    function terr(id) { var k = 'S:' + id, T = lj('ge360_est_terr')[k] || {}, Lc = lj('ge360_est_loc')[k] || {}; return { prov: T.prov || Lc.prov || '', dist: T.dist || Lc.dist || '', posto: T.posto || Lc.posto || '', loc: T.loc || Lc.loc || '', zip: T.zip || Lc.zip || '' }; }
+    function norm(o) { return { zip: o.zip || 'Sem ZIP', dist: o.dist || 'Sem distrito', posto: o.posto || 'Sem posto administrativo', loc: o.loc || 'Sem localidade', prov: o.prov || 'Sem província' }; }
+    function geo(id) {   /* localização completa de uma escola do sistema; zip, distrito e província mantêm a prioridade já existente (ficha editada), posto e localidade vêm da Estatística */
+        var i = {}, t = terr(id); try { i = G.GE_escInfo(id) || {}; } catch (e) { }
+        return norm({ zip: i.zip || t.zip, dist: (i.dist && i.dist !== 'Sem distrito' ? i.dist : '') || t.dist, posto: t.posto, loc: t.loc, prov: (i.prov && i.prov !== 'Sem província' ? i.prov : '') || t.prov });
+    }
     function lista() {
         var out = [], n = (G.GE_CP && G.GE_CP.n) || {};
-        if (pronto()) Object.keys(n).forEach(function (id) { var i = G.GE_escInfo(id); out.push({ id: id, nome: i.nome, zip: i.zip || 'Sem ZIP', dist: i.dist || 'Sem distrito', sys: true }); });
-        DB.escolas.forEach(function (e) { out.push({ id: e.id, nome: e.nome, zip: e.zip || 'Sem ZIP', dist: e.dist || 'Sem distrito', sys: false }); });
+        if (pronto()) Object.keys(n).forEach(function (id) { var i = G.GE_escInfo(id), q = geo(id); out.push({ id: id, nome: i.nome, zip: q.zip, dist: q.dist, posto: q.posto, loc: q.loc, prov: q.prov, sys: true }); });
+        DB.escolas.forEach(function (e) { var q = norm(e); out.push({ id: e.id, nome: e.nome, zip: q.zip, dist: q.dist, posto: q.posto, loc: q.loc, prov: q.prov, sys: false }); });
         var zc = G.geZipCmp || function (a, b) { return String(a).localeCompare(String(b), 'pt', { numeric: true }); };
         return out.sort(function (a, b) { return a.dist.localeCompare(b.dist) || zc(a.zip, b.zip) || a.nome.localeCompare(b.nome); });
     }
@@ -14473,20 +14653,22 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
         return o;
     }
     function somaRaw(lista) {   /* lista de entradas {c:{cn:{..}}} -> {cn:{..somados}} */
-        var R = {}; CL.forEach(function (cn) { var d = blankC(); Object.keys(d).forEach(function (k) { var s = 0; lista.forEach(function (e) { if (e && e.c && e.c[cn]) s += num(e.c[cn][k]); }); d[k] = s; }); R[cn] = d; }); return R;
+        var R = {}; CL.forEach(function (cn) { var d = blankC(); Object.keys(d).forEach(function (k) { var s = 0; lista.forEach(function (e) { if (e && e.c && e.c[cn] && permite(e, cn)) s += num(e.c[cn][k]); }); d[k] = s; }); R[cn] = d; }); return R;
     }
-    function linhasClasse(R) {   /* devolve [{n, o, id}] com classes, 4 ciclos e total */
-        var O = {}, out = []; CL.forEach(function (cn) { O[cn] = toO(R[cn]); });
+    function linhasClasse(R, tipo) {   /* devolve [{n, o, id}] com as classes e ciclos do tipo de escola e o total */
+        var O = {}, out = [], cp = ciclosDe(tipo || 'geral'), cls = []; CL.forEach(function (cn) { O[cn] = toO(R[cn]); });
         function ciclo(ns) { return escSoma(ns.map(function (c) { return O[c]; })); }
         CICLOS.forEach(function (ci) {
-            ci[3].forEach(function (c) { out.push({ n: c + '.ª classe', o: O[c] }); });
+            if (cp.indexOf(ci[0]) === -1) return;
+            ci[3].forEach(function (c) { cls.push(c); out.push({ n: c + '.ª classe', o: O[c] }); });
             out.push({ n: ci[1].split(' — ')[0] + ' (' + ci[3][0] + '.ª–' + ci[3][2] + '.ª)', o: ciclo(ci[3]), sub: 1, id: ci[0] });
         });
-        out.push({ n: 'TOTAL', o: ciclo(CL), sub: 2, id: 'tot' }); return out;
+        out.push({ n: 'TOTAL', o: ciclo(cls), sub: 2, id: 'tot' }); return out;
     }
     function pick(L, id) { return L.filter(function (l) { return l.id === id; })[0].o; }
-    function cartoesCiclos(L, tit) {
-        return CICLOS.map(function (ci) { return cartaoSoma(ci[1], pick(L, ci[0])); }).join('') + cartaoSoma(tit, pick(L, 'tot'), 1);
+    function cartoesCiclos(L, tit, tipo) {
+        var cp = ciclosDe(tipo || 'geral');
+        return CICLOS.filter(function (ci) { return cp.indexOf(ci[0]) !== -1; }).map(function (ci) { return cartaoSoma(ci[1], pick(L, ci[0])); }).join('') + cartaoSoma(tit, pick(L, 'tot'), 1);
     }
     function totalDe(R) { return escSoma(CL.map(function (c) { return toO(R[c]); })); }
 
@@ -14505,19 +14687,36 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
     function f(v) { return (Math.round(v * 10) / 10).toString().replace('.', ',') + '%'; }
 
     /* ---------- vista ---------- */
+    /* v5.26b: níveis de soma — ZIP, Localidade, Posto administrativo, Distrito, Província e Nacional */
+    var NIVEIS = [['escola', 'Escola'], ['zip', 'ZIP'], ['loc', 'Localidade'], ['posto', 'Posto adm.'], ['dist', 'Distrito'], ['prov', 'Província'], ['nac', 'Nacional']];
+    var SUBN = { zip: 'escola', loc: 'zip', posto: 'loc', dist: 'posto', prov: 'dist', nac: 'prov' };
+    var ROTN = { escola: 'Escola', zip: 'ZIP', loc: 'Localidade', posto: 'Posto administrativo', dist: 'Distrito', prov: 'Província' };
+    var TITN = { zip: 'Geral da ZIP', loc: 'Geral da Localidade', posto: 'Geral do Posto Administrativo', dist: 'Geral do Distrito', prov: 'Geral da Província', nac: 'Geral Nacional' };
+    var SIG = { zip: ['O(A) Chefe da ZIP', 'O(A) Director(a) do SDEJT'], loc: ['O(A) Chefe da Localidade', 'O(A) Director(a) do SDEJT'], posto: ['O(A) Chefe do Posto Administrativo', 'O(A) Director(a) do SDEJT'], dist: ['O(A) Chefe da Repartição de Educação Geral', 'O(A) Director(a) do SDEJT'], prov: ['O(A) Director(a) Provincial de Educação', ''], nac: ['O(A) Responsável pela consolidação', ''] };
+    function vz(x) { return /^Sem /.test(x || '') ? '' : (x || ''); }
+    function chave(e, nv) { return nv === 'zip' ? e.zip : nv === 'loc' ? [e.dist, e.posto, e.loc].join('¦') : nv === 'posto' ? [e.dist, e.posto].join('¦') : nv === 'dist' ? e.dist : nv === 'prov' ? e.prov : ''; }
+    function rot1(e, nv) { return nv === 'zip' ? lz(e.zip) : nv === 'loc' ? e.loc : nv === 'posto' ? e.posto : nv === 'dist' ? e.dist : nv === 'prov' ? e.prov : ''; }
+    function rotSel(e, nv) { var pai = (nv === 'loc' ? [e.posto, e.dist] : nv === 'posto' ? [e.dist] : []).filter(function (x) { return !/^Sem /.test(x); }); return rot1(e, nv) + (pai.length ? ' (' + pai.join(' · ') + ')' : ''); }
+    function opcoes(L, nv) { var vistos = {}, o = []; L.forEach(function (e) { var k = chave(e, nv); if (!vistos[k]) { vistos[k] = 1; o.push({ k: k, l: rotSel(e, nv) }); } }); return o; }
+    function tituloNv(nv, e) {
+        var nm = rot1(e, nv), sem = /^Sem /.test(nm);
+        return nv === 'zip' ? 'Geral da ' + lz(e.zip).replace(/^Sem ZIP$/, 'ZIP (sem número)') : nv === 'loc' ? 'Geral da ' + (sem ? 'Localidade não indicada' : 'Localidade de ' + nm) : nv === 'posto' ? 'Geral do ' + (sem ? 'Posto Administrativo não indicado' : 'Posto Administrativo de ' + nm) : nv === 'dist' ? 'Geral do ' + lds(e.dist) : 'Geral da ' + (sem ? 'Província não indicada' : 'Província de ' + nm);
+    }
     function seleccao(L) {
-        var zips = uniq(L, 'zip'), dists = uniq(L, 'dist');
+        var S = { zips: uniq(L, 'zip'), dists: uniq(L, 'dist'), opc: {} };
         if (!MM.esc || !L.some(function (e) { return e.id === MM.esc; })) MM.esc = L.length ? L[0].id : null;
-        if (!MM.zip || zips.indexOf(MM.zip) < 0) MM.zip = zips[0] || null;
-        if (!MM.dist || dists.indexOf(MM.dist) < 0) MM.dist = dists[0] || null;
-        return { zips: zips, dists: dists };
+        ['zip', 'loc', 'posto', 'dist', 'prov'].forEach(function (nv) {
+            var o = opcoes(L, nv); if (nv === 'loc' || nv === 'posto' || nv === 'prov') o.sort(function (a, b) { return a.l.localeCompare(b.l, 'pt', { numeric: true }); });
+            S.opc[nv] = o; if (!MM[nv] || !o.some(function (x) { return x.k === MM[nv]; })) MM[nv] = o[0] ? o[0].k : null;
+        });
+        return S;
     }
     function cabec() {
         var p = periodo(), h = '';
         if (pronto() && G.GE_ctl) h += G.GE_ctl();
         else h += '<div class="bx" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><label>Ano lectivo <input type="number" data-mm="ano" value="' + X(MM.ano) + '" style="width:90px"></label><label>Trimestre <select data-mm="tri">' + ['1', '2', '3'].map(function (t) { return '<option value="' + t + '"' + (MM.tri === t ? ' selected' : '') + '>' + t + '.º</option>'; }).join('') + '</select></label></div>';
-        return h + '<section class="gx mm"><div class="gx-h"><h2>Mapa de aproveitamento pedagógico</h2><p>' + p.tri + '.º trimestre de ' + X(p.ano) + '. Preencha por escola; os mapas da ZIP e do distrito somam-se sozinhos.</p></div>' +
-            '<div class="gx-sg" role="group">' + [['escola', 'Escola'], ['zip', 'Geral da ZIP'], ['dist', 'Geral do Distrito']].map(function (n) { return '<button type="button" class="' + (MM.nivel === n[0] ? 'on' : '') + '" data-mm="nivel" data-v="' + n[0] + '">' + n[1] + '</button>'; }).join('') + '</div>';
+        return h + '<section class="gx mm"><div class="gx-h"><h2>Mapa de aproveitamento pedagógico</h2><p>' + p.tri + '.º trimestre de ' + X(p.ano) + '. Preencha por escola; os mapas de cada nível (ZIP, localidade, posto administrativo, distrito, província e nacional) somam-se sozinhos.</p></div>' +
+            '<div class="gx-sg" role="group">' + NIVEIS.map(function (n) { return '<button type="button" class="' + (MM.nivel === n[0] ? 'on' : '') + '" data-mm="nivel" data-v="' + n[0] + '">' + n[1] + '</button>'; }).join('') + '</div>';
     }
     function inputs(cn, cd) {
         return CATS.map(function (c) {
@@ -14529,8 +14728,8 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
         var o = toO(cd); return '<div class="mm-bx"><span>Total (matrícula + novas)</span><b>' + o.tot.HM + ' · ' + o.tot.M + '</b><span>Fim do trimestre</span><b' + (o.fim.HM < 0 ? ' style="color:var(--g-no)"' : '') + '>' + o.fim.HM + ' · ' + o.fim.M + '</b><span>% Aprovados</span><b>' + f(o.pAp.HM) + ' · ' + f(o.pAp.M) + '</b><span>% Desistentes</span><b>' + f(o.pDes.HM) + ' · ' + f(o.pDes.M) + '</b></div><div class="gx-n">Formato: total (HM) · raparigas (M).</div>';
     }
     function resumoEscola(id) {
-        var e = peek(id), R = somaRaw(e ? [e] : []), L = linhasClasse(R);
-        return cartoesCiclos(L, 'Total geral da escola');
+        var e = peek(id), tp = tipoDe(id), R = somaRaw(e ? [e] : []), L = linhasClasse(R, tp);
+        return cartoesCiclos(L, 'Total geral da escola', tp);
     }
     function vEscola(L, S) {
         var h = '';
@@ -14539,9 +14738,11 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
         h += '<div class="mm-bar"><select data-mm="esc" aria-label="Escola">' + S.zips.map(function (z) { return '<optgroup label="' + X(lz(z)) + '">' + L.filter(function (e) { return e.zip === z; }).map(function (e) { return '<option value="' + X(e.id) + '"' + (e.id === MM.esc ? ' selected' : '') + '>' + X(e.nome) + '</option>'; }).join('') + '</optgroup>'; }).join('') + '</select><button type="button" class="btn" data-mm="addtoggle">+ Adicionar escola</button></div>' + (MM.add ? formAdd(S) : '');
         var semDados = !peek(sc.id), e = ensure(sc.id), meta = '';
         if (sc.sys && semDados && !MM.auto[pkey() + '|' + sc.id]) { MM.auto[pkey() + '|' + sc.id] = 1; var idAuto = sc.id; setTimeout(function () { if (ativo() && MM.esc === idAuto && MM.nivel === 'escola') daPautas(true); }, 0); }
-        if (!sc.sys) meta = '<div class="gx-c mm-meta"><div class="mm-2"><label>Nome da escola<input type="text" data-mm="meta" data-f="nome" value="' + X(sc.nome) + '"></label><label>ZIP<input type="text" data-mm="meta" data-f="zip" value="' + X(sc.zip === 'Sem ZIP' ? '' : sc.zip) + '"></label></div><label style="display:block;margin-top:6px">Distrito<input type="text" data-mm="meta" data-f="dist" value="' + X(sc.dist === 'Sem distrito' ? '' : sc.dist) + '"></label><button type="button" class="btn" data-mm="rm" style="margin-top:8px;color:var(--g-no)">Remover esta escola</button></div>';
-        else meta = '<div class="gx-c mm-meta"><b>' + X(sc.nome) + '</b> <span class="mu sm">· ZIP ' + X(sc.zip) + ' · ' + X(sc.dist) + '</span><div style="margin-top:8px"><button type="button" class="btn" data-mm="pautas">Preencher a partir das pautas</button></div><div class="gx-n">Preenche as 9 categorias de cada classe (1.ª a 12.ª) com os dados já lançados nas pautas deste trimestre. Faz-se sozinho na primeira abertura; pode corrigir à mão depois.</div></div>';
-        h += meta + CICLOS.map(function (ci) { return '<div class="gx-sub">' + X(ci[2]) + '</div>' + ci[3].map(function (cn) { return card(cn, e); }).join(''); }).join('') +
+        if (!sc.sys) meta = '<div class="gx-c mm-meta"><div class="mm-2"><label>Nome da escola<input type="text" data-mm="meta" data-f="nome" value="' + X(sc.nome) + '"></label><label>ZIP<input type="text" data-mm="meta" data-f="zip" value="' + X(sc.zip === 'Sem ZIP' ? '' : sc.zip) + '"></label></div><label style="display:block;margin-top:6px">Distrito<input type="text" data-mm="meta" data-f="dist" value="' + X(vz(sc.dist)) + '"></label><div class="mm-2" style="margin-top:6px"><label>Localidade<input type="text" data-mm="meta" data-f="loc" value="' + X(vz(sc.loc)) + '"></label><label>Posto administrativo<input type="text" data-mm="meta" data-f="posto" value="' + X(vz(sc.posto)) + '"></label></div><label style="display:block;margin-top:6px">Província<input type="text" data-mm="meta" data-f="prov" value="' + X(vz(sc.prov)) + '"></label><button type="button" class="btn" data-mm="rm" style="margin-top:8px;color:var(--g-no)">Remover esta escola</button></div>';
+        else meta = '<div class="gx-c mm-meta"><b>' + X(sc.nome) + '</b> <span class="mu sm">· ZIP ' + X(sc.zip) + ' · ' + X(sc.dist) + ' · ' + X(sc.loc) + ' · ' + X(sc.posto) + ' · ' + X(sc.prov) + '</span>' + ([sc.loc, sc.posto, sc.prov, sc.dist, sc.zip].some(function (x) { return /^Sem /.test(x); }) ? '<div class="gx-n">Os dados «Sem …» preenchem-se em «Estatística geral» (localização da escola); só então entram nos mapas por localidade, posto, distrito e província.</div>' : '') +
+'<label style="display:block;margin-top:8px">Tipo de escola (filtra as classes mostradas)<select data-mm="tipo">' + TIPOS.map(function (ti) { return '<option value="' + ti[0] + '"' + (ti[0] === tipoDe(sc.id) ? ' selected' : '') + '>' + X(ti[1]) + '</option>'; }).join('') + '</select></label>' +
+'<div style="margin-top:8px"><button type="button" class="btn" data-mm="pautas">Preencher a partir das pautas</button></div><div class="gx-n">Preenche as 9 categorias de cada classe com os dados já lançados nas pautas deste trimestre. Faz-se sozinho na primeira abertura; pode corrigir à mão depois.</div></div>';
+        var cicPermitidos = ciclosDe(tipoDe(sc.id)); h += meta + CICLOS.filter(function (ci) { return cicPermitidos.indexOf(ci[0]) !== -1; }).map(function (ci) { return '<div class="gx-sub">' + X(ci[2]) + '</div>' + ci[3].map(function (cn) { return card(cn, e); }).join(''); }).join('') +
             '<div id="mm-res" style="margin-top:10px">' + resumoEscola(sc.id) + '</div>' +
             '<div class="gx-c" style="margin-top:10px"><h3>Assinaturas</h3><div class="mm-2"><label>Director(a) da escola<input type="text" data-mm="hd" data-f="dir" value="' + X(e.h.dir || '') + '"></label><label>Contacto<input type="text" data-mm="hd" data-f="dirCt" value="' + X(e.h.dirCt || '') + '"></label></div><div class="mm-2" style="margin-top:6px"><label>Director(a) adjunto(a)<input type="text" data-mm="hd" data-f="adj" value="' + X(e.h.adj || '') + '"></label><label>Contacto<input type="text" data-mm="hd" data-f="adjCt" value="' + X(e.h.adjCt || '') + '"></label></div><div class="mm-2" style="margin-top:6px"><label>Local<input type="text" data-mm="hd" data-f="loc" value="' + X(e.h.loc || 'Mocuba') + '"></label><label>Data (dia e mês)<input type="text" data-mm="hd" data-f="dat" value="' + X(e.h.dat || '') + '" placeholder="ex.: 31 de Outubro"></label></div></div>' +
             '<div style="margin:12px 0"><button type="button" class="btn" data-mm="print">Imprimir mapa da escola</button> <button type="button" class="btn" data-mm="limpar" style="color:var(--g-no)">Limpar dados desta escola</button></div>';
@@ -14553,21 +14754,30 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
     }
     function briefT(o) { return 'Fim do trimestre: ' + o.fim.HM + ' alunos (' + o.fim.M + ' raparigas)'; }
     function formAdd(S) {
-        return '<div class="gx-c mm-meta" style="margin:8px 0"><h3>Adicionar escola sem conta no sistema</h3><label style="display:block">Nome da escola<input type="text" id="mm-an" placeholder="Nome da escola"></label><div class="mm-2" style="margin-top:6px"><label>ZIP<input type="text" id="mm-az" placeholder="ex.: 21 Cruzeiro" value="' + X(MM.zip && MM.zip !== 'Sem ZIP' ? MM.zip : '') + '"></label><label>Distrito<input type="text" id="mm-ad" value="' + X(MM.dist && MM.dist !== 'Sem distrito' ? MM.dist : 'Mocuba') + '"></label></div><div style="margin-top:8px"><button type="button" class="btn primary" data-mm="addok">Guardar escola</button></div></div>';
+        return '<div class="gx-c mm-meta" style="margin:8px 0"><h3>Adicionar escola sem conta no sistema</h3><label style="display:block">Nome da escola<input type="text" id="mm-an" placeholder="Nome da escola"></label><div class="mm-2" style="margin-top:6px"><label>ZIP<input type="text" id="mm-az" placeholder="ex.: 21 Cruzeiro" value="' + X(MM.zip && MM.zip !== 'Sem ZIP' ? MM.zip : '') + '"></label><label>Distrito<input type="text" id="mm-ad" value="' + X(MM.dist && MM.dist !== 'Sem distrito' ? MM.dist : 'Mocuba') + '"></label></div><div class="mm-2" style="margin-top:6px"><label>Localidade<input type="text" id="mm-al"></label><label>Posto administrativo<input type="text" id="mm-ap"></label></div><label style="display:block;margin-top:6px">Província<input type="text" id="mm-apv"></label><div style="margin-top:8px"><button type="button" class="btn primary" data-mm="addok">Guardar escola</button></div></div>';
     }
     function vAgregado(L, S, nivel) {
-        var h = '', sel, esc, grupos, rot, titulo;
+        var h = '', sel = '', esc, grupos, titulo;
         if (!L.length) return '<div class="gx-c"><div class="gx-em">Ainda não há escolas para somar. Adicione ou carregue as escolas no separador «Escola».</div></div>';
-        if (nivel === 'zip') { sel = '<select data-mm="zip" aria-label="ZIP">' + S.zips.map(function (z) { return '<option value="' + X(z) + '"' + (z === MM.zip ? ' selected' : '') + '>' + X(lz(z)) + '</option>'; }).join('') + '</select>'; esc = L.filter(function (e) { return e.zip === MM.zip; }); rot = 'Escola'; grupos = esc.map(function (e) { return { n: e.nome, es: [peek(e.id)] }; }); titulo = 'Geral da ' + lz(MM.zip).replace(/^Sem ZIP$/, 'ZIP (sem número)'); }
-        else { sel = '<select data-mm="dist" aria-label="Distrito">' + S.dists.map(function (z) { return '<option value="' + X(z) + '"' + (z === MM.dist ? ' selected' : '') + '>' + X(lds(z)) + '</option>'; }).join('') + '</select>'; esc = L.filter(function (e) { return e.dist === MM.dist; }); rot = 'ZIP'; var zs = uniq(esc, 'zip'); grupos = zs.map(function (z) { return { n: lz(z), es: esc.filter(function (e) { return e.zip === z; }).map(function (e) { return peek(e.id); }) }; }); titulo = 'Geral do ' + lds(MM.dist).replace(/^Distrito não indicado$/, 'distrito (não indicado)'); }
+        if (nivel === 'nac') { esc = L; titulo = 'Geral Nacional'; }
+        else {
+            sel = '<select data-mm="' + nivel + '" aria-label="' + X(ROTN[nivel]) + '">' + S.opc[nivel].map(function (o) { return '<option value="' + X(o.k) + '"' + (o.k === MM[nivel] ? ' selected' : '') + '>' + X(nivel === 'zip' ? lz(o.k) : nivel === 'dist' ? lds(o.k) : o.l) + '</option>'; }).join('') + '</select>';
+            esc = L.filter(function (e) { return chave(e, nivel) === MM[nivel]; }); titulo = tituloNv(nivel, esc[0]);
+        }
+        var sub = SUBN[nivel], rot = ROTN[sub], por = sub === 'zip' ? 'ZIP' : rot.toLowerCase();
+        if (sub === 'escola') grupos = esc.map(function (e) { return { n: e.nome, es: [peek(e.id)] }; });
+        else {
+            grupos = opcoes(esc, sub).map(function (o) { var es = esc.filter(function (e) { return chave(e, sub) === o.k; }); return { n: rot1(es[0], sub), es: es.map(function (e) { return peek(e.id); }) }; });
+            if (sub !== 'zip') grupos.sort(function (a, b) { return a.n.localeCompare(b.n, 'pt', { numeric: true }); });
+        }
         var todos = []; grupos.forEach(function (g) { g.es.forEach(function (e) { if (e) todos.push(e); }); });
         var com = esc.filter(function (e) { return peek(e.id); }).length, R = somaRaw(todos), LC = linhasClasse(R);
         var gl = grupos.map(function (g) { var Rg = somaRaw(g.es.filter(Boolean)); return { n: g.n, o: totalDe(Rg) }; }); gl.push({ n: 'TOTAL', o: totalDe(R), sub: 2 });
-        MM.cache = { titulo: titulo, rot: rot, gl: gl, LC: LC, nivel: nivel, n: esc.length };
+        MM.cache = { titulo: titulo, rot: rot, por: por, gl: gl, LC: LC, nivel: nivel, n: esc.length, tit: TITN[nivel], ente: nivel === 'nac' ? 'Nacional' : titulo.replace(/^Geral d[ao] /, ''), dist: esc[0] ? esc[0].dist : MM.dist };
         h += '<div class="mm-bar">' + sel + '</div><div class="gx-n" style="margin:6px 0">' + com + ' de ' + esc.length + ' escola(s) com dados preenchidos neste período.' + (com < esc.length ? ' As restantes entram com zeros.' : '') + '</div>';
         h += cartoesCiclos(LC, 'Total geral — ' + titulo);
-        h += '<div class="gx-sub">Por ' + (nivel === 'zip' ? 'escola' : 'ZIP') + '</div>' + tabela(rot, gl) + '<div class="gx-sub">Por classe e ciclo</div>' + tabela('Classe', LC);
-        h += '<div style="margin:12px 0"><button type="button" class="btn" data-mm="print">Imprimir ' + (nivel === 'zip' ? 'mapa da ZIP' : 'mapa do distrito') + '</button></div>';
+        h += '<div class="gx-sub">Por ' + por + '</div>' + tabela(rot, gl) + '<div class="gx-sub">Por classe e ciclo</div>' + tabela('Classe', LC);
+        h += '<div style="margin:12px 0"><button type="button" class="btn" data-mm="print">Imprimir este mapa</button></div>';
         return h;
     }
     function vMapaman() {
@@ -14578,9 +14788,11 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
     }
 
     /* ---------- impressão ---------- */
-    function cabecalho(dist) {
+    function cabecalho(dist, nv) {
+        if (nv === 'nac') return '<div class="ge-cab" style="text-align:center;font-size:10px;line-height:1.5"><div>REPÚBLICA DE MOÇAMBIQUE</div></div>';
+        if (nv === 'prov') return '<div class="ge-cab" style="text-align:center;font-size:10px;line-height:1.5"><div>REPÚBLICA DE MOÇAMBIQUE</div><div>' + X((MM.cache ? MM.cache.ente : '').toUpperCase()) + '</div></div>';
         var d = (dist && dist !== 'Sem distrito' ? dist : 'Mocuba').toUpperCase();
-        return '<div style="text-align:center;font-size:10px;line-height:1.5"><div>REPÚBLICA DE MOÇAMBIQUE</div><div>GOVERNO DO DISTRITO DE ' + X(d) + '</div><div>SERVIÇO DISTRITAL DE EDUCAÇÃO, JUVENTUDE E TECNOLOGIA</div><div>REPARTIÇÃO DE EDUCAÇÃO GERAL</div></div>';
+        return '<div class="ge-cab" style="text-align:center;font-size:10px;line-height:1.5"><div>REPÚBLICA DE MOÇAMBIQUE</div><div>GOVERNO DO DISTRITO DE ' + X(d) + '</div><div>SERVIÇO DISTRITAL DE EDUCAÇÃO, JUVENTUDE E TECNOLOGIA</div><div>REPARTIÇÃO DE EDUCAÇÃO GERAL</div></div>';
     }
     function tabPrint(rot, linhas) {
         var st = 'border:1px solid #000;padding:3px 4px;font-size:9px;text-align:center', C = G.GE_COLS;
@@ -14589,17 +14801,18 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
     function imprimir() {
         var p = periodo(), L = lista(), html, ass, tit, ente, dist = MM.dist;
         if (MM.nivel === 'escola') {
-            var sc = L.filter(function (e) { return e.id === MM.esc; })[0]; if (!sc) return; var e = ensure(sc.id), LC = linhasClasse(somaRaw([e]));
+            var sc = L.filter(function (e) { return e.id === MM.esc; })[0]; if (!sc) return; var e = ensure(sc.id), LC = linhasClasse(somaRaw([e]), tipoDe(sc.id));
             tit = 'Mapa de Aproveitamento Pedagógico'; ente = sc.nome + ' · ' + lz(sc.zip); dist = sc.dist;
             html = tabPrint('Classe', LC);
             ass = '<div style="margin-top:28px;font-size:10px">' + X(e.h.loc || 'Mocuba') + ', ' + X(e.h.dat || '____ de ______________') + ' de ' + X(p.ano) + '</div><div style="display:flex;justify-content:space-around;margin-top:30px;font-size:10px;text-align:center"><div>O(A) Director(a) da Escola<br><br>______________________________<br>' + X(e.h.dir || '') + '<br>' + X(e.h.dirCt ? 'Cont.: ' + e.h.dirCt : '') + '</div><div>O(A) Director(a) Adjunto(a)<br><br>______________________________<br>' + X(e.h.adj || '') + '<br>' + X(e.h.adjCt ? 'Cont.: ' + e.h.adjCt : '') + '</div></div>';
         } else if (MM.cache) {
-            var c = MM.cache; tit = 'Mapa de Aproveitamento Pedagógico — ' + (c.nivel === 'zip' ? 'Geral da ZIP' : 'Geral do Distrito'); ente = c.titulo.replace(/^Geral d[ao] /, '');
-            html = '<div style="font-weight:bold;margin:8px 0 2px;font-size:10px">Por ' + (c.nivel === 'zip' ? 'escola' : 'ZIP') + '</div>' + tabPrint(c.rot, c.gl) + '<div style="font-weight:bold;margin:10px 0 2px;font-size:10px">Por classe e ciclo</div>' + tabPrint('Classe', c.LC);
-            ass = '<div style="margin-top:28px;font-size:10px">Mocuba, ____ de ______________ de ' + X(p.ano) + '</div><div style="display:flex;justify-content:space-around;margin-top:30px;font-size:10px;text-align:center"><div>' + (c.nivel === 'zip' ? 'O(A) Chefe da ZIP' : 'O(A) Chefe da Repartição de Educação Geral') + '<br><br>______________________________</div><div>O(A) Director(a) do SDEJT<br><br>______________________________</div></div>';
+            var c = MM.cache; dist = c.dist; tit = 'Mapa de Aproveitamento Pedagógico — ' + c.tit; ente = c.ente;
+            html = '<div style="font-weight:bold;margin:8px 0 2px;font-size:10px">Por ' + c.por + '</div>' + tabPrint(c.rot, c.gl) + '<div style="font-weight:bold;margin:10px 0 2px;font-size:10px">Por classe e ciclo</div>' + tabPrint('Classe', c.LC);
+            var sg = SIG[c.nivel] || SIG.dist;
+            ass = '<div style="margin-top:28px;font-size:10px">Mocuba, ____ de ______________ de ' + X(p.ano) + '</div><div style="display:flex;justify-content:space-around;margin-top:30px;font-size:10px;text-align:center"><div>' + sg[0] + '<br><br>______________________________</div>' + (sg[1] ? '<div>' + sg[1] + '<br><br>______________________________</div>' : '') + '</div>';
         } else return;
         var leg = '<div style="font-size:8.5px;margin-top:8px">M – Mulheres; HM – Total (homens e mulheres). Total = Matriculados + Novas entradas. Fim do trimestre = Total – Desistentes – Transferidos – PPF/PDF – Anulou matrícula – Falecidos. % Aprovados = Aprovados ÷ Avaliados × 100. % Desistentes = Desistentes ÷ Total × 100.</div>';
-        printDoc('<div style="font-family:Arial,sans-serif;color:#000">' + cabecalho(dist) + '<div style="text-align:center;font-weight:bold;font-size:13px;margin-top:10px"><u>' + X(tit) + '</u></div><div style="text-align:center;font-size:11px;margin:2px 0 6px">' + X(ente) + ' · ' + p.tri + '.º Trimestre de ' + X(p.ano) + '</div>' + html + leg + ass + '</div>', 'A4 landscape', '10mm', 'Folha A4 horizontal. Para PDF, escolha "Guardar como PDF".');
+        printDoc('<div style="font-family:Arial,sans-serif;color:#000">' + cabecalho(dist, MM.nivel === 'escola' ? 'escola' : (MM.cache && MM.cache.nivel)) + '<div style="text-align:center;font-weight:bold;font-size:13px;margin-top:10px"><u>' + X(tit) + '</u></div><div style="text-align:center;font-size:11px;margin:2px 0 6px">' + X(ente) + ' · ' + p.tri + '.º Trimestre de ' + X(p.ano) + '</div>' + html + leg + ass + '</div>', 'A4 landscape', '10mm', 'Folha A4 horizontal. Para PDF, escolha "Guardar como PDF".');
     }
 
     /* ---------- preencher a partir das pautas ---------- */
@@ -14633,7 +14846,8 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
             var par = kk.slice(0, kk.lastIndexOf('_')), bad = num(e.c[cn][par + '_m']) > num(e.c[cn][par + '_hm']) && e.c[cn][par + '_hm'] !== '';
             [par + '_m', par + '_hm'].forEach(function (q) { var el = cons.querySelector('[data-cn="' + cn + '"][data-k="' + q + '"]'); if (el) el.classList.toggle('bad', bad); });
             repinta(cn); guardar();
-        } else if (k === 'hd') { var e2 = ensure(MM.esc); e2.h[t.getAttribute('data-f')] = t.value; e2.t = Date.now(); guardar(); }
+        } else if (k === 'tipo') { DB.tipos = DB.tipos || {}; DB.tipos[MM.esc] = { v: t.value, t: Date.now() }; guardar(); consRender(); }
+        else if (k === 'hd') { var e2 = ensure(MM.esc); e2.h[t.getAttribute('data-f')] = t.value; e2.t = Date.now(); guardar(); }
         else if (k === 'meta') { var s = DB.escolas.filter(function (x) { return x.id === MM.esc; })[0]; if (s) { s[t.getAttribute('data-f')] = t.value; guardar(); } }
         else if (k === 'ano') { MM.ano = t.value || MM.ano; }
     });
@@ -14642,6 +14856,7 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
         if (k === 'esc') { MM.esc = t.value; MM.ab = null; consRender(); }
         else if (k === 'zip') { MM.zip = t.value; consRender(); }
         else if (k === 'dist') { MM.dist = t.value; consRender(); }
+        else if (k === 'loc' || k === 'posto' || k === 'prov') { MM[k] = t.value; consRender(); }
         else if (k === 'tri') { MM.tri = t.value; consRender(); }
         else if (k === 'ano') { MM.ano = t.value || MM.ano; consRender(); }
         else if (k === 'meta') consRender();
@@ -14652,7 +14867,7 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
         else if (k === 'addtoggle') { MM.add = !MM.add; consRender(); }
         else if (k === 'addok') {
             var n = (document.getElementById('mm-an').value || '').trim(); if (n.length < 2) { try { toast('Escreva o nome da escola.'); } catch (x) { } return; }
-            var id = 'm_' + Date.now().toString(36); DB.escolas.push({ id: id, nome: n, zip: (document.getElementById('mm-az').value || '').trim(), dist: (document.getElementById('mm-ad').value || '').trim() });
+            var id = 'm_' + Date.now().toString(36); DB.escolas.push({ id: id, nome: n, zip: (document.getElementById('mm-az').value || '').trim(), dist: (document.getElementById('mm-ad').value || '').trim(), loc: (document.getElementById('mm-al').value || '').trim(), posto: (document.getElementById('mm-ap').value || '').trim(), prov: (document.getElementById('mm-apv').value || '').trim() });
             MM.esc = id; MM.add = false; guardar(); consRender();
         }
         else if (k === 'rm') { var s = DB.escolas.filter(function (x) { return x.id === MM.esc; })[0]; if (s && confirm('Remover «' + s.nome + '» e todos os seus dados deste mapa?')) { DB.escolas = DB.escolas.filter(function (x) { return x.id !== s.id; }); Object.keys(DB.d).forEach(function (p) { delete DB.d[p][s.id]; }); MM.esc = null; guardar(); consRender(); } }
@@ -14665,7 +14880,7 @@ html[data-theme="dark"] .gx{--g-ok:#d1b8ff;--g-no:#ff6b86;--g-pe:#8450d8;--g-de:
     G.GE_V2.mapaman = vMapaman;
     var i = -1; G.GE_TABS.forEach(function (t, j) { if (t[0] === 'mapas') i = j; });
     G.GE_TABS.splice(i >= 0 ? i + 1 : G.GE_TABS.length, 0, ['mapaman', 'Mapa de aproveitamento']);
-    G.GE_MM = { db: function () { return DB; }, toO: toO, somaRaw: somaRaw };
+    G.GE_MM = { db: function () { return DB; }, toO: toO, somaRaw: somaRaw, geo: geo, permite: function (id, classe) { return clsDe(tipoDe(id)).indexOf(String(classe)) !== -1; } };
 })();
 </script>
 <script id="backup-servidor">
@@ -17274,27 +17489,28 @@ body.pc #app .card.gx-cols>label{break-after:avoid}
             var P = G.GE_pautas() || [], T = [];
             P.forEach(function (x) {
                 var d = x.dados; if (!d || !Array.isArray(d.alunos)) return;
-                var i = G.GE_escInfo(x.escola_id) || {};
-                T.push({ eid: x.escola_id, esc: i.nome || String(x.escola_id), dist: i.dist || 'Sem distrito', prov: i.prov || 'Sem província', zip: i.zip || 'Sem ZIP', d: d,
+                var i = G.GE_escInfo(x.escola_id) || {}, q = G.GE_MM && G.GE_MM.geo ? G.GE_MM.geo(x.escola_id) : { posto: 'Sem posto administrativo', loc: 'Sem localidade' }, dd = i.dist || 'Sem distrito';
+                var lb = function (nome, pais) { var pai = pais.filter(function (z) { return z && !/^Sem /.test(z); }).join(' · '); return /^Sem /.test(nome) ? nome : nome + (pai ? ' (' + pai + ')' : ''); };
+                T.push({ eid: x.escola_id, esc: i.nome || String(x.escola_id), dist: dd, prov: i.prov || 'Sem província', zip: i.zip || 'Sem ZIP', loc: lb(q.loc, [q.posto, dd]), posto: lb(q.posto, [dd]), d: d,
                     nome: (d.classe || '?') + 'ª classe, turma ' + (d.turma || '?') + (d.turno ? ' (' + d.turno + ')' : '') });
             });
             return T;
         }
         var Q = { nivel: 'g', val: '', ano: '', sev: '', busca: '', tab: 'qual' };
         function opcoes(T) {
-            var o = { prov: {}, dist: {}, zip: {}, esc: {}, ano: {} };
-            T.forEach(function (t) { o.prov[t.prov] = 1; o.dist[t.dist] = 1; o.zip[t.zip] = 1; o.esc[t.eid] = t.esc; if (t.d.ano) o.ano[t.d.ano] = 1; });
+            var o = { prov: {}, dist: {}, posto: {}, loc: {}, zip: {}, esc: {}, ano: {} };
+            T.forEach(function (t) { o.prov[t.prov] = 1; o.dist[t.dist] = 1; o.posto[t.posto] = 1; o.loc[t.loc] = 1; o.zip[t.zip] = 1; o.esc[t.eid] = t.esc; if (t.d.ano) o.ano[t.d.ano] = 1; });
             return o;
         }
         function filtrar(T) {
             return T.filter(function (t) {
                 if (Q.ano && String(t.d.ano) !== Q.ano) return false;
                 if (Q.nivel === 'g' || !Q.val) return true;
-                return (Q.nivel === 'prov' && t.prov === Q.val) || (Q.nivel === 'dist' && t.dist === Q.val) || (Q.nivel === 'zip' && t.zip === Q.val) || (Q.nivel === 'esc' && String(t.eid) === Q.val);
+                return (Q.nivel === 'prov' && t.prov === Q.val) || (Q.nivel === 'dist' && t.dist === Q.val) || (Q.nivel === 'posto' && t.posto === Q.val) || (Q.nivel === 'loc' && t.loc === Q.val) || (Q.nivel === 'zip' && t.zip === Q.val) || (Q.nivel === 'esc' && String(t.eid) === Q.val);
             });
         }
         function filtros(T) {
-            var o = opcoes(T), NV = [['g', 'Global (todas as escolas)'], ['prov', 'Por província'], ['dist', 'Por distrito'], ['zip', 'Por ZIP'], ['esc', 'Por escola']];
+            var o = opcoes(T), NV = [['g', 'Nacional (todas as escolas)'], ['prov', 'Por província'], ['dist', 'Por distrito'], ['posto', 'Por posto administrativo'], ['loc', 'Por localidade'], ['zip', 'Por ZIP'], ['esc', 'Por escola']];
             var lst = Q.nivel === 'g' ? [] : Q.nivel === 'esc' ? Object.keys(o.esc).map(function (k) { return [k, o.esc[k]]; }).sort(function (a, b) { return a[1].localeCompare(b[1], 'pt'); }) : Object.keys(o[Q.nivel]).sort(G.geZipCmp && Q.nivel === 'zip' ? G.geZipCmp : undefined).map(function (k) { return [k, k]; });
             if (Q.val && !lst.some(function (x) { return String(x[0]) === Q.val; })) Q.val = '';
             var anos = Object.keys(o.ano).sort();
@@ -18281,12 +18497,13 @@ body #gate.on .gb.adm-d.v2,body.pc:not(.lock) #gate.on>.gb.adm-d.v2{width:100%!i
 (function(){var g=document.getElementById('gate');if(!g||window.__geShell)return;window.__geShell=1;
 var PG='geral',raf=0,IC={geral:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>',escolas:'<path d="M3 21h18"/><path d="M5 21V8l7-4 7 4v13"/><path d="M9 21v-6h6v6"/>',backups:'<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',ferr:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4z"/>'};
 var IT=[['geral','Visão geral'],['escolas','Escolas'],['backups','Backups'],['ferr','Ferramentas']];
-function pagina(c,l){var t=c.textContent||'';if(c===l||c.contains(l))return'escolas';if(/Centro de controlo/.test(t))return'ferr';
+function pagina(c,l){var pg=c.getAttribute&&c.getAttribute('data-pg');if(pg)return pg;/* v5.23 (estabilidade): marca explícita tem sempre prioridade sobre a adivinhação por texto, que fica só de recurso */
+var t=c.textContent||'';if(c===l||c.contains(l))return'escolas';if(/Centro de controlo/.test(t))return'ferr';
 if(c.querySelector('[data-act="admAno"],[data-act="admNova"],[data-act="indAbrir"]')||/Escolas registadas|Escolas activas|Contas nas escolas/.test(t))return'geral';return''}
 function nav(){var n=document.getElementById('ge-nav');if(n)return n;n=document.createElement('nav');n.id='ge-nav';n.setAttribute('aria-label','Secções do painel');
 n.innerHTML='<div class="nv-t">Administrador Geral</div>'+IT.map(function(i){return'<button type="button" data-pg="'+i[0]+'"><svg viewBox="0 0 24 24" aria-hidden="true">'+IC[i[0]]+'</svg><span>'+i[1]+'</span></button>'}).join('');
 n.addEventListener('click',function(e){var b=e.target.closest('button[data-pg]');if(!b)return;var p=b.getAttribute('data-pg');
-if(p==='backups'){var o=g.querySelector('[data-ge360="backups"]');if(o)o.click();return}PG=p;aplica()});g.appendChild(n);return n}
+if(p==='backups'){PG='ferr';aplica();var o=g.querySelector('[data-ge360="backups"]');if(o)o.click();return}PG=p;aplica()});g.appendChild(n);return n}
 function fora(){var n=document.getElementById('ge-nav');if(n)n.remove();document.body.classList.remove('ge-as');document.body.classList.remove('ge-pg-escolas')}
 function aplica(){raf=0;var l=g.querySelector('#adm_l'),gb=l&&l.closest('.gb');if(!gb){fora();return}
 var k=[].slice.call(gb.children),m=k.map(function(c){return[c,pagina(c,l)]}),tem={};m.forEach(function(x){if(x[1])tem[x[1]]=1});
@@ -18500,7 +18717,7 @@ new MutationObserver(agenda).observe(g,{childList:true,subtree:true});agenda()})
                 if (r && r.ok && Array.isArray(r.j)) { var antes = T.l.length; T.l = r.j; aplicar(); if (!forcar && antes !== T.l.length) { try { if (cur().v === 'home') render(); } catch (e) { } } }
             }).catch(function () { }).then(function () { T.busy = false; T.t = Date.now(); });
         }
-        setInterval(function () { if (escola() && (T.e !== SESSAO.escola_id || Date.now() - T.t > 120000)) carregarEscola(); }, 4000);
+        setInterval(function () { if (escola() && (T.e !== SESSAO.escola_id || Date.now() - T.t > 120000)) carregarEscola(); }, 8000); /* v5.22: 4s->8s */
 
         var vp0 = vPauta;
         vPauta = function () {
@@ -18653,7 +18870,7 @@ new MutationObserver(agenda).observe(g,{childList:true,subtree:true});agenda()})
                 if (ch) { sv(); marca(); try { if (document.querySelector('#app .dash-hero') && typeof render === 'function') render(); } catch (e) { } }
             }, function () { carregando = false; });
         }
-        setInterval(function () { carrega(false); }, 4000);
+        setInterval(function () { carrega(false); }, 8000); /* v5.22: 4s->8s */
 
         /* ---------- estilos ---------- */
         var st = document.createElement('style');
@@ -18806,7 +19023,7 @@ new MutationObserver(agenda).observe(g,{childList:true,subtree:true});agenda()})
             var linhas = LISTA[c].map(function (d) {
                 return '<tr><td style="text-align:left;font-style:italic;padding:0 2mm">' + d[0] + '</td><td>' + mediaFreq(p, a, d[1]) + '</td><td></td><td></td><td></td></tr>';
             }).join('');
-            var cab = '<div style="text-align:center;font-size:13pt;line-height:1.3">' + (typeof EMBLEMA !== 'undefined' ? '<img src="' + EMBLEMA + '" alt="" style="height:15mm;display:block;margin:0 auto 1mm">' : '') +
+            var cab = '<div class="ge-cab" style="text-align:center;font-size:13pt;line-height:1.3">' + (typeof EMBLEMA !== 'undefined' ? '<img src="' + EMBLEMA + '" alt="" style="height:15mm;display:block;margin:0 auto 1mm">' : '') +
                 'REPÚBLICA DE MOÇAMBIQUE<br>MINISTÉRIO DE EDUCAÇÃO E CULTURA<br>DIRECÇÃO NACIONAL DE EDUCAÇÃO GERAL</div>' +
                 '<div style="text-align:center;font:900 22pt Arial,Helvetica,sans-serif;margin:4mm 0 1mm;letter-spacing:.3mm">BOLETIM DE INSCRIÇÃO DE EXAME</div>' +
                 '<div style="text-align:center;font-weight:700;font-size:9pt;margin-bottom:3mm">Artigo 45 alínea W do ensino Básico</div>';
@@ -18841,7 +19058,7 @@ new MutationObserver(agenda).observe(g,{childList:true,subtree:true});agenda()})
                 h += '<details style="border:1px solid rgba(128,128,128,.35);border-radius:12px;padding:8px 10px;margin:8px 0"' + (al.length ? '' : '') + '><summary><b>' + cl(p) + '.ª Classe · Turma ' + X(p.turma) + '</b> — ' + al.length + ' admitido(s)</summary>';
                 if (!al.length) h += '<p class="mu sm">Ainda não há alunos admitidos nesta turma (faltam notas ou nenhum cumpre a regra de admissão).</p>';
                 else {
-                    h += '<label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input type="checkbox" checked style="width:auto" data-pid="' + X(p.id) + '" onchange="var t=this;document.querySelectorAll(\'.bx-ck\').forEach(function(c){if(c.dataset.pid===t.dataset.pid)c.checked=t.checked})"> <b>Todos</b></label>';
+                    h += '<label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input type="checkbox" checked style="width:auto" data-pid="' + X(p.id) + '" data-ck-todos="1"> <b>Todos</b></label>';
                     al.forEach(function (a) { h += '<label style="display:flex;gap:8px;align-items:center;margin:4px 0"><input type="checkbox" class="bx-ck" checked style="width:auto" data-pid="' + X(p.id) + '" data-aid="' + X(a.id) + '"> <span>' + X(a.num) + ' · ' + X(a.nome) + '</span></label>'; });
                     h += '<button class="btn pri blk" style="margin-top:8px" data-act="bxImp" data-id="' + X(p.id) + '">Imprimir boletins seleccionados</button>';
                 }
@@ -19317,7 +19534,7 @@ html:root:root:root:root:root body #gate.on .an-row .btn.dan,html:root:root:root
             var cs = Object.keys(C.tot.cls).map(Number).sort(function (a, b) { return a - b; }), dc = cs.map(function (c) { return dCells(c + '.ª classe', C.tot.cls[c]); }).concat([dCells('<b>GERAL</b>', C.tot.g)]);
             var dz = CICLOS.map(function (c) { return dCells(X(c[0]), rangeG(C.tot.cls, c[1], c[2])); }).concat(ENS.map(function (c) { return dCells('<b>' + X(c[0]) + '</b>', rangeG(C.tot.cls, c[1], c[2])); }), [dCells('<b>GERAL</b>', C.tot.g)]);
             var ax = axTabela(ES.ax, C.ag.A).html.replace(/<table class="es-t es-ax">/, '<table style="border-collapse:collapse;width:100%;font-size:8px">').replace(/<(th|td)([^>]*)>/g, function (m, t2, a) { return '<' + t2 + a + ' style="' + st + '">'; });
-            printDoc('<div style="font-family:Arial,sans-serif;font-size:11px;color:#000"><div style="text-align:center;font-weight:bold;line-height:1.35">REPÚBLICA DE MOÇAMBIQUE<br>' + X(cab).replace(/\n/g, '<br>') + '</div><h2 style="text-align:center;margin:12px 0 2px">ESTATÍSTICA GERAL DAS ESCOLAS</h2><div style="text-align:center;margin-bottom:8px">' + X(tituloEscopo()) + '</div>' +
+            printDoc('<div style="font-family:Arial,sans-serif;font-size:11px;color:#000"><div class="ge-cab" style="text-align:center;font-weight:bold;line-height:1.35">REPÚBLICA DE MOÇAMBIQUE<br>' + X(cab).replace(/\n/g, '<br>') + '</div><h2 style="text-align:center;margin:12px 0 2px">ESTATÍSTICA GERAL DAS ESCOLAS</h2><div style="text-align:center;margin-bottom:8px">' + X(tituloEscopo()) + '</div>' +
                 '<b>Quadro por ' + X((NIV.filter(function (n) { return n[0] === ES.nivel; })[0] || [0, ''])[1].toLowerCase()) + '</b>' + pt(QH.map(X), q) + '<b>Por classe</b>' + pt(DH.map(X), dc) + '<b>Por ciclo de ensino</b>' + pt(['Ciclo'].concat(DH.slice(1).map(X)), dz) +
                 '<b>Anexo ' + AXD[ES.ax].n + ' — ' + X(AXD[ES.ax].tit) + '</b>' + ax + '</div>', 'A4 landscape', '10mm', 'Na janela de impressão, escolha o papel A4 horizontal ou Guardar como PDF.');
         }
@@ -19979,7 +20196,7 @@ espera();setTimeout(pronto,6000);
         var gb = gate.querySelector('.gb');
         if (gb && !gb.querySelector('[data-act="admBackups"]')) {
           var lg = gb.querySelector('[data-act="logout"]'), b = document.createElement('button');
-          b.type = 'button'; b.className = 'btn blk'; b.style.marginTop = '8px'; b.setAttribute('data-act', 'admBackups'); b.textContent = 'Backups das escolas (servidor)';
+          b.type = 'button'; b.className = 'btn blk'; b.style.marginTop = '8px'; b.setAttribute('data-act', 'admBackups'); b.setAttribute('data-pg', 'ferr'); b.textContent = 'Backups das escolas (servidor)'; /* v5.24: fica no separador Ferramentas, deixa de aparecer em todos */
           if (lg && lg.parentNode) lg.parentNode.insertBefore(b, lg); else gb.appendChild(b);
         }
       } catch (e) { }
@@ -20058,12 +20275,28 @@ espera();setTimeout(pronto,6000);
         var gb = gate.querySelector('.gb');
         if (gb && !gb.querySelector('[data-act="admAparencia"]')) {
           var lg = gb.querySelector('[data-act="logout"]'), b = document.createElement('button');
-          b.type = 'button'; b.className = 'btn blk'; b.style.marginTop = '8px'; b.setAttribute('data-act', 'admAparencia'); b.textContent = 'Aparência';
+          b.type = 'button'; b.className = 'btn blk'; b.style.marginTop = '8px'; b.setAttribute('data-act', 'admAparencia'); b.setAttribute('data-pg', 'ferr'); b.textContent = 'Aparência'; /* v5.24: idem */
           if (lg && lg.parentNode) lg.parentNode.insertBefore(b, lg); else gb.appendChild(b);
         }
       } catch (e) { }
     };
   }
+})();
+</script>
+<script id="ge-professor-impressao">
+/* v5.29.2: Professor - impressão só da sua turma/disciplina atribuída. Fica por último para ficar por cima das outras camadas. */
+(function () {
+  var NEGA = {}; ('lsPrint listaImp listaXls trfLista relatGo relDo resPrint psicoPrint infoPrint idadePrint estPrint escPrint consRelat bxImp axPrint axPrintTodos admDImp epDo fichaPrint fichaPrintAprov boletinsExame').split(' ').forEach(function (k) { NEGA[k] = 1; });
+  document.addEventListener('click', function (e) {
+    if (typeof SESSAO === 'undefined' || !SESSAO || SESSAO.perfil !== 'professor') return;
+    var t = e.target && e.target.closest ? e.target.closest('[data-act]') : null;
+    if (t && NEGA[t.getAttribute('data-act')]) { e.preventDefault(); e.stopImmediatePropagation(); negar(); }
+  }, true);
+  var pr = window.print;
+  window.print = function () {
+    if (typeof SESSAO !== 'undefined' && SESSAO && SESSAO.perfil === 'professor' && Date.now() > PRINT_OK) { negar(); return; }
+    return pr.apply(this, arguments);
+  };
 })();
 </script>
 </body>
