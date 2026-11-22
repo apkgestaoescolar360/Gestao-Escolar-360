@@ -30,9 +30,9 @@ W.addEventListener.__geWrapped=true;
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <!-- CSP: 'unsafe-inline' mantido de propósito: 66 scripts inline, ~1173 style="" e 1 onclick inline (página de impressão). Para endurecer: mover os scripts para ficheiros externos (src) e trocar o onclick por addEventListener. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'sha256-W4i7qdG3vCuUNTTrCG46xQIj+aKInBSZ9KNTx3kYLvw=' 'sha256-8lCUqFFgoRkaFfGSPDtjezfVApgbgcFBVkuQ47pEjqY=' 'sha256-KceIVjJNexil+AzbXEVKoeXAr+pPzvCRBIPGUn/Sv3Y=' 'sha256-3RqmWvs7FCtGuIjd4RZ8fx6nvzx2ZHMYhO2QqGY1B10=' 'sha256-bVwYP53sDOGazQ5MBuEOz9pKQOIAfy8kTtIh0cIhOjY=' 'sha256-x/qgNv6i9UcDf2UjvqcINdHWiPxgUMmVzylMEyKuKKo=' 'sha256-f+XSv3ejSqgEnGtGB27XSNFAlbOpV2SuDS8ov6VrrRY=' 'sha256-BoWg3tJa73CDGh3YQp5uA9S0oUB7PfpUELraZ949usg=' 'sha256-4L6Bjf9Qpd+ACUspTV2/OdWwwK9IqLzXJdJhSmPzG90=' 'sha256-JZswidyLEEdoVp7R9ZAdnkgXtmJuvMGau4LFukVC8Tc=' 'sha256-AUt4JvEbl+BeB63hRrQKBmDU2D6ydj7zlFKVwA3cdtI=' 'sha256-0k7wwU2DDkzD9fQ3bMNu8Gy+99eABnPL2PDDdOt0OTc=' 'sha256-p6cJUKyKO6wZU4e9Jo9VfjMLWNwRijQkGGRlEFYiN7E=' 'sha256-tnPutFBhrCBqK11HMF0tIyD4oRhxTG2oPaQts/eepwQ=' 'sha256-qdv2OPj6k8TCjLoKk5rkd5tBJs9efgEp/WkDILu+Qxo=' 'sha256-k13XEXzfVfBGuBbj/i66LYYda+RK0PUPFgREp7M31/A=' 'sha256-h9bIVkkYgTkFDyHnSqorYj9jr70WQUzpLOkw5Wlbn2E=' 'sha256-BdRsKXeE2tWywb5iRFEqfjZZhxO9QtfCWEAhmqD0vvw=' 'sha256-poU2EZF5cL6TIWCLWSDvzocGX6jXd0Iqe4L/c0+ztQA=' 'sha256-JCU6/24n65mjc6NWF/smz8w4rU8hfn5mbdOZ+Yhe1zk=' 'sha256-xfUjcBE4RYY6yoQUw27jtghEfcmtc2q3iljk/wNq2dw=' 'sha256-cHTwAszLvllR3Q2JpxwvC6i36WM3QOc6utIaXuqAQHc=' 'sha256-HG0HFZ1PiGw3/jxUFsD2bKlSvCYBKoiNVamZxMvP1V4=' 'sha256-gnjwdNeXEdHZyrnzLSx/USBx8V/C6z0yDbf5lF4ORhA=' 'sha256-T+2EwGq5UGtp4YG144HCMAyI1ENbrFn8L9UpMxgFFKs=' 'sha256-UDfTsSlW9B+EFfhtx5ycjHF3vZCl5FQC5Hvp10vETQk=' 'sha256-Yk0xpOtLgkdP5r40hrfzApKlGViL0iv2O8GgO1Xlogg=' 'sha256-xhimLAp5p3Viqde9CDKVzt4xZ0ttXcxnsJolV6M3XyY=' 'sha256-+XuQbMhS3L7WJAhU02uy9KGvY43gu2RAVE09zM8lNkQ=' 'sha256-FfdY2jOfsS8y1/5qdeM4OwrZyQEkzjcj4H/+zjFJS6E=' 'sha256-0IV2Cuuz8Xi3IcHLvyOq5w+TE2WZfhkxW0UlJqLZs3I=' 'sha256-Ij9Pjf/V1+rmhakob/F1nlALoBCPr/cFajzadWvRLAo=' 'sha256-iRm3mfEObyJCOgTQ1NuX/oO2opwb1q4iYdxnKRfHLzc=' 'sha256-SbL9UKVY9ONjNSvx8/OvYOq7gB3J29bbzFDsu7TVVaU=' 'sha256-gyzDidkC58M1B54BWkGjHJ58BHOFxpeAMrL8y0zj4Co=' 'sha256-wIr8O8OmYhIrQEBaS1FIfCpqrR1dwg8O0jCxVhXQXO0=' 'sha256-Md78vdTaJLWj2E//mpPFElU+r/Ah8GbRSwIzBMCnF98=' 'sha256-sWazxVLIUpwhUwZgXNC8FYo+eDtcWlAmr4EkbNSO4kc=' 'sha256-YKySNnjriEqYPHgVhrC472Q3XndSBwlUDhl2ZozqHgY=' 'sha256-ZbdyIcFrV08ivnTxc7wZ2ObdBZyPUd2Amv71g3OX2TA=' 'sha256-nyTLkW5S0q1c/ttDL9kmOW4FC62iabZjiJIM1F1oVqA=' 'sha256-CUBClhxACl25926CuFIRl1kq9h0iIxN78iOZ6Nq04GU=' 'sha256-UgtN8Cw9cGPfLqkHZ7kX6Z7y8nucQWjY7viEWwq/PsA=' 'sha256-j2d0le5Z39P1Sf2uZs2gQThDNY+E9+HNZqnCsxwdwnY=' 'sha256-hXn7ipRjAhT4lcEQmLiBVKX2n7jgRtF8v+d7O2AR2U4=' 'sha256-+ccZhlKVoJKWdMOPRalr0t8sk0Z3/2jSlinlpnJBJAk=' 'sha256-ZXEGPyZpJLQZBeYplakvhohYKiLQI/woegMtiGjRpDA=' 'sha256-hz+fYDUSyfgHHFvNjvYMHd9envgYJMcwDsNzpMwgoOs=' 'sha256-VoEgynzOb0V1g52E3Xs23MFWdFiOTlCCKnoOKfUzAHc=' 'sha256-qnwL6zhhjo2C7r9T2SQSLhgVq8izgUGwwrEaJs6Y+No=' 'sha256-jCdonwoKgqVYv38iCQi9TJDxCL5C2xXjk0xknVVa01Y=' 'sha256-w+lCRbdjO6sC+UJg/uyTvfSWkakEoTwhFoHnymeyJhc=' 'sha256-LoLPXxFIoJxc2F7ii/uZPp6giay+dF8T/WfiQ6HgYoU=' 'sha256-uTfb3vl9ytfkA9Z/NR70i7HomhZBaXOT7SG8ucAhXLc=' 'sha256-TKlyFA/a8p500MyUV6qBd2f3Dkn7XpSxKMCRGRE9sOk=' 'sha256-hKH9Mpd4E++uYhdrF/C0F3CFmA3skl56XyEgkuKML/0=' 'sha256-FwlE0d7dPwDOirT4EAG08/KHFXRq7RJuL2BIMgNv9PE=' 'sha256-ODidBbpLe3IQ5F/I5vlUBTODlEVvOs/iDIpgRbfd5E0=' 'sha256-2Tmh4VT+z8OjhKSWYrI6USDRuRMsfhWUi1OOTcxQ/6Q=' 'sha256-IT2XTPOUKF+hJK7IgrnzewJy5nZSOl/A3cBWh1dLjD4=' 'sha256-U7pzZuImcW4LS5jic5lHRhHhlXKnkVeu4Jz390pkiDQ=' 'sha256-U0UJg+B5N8maNctKPlr4usIWLUv6nwn+mfRZ+mN/ttk=' 'sha256-1CSUlRdl2DsNnLloCqHF1Ac495oozEOob+asWeMEQM0=' 'sha256-Wcc4AJlPG1AiNaGWmoZe3BQg7j4gBPF4k7AG2ffCqs4=' 'sha256-4gTYDwYGikonF3aYZxZK+l6kN2P+SLeOXtTiWREEFUU=' 'sha256-GoRfFISVYBOLwm6KREymh8cuDO/fPg0wyb8tHPG1tP8=' 'sha256-fGVVCUdbq8aHZ/gpfnTlcI6aY0jS5GEejZl76JpibB0=' 'sha256-5/PZebspmJMtZiA+oI11HHiSYRIv1xjf7pS8RAF1SoM=' 'sha256-eXyOMcmIzfjbiRIVkUThXUdmqy9D7gjCxNx16wuVB6U=' 'sha256-vcZ+yAfI30cvZe9z1sAJGgWOKdTQhMTUynGwenV201M=' 'sha256-GfIaxDrYzS7gxjB/WDx0P33ovj4TPX1cp9vqYT8VGzc=' 'sha256-LM+4egu9M1uNZweJp9z8tRs0HZvsmJVUz1tH8btYsm4=' 'sha256-N5gSMkDLV4/ux8+DXdWltXRqqxAcKZugpTao95VhbHA=' 'sha256-pBZoH4DTRUgkFEIdXfcn03tr73+Vr7axvVIoYxwId3k=' 'sha256-OX3Dw/wpgYr6CZRXvUY5lo2gpvx/H6FhmfkvMz3D09w=' 'sha256-ummyyCakuraT64pR1dJBW2QCT39hi/1753ee7AHvObA=' 'sha256-H1+DrG18vZS/qVyZd1QlXzHDldVpOTyB3+ixpoDzHOo=' 'sha256-9yu31iO7hwN1G+Gwt8pVmPbxflDY/qtTgBELw4Zqltw=' 'sha256-bg+mmapNH+2YpBc8D0pWEzvPcpyCz3/fBor9hwPlOJQ=' 'sha256-0gCkX7HUPsXelOgTnUvLYQ18aYSP4tvTL+E+7whiagA=' 'sha256-nF6T4W36uSE1ufTytZ0ge12HYM0NrmL42TM2wujgfLM=' 'sha256-g60IESiREKvAV1M/ix2bku4mfKiTIbIxzGmAVHoA/XA=' 'sha256-i/CQ8gWMieBX8CZExb87qRdTAQa6hAwS2rLN3GwV7Aw=' 'sha256-cfjrhQyIrai3AgANSXePrHJcM36LdHpZ4zzQKvJWby0=' 'sha256-JKwEM6kgrKD5a6iaAGOOjoIq2grFPj1Czw/4LEyhkCs='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' https://svvphyiotfbqhxclspqj.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'sha256-W4i7qdG3vCuUNTTrCG46xQIj+aKInBSZ9KNTx3kYLvw=' 'sha256-8lCUqFFgoRkaFfGSPDtjezfVApgbgcFBVkuQ47pEjqY=' 'sha256-KceIVjJNexil+AzbXEVKoeXAr+pPzvCRBIPGUn/Sv3Y=' 'sha256-3RqmWvs7FCtGuIjd4RZ8fx6nvzx2ZHMYhO2QqGY1B10=' 'sha256-bVwYP53sDOGazQ5MBuEOz9pKQOIAfy8kTtIh0cIhOjY=' 'sha256-x/qgNv6i9UcDf2UjvqcINdHWiPxgUMmVzylMEyKuKKo=' 'sha256-f+XSv3ejSqgEnGtGB27XSNFAlbOpV2SuDS8ov6VrrRY=' 'sha256-BoWg3tJa73CDGh3YQp5uA9S0oUB7PfpUELraZ949usg=' 'sha256-4L6Bjf9Qpd+ACUspTV2/OdWwwK9IqLzXJdJhSmPzG90=' 'sha256-JZswidyLEEdoVp7R9ZAdnkgXtmJuvMGau4LFukVC8Tc=' 'sha256-AUt4JvEbl+BeB63hRrQKBmDU2D6ydj7zlFKVwA3cdtI=' 'sha256-0k7wwU2DDkzD9fQ3bMNu8Gy+99eABnPL2PDDdOt0OTc=' 'sha256-p6cJUKyKO6wZU4e9Jo9VfjMLWNwRijQkGGRlEFYiN7E=' 'sha256-tnPutFBhrCBqK11HMF0tIyD4oRhxTG2oPaQts/eepwQ=' 'sha256-qdv2OPj6k8TCjLoKk5rkd5tBJs9efgEp/WkDILu+Qxo=' 'sha256-EWH7uBcGw5DAVLb+iyg3wxYLaEcbfY713pQQ0clVo50=' 'sha256-FcipVqXBx6IHNO3TNwPPQa0RP2PiCjlUa50a9cE37C8=' 'sha256-BdRsKXeE2tWywb5iRFEqfjZZhxO9QtfCWEAhmqD0vvw=' 'sha256-poU2EZF5cL6TIWCLWSDvzocGX6jXd0Iqe4L/c0+ztQA=' 'sha256-PRcVpuB9gpLpmYAc4eeuoHy3DCPZwWi0vwWY+9F8MW4=' 'sha256-xfUjcBE4RYY6yoQUw27jtghEfcmtc2q3iljk/wNq2dw=' 'sha256-cHTwAszLvllR3Q2JpxwvC6i36WM3QOc6utIaXuqAQHc=' 'sha256-HG0HFZ1PiGw3/jxUFsD2bKlSvCYBKoiNVamZxMvP1V4=' 'sha256-gnjwdNeXEdHZyrnzLSx/USBx8V/C6z0yDbf5lF4ORhA=' 'sha256-T+2EwGq5UGtp4YG144HCMAyI1ENbrFn8L9UpMxgFFKs=' 'sha256-UDfTsSlW9B+EFfhtx5ycjHF3vZCl5FQC5Hvp10vETQk=' 'sha256-Yk0xpOtLgkdP5r40hrfzApKlGViL0iv2O8GgO1Xlogg=' 'sha256-xhimLAp5p3Viqde9CDKVzt4xZ0ttXcxnsJolV6M3XyY=' 'sha256-uJ9bttZKyjdEWbfItC9OI/zwCFNbOLPXLe3u4oK7emg=' 'sha256-FfdY2jOfsS8y1/5qdeM4OwrZyQEkzjcj4H/+zjFJS6E=' 'sha256-0IV2Cuuz8Xi3IcHLvyOq5w+TE2WZfhkxW0UlJqLZs3I=' 'sha256-Ij9Pjf/V1+rmhakob/F1nlALoBCPr/cFajzadWvRLAo=' 'sha256-iRm3mfEObyJCOgTQ1NuX/oO2opwb1q4iYdxnKRfHLzc=' 'sha256-SbL9UKVY9ONjNSvx8/OvYOq7gB3J29bbzFDsu7TVVaU=' 'sha256-gyzDidkC58M1B54BWkGjHJ58BHOFxpeAMrL8y0zj4Co=' 'sha256-wIr8O8OmYhIrQEBaS1FIfCpqrR1dwg8O0jCxVhXQXO0=' 'sha256-9Gv41wFgdJO1BhiQtMoZRbdA1Y4mXH0gTIlZQxncX00=' 'sha256-sWazxVLIUpwhUwZgXNC8FYo+eDtcWlAmr4EkbNSO4kc=' 'sha256-YKySNnjriEqYPHgVhrC472Q3XndSBwlUDhl2ZozqHgY=' 'sha256-ZbdyIcFrV08ivnTxc7wZ2ObdBZyPUd2Amv71g3OX2TA=' 'sha256-nyTLkW5S0q1c/ttDL9kmOW4FC62iabZjiJIM1F1oVqA=' 'sha256-CUBClhxACl25926CuFIRl1kq9h0iIxN78iOZ6Nq04GU=' 'sha256-KPuBXsSio+33QRX/LVcl7CT2JPSXHgZOJd4Q7id1Ucs=' 'sha256-j2d0le5Z39P1Sf2uZs2gQThDNY+E9+HNZqnCsxwdwnY=' 'sha256-hXn7ipRjAhT4lcEQmLiBVKX2n7jgRtF8v+d7O2AR2U4=' 'sha256-+ccZhlKVoJKWdMOPRalr0t8sk0Z3/2jSlinlpnJBJAk=' 'sha256-ZXEGPyZpJLQZBeYplakvhohYKiLQI/woegMtiGjRpDA=' 'sha256-hz+fYDUSyfgHHFvNjvYMHd9envgYJMcwDsNzpMwgoOs=' 'sha256-VoEgynzOb0V1g52E3Xs23MFWdFiOTlCCKnoOKfUzAHc=' 'sha256-qnwL6zhhjo2C7r9T2SQSLhgVq8izgUGwwrEaJs6Y+No=' 'sha256-jCdonwoKgqVYv38iCQi9TJDxCL5C2xXjk0xknVVa01Y=' 'sha256-w+lCRbdjO6sC+UJg/uyTvfSWkakEoTwhFoHnymeyJhc=' 'sha256-LoLPXxFIoJxc2F7ii/uZPp6giay+dF8T/WfiQ6HgYoU=' 'sha256-uTfb3vl9ytfkA9Z/NR70i7HomhZBaXOT7SG8ucAhXLc=' 'sha256-TKlyFA/a8p500MyUV6qBd2f3Dkn7XpSxKMCRGRE9sOk=' 'sha256-hKH9Mpd4E++uYhdrF/C0F3CFmA3skl56XyEgkuKML/0=' 'sha256-FwlE0d7dPwDOirT4EAG08/KHFXRq7RJuL2BIMgNv9PE=' 'sha256-ODidBbpLe3IQ5F/I5vlUBTODlEVvOs/iDIpgRbfd5E0=' 'sha256-2Tmh4VT+z8OjhKSWYrI6USDRuRMsfhWUi1OOTcxQ/6Q=' 'sha256-IT2XTPOUKF+hJK7IgrnzewJy5nZSOl/A3cBWh1dLjD4=' 'sha256-U7pzZuImcW4LS5jic5lHRhHhlXKnkVeu4Jz390pkiDQ=' 'sha256-U0UJg+B5N8maNctKPlr4usIWLUv6nwn+mfRZ+mN/ttk=' 'sha256-1CSUlRdl2DsNnLloCqHF1Ac495oozEOob+asWeMEQM0=' 'sha256-Wcc4AJlPG1AiNaGWmoZe3BQg7j4gBPF4k7AG2ffCqs4=' 'sha256-4gTYDwYGikonF3aYZxZK+l6kN2P+SLeOXtTiWREEFUU=' 'sha256-GoRfFISVYBOLwm6KREymh8cuDO/fPg0wyb8tHPG1tP8=' 'sha256-fGVVCUdbq8aHZ/gpfnTlcI6aY0jS5GEejZl76JpibB0=' 'sha256-5/PZebspmJMtZiA+oI11HHiSYRIv1xjf7pS8RAF1SoM=' 'sha256-eXyOMcmIzfjbiRIVkUThXUdmqy9D7gjCxNx16wuVB6U=' 'sha256-vcZ+yAfI30cvZe9z1sAJGgWOKdTQhMTUynGwenV201M=' 'sha256-GfIaxDrYzS7gxjB/WDx0P33ovj4TPX1cp9vqYT8VGzc=' 'sha256-LM+4egu9M1uNZweJp9z8tRs0HZvsmJVUz1tH8btYsm4=' 'sha256-N5gSMkDLV4/ux8+DXdWltXRqqxAcKZugpTao95VhbHA=' 'sha256-pBZoH4DTRUgkFEIdXfcn03tr73+Vr7axvVIoYxwId3k=' 'sha256-OX3Dw/wpgYr6CZRXvUY5lo2gpvx/H6FhmfkvMz3D09w=' 'sha256-ummyyCakuraT64pR1dJBW2QCT39hi/1753ee7AHvObA=' 'sha256-y34pFhlyIjpQro/jEG6pBddbJLLSORYuElpvs73lTrs=' 'sha256-9yu31iO7hwN1G+Gwt8pVmPbxflDY/qtTgBELw4Zqltw=' 'sha256-bg+mmapNH+2YpBc8D0pWEzvPcpyCz3/fBor9hwPlOJQ=' 'sha256-0gCkX7HUPsXelOgTnUvLYQ18aYSP4tvTL+E+7whiagA=' 'sha256-nF6T4W36uSE1ufTytZ0ge12HYM0NrmL42TM2wujgfLM=' 'sha256-g60IESiREKvAV1M/ix2bku4mfKiTIbIxzGmAVHoA/XA=' 'sha256-i/CQ8gWMieBX8CZExb87qRdTAQa6hAwS2rLN3GwV7Aw=' 'sha256-cfjrhQyIrai3AgANSXePrHJcM36LdHpZ4zzQKvJWby0=' 'sha256-JKwEM6kgrKD5a6iaAGOOjoIq2grFPj1Czw/4LEyhkCs=' 'sha256-IcS2c7+HRPK4Q09yxBf13j4Jo634JXe7NaV2djqTYAA='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' https://svvphyiotfbqhxclspqj.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
-<meta name="theme-color" content="#0038ff"><style id="az-hide">html{visibility:hidden}</style><script>setTimeout(function(){var e=document.getElementById("az-hide");if(e)e.remove()},2500)</script>
+<meta name="theme-color" content="#0038ff"><style id="az-hide">html{visibility:hidden}:root:root:root:root{background:#E3ECFF!important}:root:root:root:root[data-theme="dark"]{background:#050505!important}</style><script>setTimeout(function(){var e=document.getElementById("az-hide");if(e)e.remove()},2500)</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <style id="boot360">
@@ -40,6 +40,8 @@ W.addEventListener.__geWrapped=true;
 #credit img{max-width:16px;max-height:16px}
 html.bt360,html.bt360 body{background:#E3ECFF!important}
 html[data-theme="dark"].bt360,html[data-theme="dark"].bt360 body{background:#050505!important}
+/* v6.3.3: fundo da página sempre escuro no tema escuro (evita o lampejo verde-menta ao arrancar e ao alternar o tema) */
+:root:root:root:root[data-theme="dark"]{background:#050505!important}
 html.bt360 body::before{display:none!important}
 html.bt360 body::after{content:"";position:fixed;top:50%;left:50%;width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;border:4px solid rgba(0,56,255,.18);border-top-color:#0038FF;animation:bt360spin .8s linear infinite;z-index:99999}
 html[data-theme="dark"].bt360 body::after{border-color:rgba(215,255,224,.18);border-top-color:#D7FFE0}
@@ -3624,7 +3626,14 @@ function sanPautas(l) {
             a.num = parseInt(a.num, 10) || i + 1;
             a.nome = sanTxt(a.nome, 200);
             a.sexo = a.sexo === 'M' ? 'M' : 'H';
-            Object.keys(a).forEach(function (k) { if (typeof a[k] === 'string' && k !== 'nome') a[k] = sanTxt(a[k], 1000); });
+            Object.keys(a).forEach(function (k) {
+                if (k === 'foto') {   /* v6.3.1: a fotografia é uma imagem em base64 (dezenas de KB): não pode ser cortada a 1000 caracteres */
+                    var f = String(a.foto == null ? '' : a.foto);
+                    if (f.length <= 700000 && /^data:image\/(png|jpe?g|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(f)) a.foto = f; else delete a.foto;
+                    return;
+                }
+                if (typeof a[k] === 'string' && k !== 'nome') a[k] = sanTxt(a[k], 1000);
+            });
             if (!a.notas || typeof a.notas !== 'object' || Array.isArray(a.notas))
                 a.notas = {};
             return a;
@@ -6080,33 +6089,73 @@ function admEscolasQ() {
         return r && r.ok ? r : srvApi('GET', '/rest/v1/escolas?select=' + base + '&order=criada_em');
     });
 }
+/* v6.3.2: pautas do ano lectivo de cada escola. Conta só as pautas cujo ano coincide com o ano lectivo em que a escola está inscrita
+   (pautas de outros anos ou apagadas ficam de fora). Se a escola ainda não tem ano atribuído, conta todas as pautas activas dela. */
+function admAnoEscola(e) { var a = e && (e.anos && e.anos.ano != null ? e.anos.ano : null); return a == null ? '' : String(a); }
+function admPautasDoAno(e, pautas) {
+    var ano = admAnoEscola(e);
+    return (pautas || []).filter(function (p) {
+        if (!p || p.apagada || p.escola_id !== e.id) return false;
+        if (!ano) return true;
+        var pa = p.dados && p.dados.ano != null ? String(p.dados.ano).trim() : '';
+        return !pa || pa === ano;
+    });
+}
+function admNAlunos(lista) {
+    var n = 0, vistos = {};
+    (lista || []).forEach(function (p) {
+        var al = p && p.dados && Array.isArray(p.dados.alunos) ? p.dados.alunos : [];
+        al.forEach(function (a) {
+            if (!a) return;
+            var k = (p.escola_id || '') + '|' + (a.pid || a.id || '');
+            if (a.pid || a.id) { if (vistos[k] && vistos[k] === (p.dados.ano || '') + '|' + (p.dados.classe || '')) return; vistos[k] = (p.dados.ano || '') + '|' + (p.dados.classe || ''); }
+            n++;
+        });
+    });
+    return n;
+}
+/* lê as pautas; se o pedido completo falhar (limite de tempo/tamanho no servidor), repete com páginas mais pequenas e, em último caso, escola a escola */
+function admLerPautas(escolas) {
+    return srvLerPautas('escola_id,dados,apagada').then(function (r) {
+        if (r && r.ok) return r;
+        var tudo = [], falhou = false;
+        return (escolas || []).reduce(function (seq, e) {
+            return seq.then(function () {
+                return srvApi('GET', '/rest/v1/pautas?select=escola_id,dados,apagada&escola_id=eq.' + encodeURIComponent(e.id)).then(function (x) {
+                    if (x && x.ok) tudo = tudo.concat(x.j || []); else falhou = true;
+                });
+            });
+        }, Promise.resolve()).then(function () { return falhou && !tudo.length ? r : { ok: true, st: 200, j: tudo, parcial: falhou }; });
+    });
+}
 function admView() {
     gate.innerHTML = '<div class="gb" style="max-width:560px;max-height:92vh;overflow:auto"><h1>Administrador Geral</h1><p class="mu sm" style="margin:0 0 10px">O Administrador cria as contas das escolas, acompanha os indicadores gerais de todas as escolas e pode suspender ou reativar cada escola. Cada Escola gere apenas as contas dos seus professores e da Secretaria.</p><div id="adm_l" class="sm">A carregar...</div>' +
         '<button class="btn pri blk" style="margin-top:12px" data-act="admAno" data-pg="geral">Início do ano lectivo</button><button class="btn blk" style="margin-top:8px" data-act="admNova" data-pg="geral">Criar conta de escola</button><button class="btn blk" style="margin-top:8px" data-act="logout">Terminar sessão</button></div>';
     gate.className = 'on';
     Promise.all([
         admEscolasQ(),
-        srvApi('GET', '/rest/v1/perfis?select=escola_id,papel,ativo,nome'),
-        srvLerPautas('escola_id,dados,apagada')
-    ]).then(function (rs) {
+        srvApi('GET', '/rest/v1/perfis?select=escola_id,papel,ativo,nome')
+    ]).then(function (rs0) {
+        return admLerPautas(rs0[0] && rs0[0].ok ? (rs0[0].j || []) : []).then(function (rp) { return [rs0[0], rs0[1], rp]; });
+    }).then(function (rs) {
         var l = $('#adm_l'); if (!l) return;
         if (!rs[0].ok) { l.textContent = 'Erro ao carregar as escolas (' + rs[0].st + '): ' + ((rs[0].j && (rs[0].j.message || rs[0].j.hint)) || 'sem detalhe') + ' · No Supabase, execute o ficheiro 05_reparar_e_diagnosticar.sql.'; return; }
         var escolas = rs[0].j || [], perfis = rs[1].ok ? (rs[1].j || []) : [], pautas = rs[2].ok ? (rs[2].j || []) : [];
         var ativas = escolas.filter(function (x) { return x.ativa; }).length;
         var utilizadores = perfis.filter(function (x) { return x.papel !== 'admin_geral'; }).length;
-        var totalAlunos = 0;
-        pautas.forEach(function (p) { if (!p.apagada && p.dados && Array.isArray(p.dados.alunos)) totalAlunos += p.dados.alunos.length; });
+        var totalAlunos = 0, avisoPautas = rs[2].ok ? (rs[2].parcial ? 'Algumas pautas não puderam ser lidas do servidor: o total de alunos pode estar incompleto.' : '') : 'Não foi possível ler as pautas do servidor (' + rs[2].st + '): os totais de alunos não estão disponíveis. Toque em «Actualizar» ou verifique a ligação.';
+        escolas.forEach(function (e) { totalAlunos += admNAlunos(admPautasDoAno(e, pautas)); });
         var resumo = '<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:12px">' +
             '<div style="background:#f3f5f9;border-radius:10px;padding:10px"><div class="mu sm">Escolas registadas</div><b style="font-size:20px">' + escolas.length + '</b></div>' +
             '<div style="background:#f3f5f9;border-radius:10px;padding:10px"><div class="mu sm">Escolas activas</div><b style="font-size:20px">' + ativas + '</b></div>' +
             '<div style="background:#f3f5f9;border-radius:10px;padding:10px"><div class="mu sm">Contas nas escolas</div><b style="font-size:20px">' + utilizadores + '</b></div>' +
             '<div style="background:#f3f5f9;border-radius:10px;padding:10px"><div class="mu sm">Registos de alunos nas pautas</div><b style="font-size:20px">' + totalAlunos + '</b></div></div><h3 style="font-size:16px;margin:8px 0">Dados por escola</h3>';
-        l.innerHTML = resumo + (escolas.map(function (x, ix) {
+        l.innerHTML = (avisoPautas ? '<p class="mu sm" style="color:#c4122f;margin:0 0 8px">' + esc(avisoPautas) + '</p>' : '') + resumo + (escolas.map(function (x, ix) {
             var px = perfis.filter(function (u) { return u.escola_id === x.id; });
             var prof = px.filter(function (u) { return u.papel === 'professor'; }).length;
             var sec = px.filter(function (u) { return u.papel === 'secretaria'; }).length;
-            var pautasEscola = pautas.filter(function (p) { return p.escola_id === x.id && !p.apagada; });
-            var alunos = pautasEscola.reduce(function (n, p) { return n + (p.dados && Array.isArray(p.dados.alunos) ? p.dados.alunos.length : 0); }, 0);
+            var pautasEscola = admPautasDoAno(x, pautas);
+            var alunos = admNAlunos(pautasEscola);
             return '<div class="rs-esc" data-c="' + (ix % 5) + '" data-prov="' + esc(x.provincia || '') + '" data-dist="' + esc(x.distrito || '') + '" data-posto="' + esc(x.posto_administrativo || '') + '" data-loc="' + esc(x.localidade || '') + '" data-zip="' + esc(x.zip || '') + '" data-contas="' + px.length + '" style="border:1px solid #d5dbe6;border-radius:12px;padding:10px;margin-bottom:8px"><b>' + esc(x.nome) + '</b><div class="mu sm">Código: ' + esc(x.codigo) + ' · ' + (x.ativa ? 'Activa' : 'SUSPENSA') + admAnoTxt(x) + '</div>' +
                 (function () { var l = [['Tipo', x.tipo], ['ZIP', x.zip], ['Localidade', x.localidade], ['Posto administrativo', x.posto_administrativo], ['Distrito', x.distrito], ['Província', x.provincia]].filter(function (q) { return q[1]; }).map(function (q) { return q[0] + ': ' + esc(q[1]); }).join(' · '); return l ? '<div class="mu sm">' + l + '</div>' : ''; })() +
                 '<div class="mu sm" style="margin-top:6px">Professores: ' + prof + ' · Secretaria: ' + sec + ' · Pautas: ' + pautasEscola.length + ' · Registos de alunos: ' + alunos + '</div>' +
@@ -7324,7 +7373,7 @@ html[data-theme="dark"] hr{border-color:#9d71e838}
     function lido() { try { var t = localStorage.getItem(KEY); return t === 'dark' || t === 'light' ? t : null; } catch (e) { return null; } }
     function aplicar(t) {
         root.setAttribute('data-theme', t);
-        var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'dark' ? '#0b0720' : '#25134d');
+        /* v6.3.3: a cor da barra do navegador (theme-color) é definida só pelo bloco da paleta azul (meta()); escrever aqui fazia a barra piscar lilás/azul */
         var b = document.getElementById('themeBtn');
         var lbl = document.querySelector('#side .side-theme span'); if (lbl) lbl.textContent = t === 'dark' ? 'Tema claro' : 'Tema escuro';
         if (b) { b.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false'); b.setAttribute('title', t === 'dark' ? 'Mudar para tema claro' : 'Mudar para tema escuro'); b.setAttribute('aria-label', b.getAttribute('title')); }
@@ -12215,11 +12264,20 @@ new MutationObserver(function(){var n=r.getAttribute('data-theme');if(n===p)retu
 
     /* ---------- carregamento ---------- */
     function carregar() {
-        return Promise.all([
-            srvApi('GET', '/rest/v1/escolas?select=id,nome,codigo,ativa,ano_id,anos:anos_lectivos!escolas_ano_id_fkey(ano,inicio,fim,encerrado)&order=criada_em'),
-            srvApi('GET', '/rest/v1/perfis?select=user_id,escola_id,nome,papel,ativo,atribuicoes'),
-            srvLerPautas('escola_id,id,versao,dados,apagada')
-        ]).then(function (rs) {
+        /* v6.2: leitura tolerante — se a ligação com o ano lectivo (ou a coluna «atribuicoes») falhar no servidor, repete o pedido sem ela */
+        function escolasLer() {
+            return srvApi('GET', '/rest/v1/escolas?select=id,nome,codigo,ativa,ano_id,anos:anos_lectivos!escolas_ano_id_fkey(ano,inicio,fim,encerrado)&order=criada_em').then(function (r) {
+                if (r && r.ok) return r;
+                return srvApi('GET', '/rest/v1/escolas?select=id,nome,codigo,ativa,ano_id').then(function (r2) { return r2 && r2.ok ? r2 : (r2 && r2.st ? r2 : r); });
+            });
+        }
+        function perfisLer() {
+            return srvApi('GET', '/rest/v1/perfis?select=user_id,escola_id,nome,papel,ativo,atribuicoes').then(function (r) {
+                if (r && r.ok) return r;
+                return srvApi('GET', '/rest/v1/perfis?select=user_id,escola_id,nome,papel,ativo');
+            });
+        }
+        return Promise.all([escolasLer(), perfisLer(), srvLerPautas('escola_id,id,versao,dados,apagada')]).then(function (rs) {
             if (!rs[0].ok || !rs[2].ok) {
 var dt = function (r, n) { return n + ': ' + (r.ok ? 'ok' : (r.st + ' ' + ((r.j && (r.j.message || r.j.hint || r.j.msg)) || 'sem detalhe'))); };
 throw { msg: 'Não foi possível ler os dados das escolas. [' + dt(rs[0], 'escolas') + ' | ' + dt(rs[2], 'pautas') + ']' };
@@ -12230,6 +12288,8 @@ throw { msg: 'Não foi possível ler os dados das escolas. [' + dt(rs[0], 'escol
             (rs[2].j || []).forEach(function (r) {
                 if (r.apagada || !r.dados || typeof r.dados !== 'object') return;
                 var x = d.porEscola[r.escola_id]; if (!x) return;
+                var anoE = typeof admAnoEscola === 'function' ? admAnoEscola(x.e) : '';   /* v6.3.2: só o ano lectivo em que a escola está inscrita */
+                if (anoE && r.dados.ano != null && String(r.dados.ano).trim() !== '' && String(r.dados.ano).trim() !== anoE) return;
                 r.dados.id = r.id;
                 var p = sanPautas([r.dados])[0];
                 p.__k = r.escola_id + '|' + r.id; p.__e = r.escola_id;
@@ -14045,8 +14105,8 @@ html.mo-lite .btn[data-act*="import" i]::after,html.mo-lite[data-theme="dark"]::
 
     /* cor da barra do sistema acompanha o tema */
     function cor() {
-        var m = document.querySelector('meta[name="theme-color"]'); if (!m) return;
-        m.setAttribute('content', root.getAttribute('data-theme') === 'dark' ? '#0b0720' : '#6a2fc8');
+        /* v6.3.3: sem efeito — theme-color é definido só pelo bloco da paleta azul (meta()), para a barra não piscar lilás/azul */
+        return;
     }
     cor();
     if (window.MutationObserver) new MutationObserver(cor).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
@@ -19936,7 +19996,7 @@ function agenda(){if(!raf)raf=requestAnimationFrame(atualiza)}
 
 /* ---- arranque ---- */
 try{aplicar(0);todas();atualiza()}catch(e){try{console.error('Paleta cobalto:',e)}catch(x){}}
-var hide=document.getElementById('az-hide');if(hide)hide.remove();
+(function soltar(){var h=document.getElementById('az-hide');if(!h)return;if(document.documentElement.classList.contains('bt360')){setTimeout(soltar,30);return}h.remove()})();   /* v6.3.3: espera o fim do ecrã de arranque (o recurso de 2,5 s no <head> garante que nunca fica em branco) */
 if(window.MutationObserver){
  new MutationObserver(function(ml){var dom=false;
   for(var a=0;a<ml.length;a++){var m=ml[a];
@@ -19962,7 +20022,7 @@ html[data-theme="dark"] #ge-fundo::after{background:rgba(var(--az-950-rgb,5,5,5)
 html.ge-semfundo #ge-fundo{display:none!important}
 html.ge-fundo-pronto #ge-fundo{opacity:1}
 html:not(#a):not(#b):not(#c){background-color:var(--az-125,#e8eefc)!important}
-html[data-theme="dark"]:not(#a):not(#b){background-color:var(--az-950,#050505)!important}
+html[data-theme="dark"]:not(#a):not(#b):not(#c):not(#d){background-color:var(--az-950,#050505)!important}
 html:not(#a):not(#b):not(#c) body:not(#a):not(#b):not(#c){background:transparent!important}
 @media print{#ge-fundo{display:none!important}}
 </style>
@@ -20309,6 +20369,308 @@ espera();setTimeout(pronto,6000);
     if (typeof SESSAO !== 'undefined' && SESSAO && SESSAO.perfil === 'professor' && Date.now() > PRINT_OK) { negar(); return; }
     return pr.apply(this, arguments);
   };
+})();
+</script>
+<script id="ge-turmas-io-js">
+/* =====================  v6.3 · TURMAS: EXPORTAR / IMPORTAR (escola) + RESTAURO REMOTO E ENVIO DE TURMAS (Administrador Geral)  =====================
+   Ficheiro de turmas: {app:'ge360-turmas', formato:1, escola:{id,codigo,nome}, pautas:[...], sha:SHA-256 das pautas}
+   Isolamento entre escolas: (1) o ficheiro leva o selo da escola e a escola recusa ficheiros de outra escola;
+   (2) o Administrador, ao enviar dados de uma escola para outra, gera identificadores novos (nada colide);
+   (3) no servidor a chave de cada turma é (escola_id, id): uma escola nunca escreve na outra. */
+(function () {
+    'use strict';
+    var FMT = 'ge360-turmas', FV = 1, UNDO = 'ge360_tm_undo';
+    var TM = { sel: {}, R: null, undo: null };
+    function h(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+    function clone(o) { return JSON.parse(JSON.stringify(o)); }
+    function nAl(p) { return (p.alunos || []).length; }
+    function rotulo(p) { return (p.classe || '?') + '.ª ' + (p.turma || '') + (p.ano ? ' · ' + p.ano : ''); }
+    function sha(txt) {
+        try {
+            if (window.crypto && crypto.subtle && window.TextEncoder)
+                return crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt)).then(function (b) {
+                    return Array.prototype.map.call(new Uint8Array(b), function (x) { return ('0' + x.toString(16)).slice(-2); }).join('');
+                });
+        } catch (e) { }
+        return Promise.resolve('');
+    }
+    function eu() { return { id: (SESSAO && SESSAO.escola_id) || '', codigo: (SESSAO && SESSAO.codigo) || '', nome: (SESSAO && SESSAO.escolaNome) || '' }; }
+    /* true = mesma escola · false = escolas diferentes · null = não dá para confirmar */
+    function mesmaEscola(f, a) {
+        var fc = String(f && f.codigo || '').trim().toLowerCase(), ac = String(a && a.codigo || '').trim().toLowerCase();
+        if (fc && ac) return fc === ac;
+        if (f && f.id && a && a.id) return f.id === a.id;
+        return null;
+    }
+    function remap(pautas) {
+        return pautas.map(function (p0, i) {
+            var p = clone(p0); p.id = uid() + 'n' + i;
+            (p.alunos || []).forEach(function (a, j) { a.id = uid() + j; });
+            return p;
+        });
+    }
+    /* lê e valida o texto de um ficheiro de turmas; alvo = escola de destino {id,codigo,nome} */
+    function ler(txt, alvo, cb) {
+        var d;
+        if (String(txt).slice(0, 400).indexOf('ge360-enc') >= 0) return cb({ ok: false, erro: 'Este ficheiro está cifrado com palavra-passe. Use «Restaurar backup» para o abrir.' });
+        try { d = JSON.parse(String(txt).replace(/^\ufeff/, '')); } catch (e) { return cb({ ok: false, erro: 'O ficheiro não é um JSON válido.' }); }
+        if (!d || d.app !== FMT || !Array.isArray(d.pautas)) return cb({ ok: false, erro: 'Este ficheiro não é uma exportação de turmas do Gestão Escolar 360°. Use «Exportar turmas» na escola de origem.' });
+        if (typeof d.formato === 'number' && d.formato > FV) return cb({ ok: false, erro: 'Ficheiro criado por uma versão mais recente. Actualize a aplicação.' });
+        sha(JSON.stringify(d.pautas)).then(function (hx) {
+            var av = [];
+            if (d.sha) { if (hx && hx !== d.sha) return cb({ ok: false, erro: 'O ficheiro foi alterado ou está danificado (falhou a verificação de integridade). Peça um novo ficheiro à escola de origem.' }); }
+            else av.push('O ficheiro não tem selo de integridade.');
+            var ps = sanPautas(clone(d.pautas));
+            if (!ps.length) return cb({ ok: false, erro: 'O ficheiro não tem turmas.' });
+            var ids = {}, dup = 0; ps.forEach(function (p) { if (ids[p.id]) dup++; ids[p.id] = 1; });
+            if (dup) av.push(dup + ' turma(s) com identificador repetido no ficheiro.');
+            cb({ ok: true, doc: d, pautas: ps, mesma: mesmaEscola(d.escola, alvo), avisos: av });
+        });
+    }
+    window.ge360Turmas = { ler: ler, remap: remap, mesmaEscola: mesmaEscola, sha: sha };
+
+    /* ---------------- ESCOLA: exportar ---------------- */
+    function podeImportar() { return !!SESSAO && SESSAO.perfil !== 'admin_geral' && (!SESSAO.remoto || SESSAO.perfil === 'adjunto'); }
+    function resumoSel() {
+        var n = 0, a = 0; S.pautas.forEach(function (p) { if (TM.sel[p.id]) { n++; a += nAl(p); } });
+        return n + ' turma(s) · ' + a + ' aluno(s)';
+    }
+    A.tmExp = function () {
+        if (!S.pautas.length) { toast('Não há turmas para exportar.'); return; }
+        TM.sel = {}; S.pautas.forEach(function (p) { TM.sel[p.id] = true; });
+        var rows = S.pautas.map(function (p) {
+            return '<label style="display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(128,128,128,.25)"><input type="checkbox" data-tm="' + h(p.id) + '" checked><span><b>' + h(rotulo(p)) + '</b><br><span class="mu sm">' + nAl(p) + ' aluno(s)</span></span></label>';
+        }).join('');
+        modal('<h2>Exportar turmas</h2><p class="mu sm" style="line-height:1.5">Escolha uma ou mais turmas. O ficheiro leva todos os dados dos alunos (notas, ficha/processo, historial e restantes campos) e fica ligado a esta escola. Guarde-o em local seguro: contém dados pessoais.</p>' +
+            '<label style="display:flex;gap:10px;align-items:center;margin:10px 0"><input type="checkbox" id="tm_all" checked><b>Todas as turmas (' + S.pautas.length + ')</b></label>' +
+            '<div style="max-height:44vh;overflow:auto">' + rows + '</div><p class="mu sm" id="tm_sum" style="margin:10px 0">' + h(resumoSel()) + '</p>' +
+            '<button class="btn pri blk" data-act="tmExpGo">Exportar ficheiro</button><button class="btn blk" style="margin-top:8px" data-act="closeModal">Cancelar</button>');
+    };
+    A.tmExpGo = function () {
+        var ps = S.pautas.filter(function (p) { return TM.sel[p.id]; });
+        if (!ps.length) { toast('Escolha pelo menos uma turma.'); return; }
+        var cl = clone(ps), e = eu(), tot = cl.reduce(function (a, p) { return a + nAl(p); }, 0);
+        sha(JSON.stringify(cl)).then(function (hx) {
+            var d = { app: FMT, formato: FV, criado: new Date().toISOString(), escola: e, resumo: { turmas: cl.length, alunos: tot }, pautas: cl };
+            if (hx) d.sha = hx;
+            var nome = 'GE360_turmas_' + String(e.codigo || 'escola').replace(/[^A-Za-z0-9_-]/g, '') + '_' + hojeISO() + '.json';
+            download(new Blob([JSON.stringify(d)], { type: 'application/json' }), nome);
+            closeModal(); toast('Exportadas ' + cl.length + ' turma(s), ' + tot + ' aluno(s).');
+        });
+    };
+
+    /* ---------------- ESCOLA: importar ---------------- */
+    function temUndo() { if (TM.undo) return true; try { return !!localStorage.getItem(UNDO); } catch (e) { return false; } }
+    A.tmImp = function () {
+        if (!podeImportar()) { toast('Só o Adjunto pode importar turmas.'); return; }
+        modal('<h2>Importar turmas</h2><p class="mu sm" style="line-height:1.5">Escolha o ficheiro de turmas exportado por esta escola. Ficheiros de outra escola são recusados, para nunca misturar dados entre escolas.</p>' +
+            '<input type="file" id="tm_file" accept=".json,application/json,text/plain" style="width:100%;margin:10px 0">' +
+            (temUndo() ? '<button class="btn blk" style="margin-top:6px" data-act="tmUndo">Desfazer a última importação</button>' : '') +
+            '<button class="btn blk" style="margin-top:8px" data-act="closeModal">Cancelar</button>');
+    };
+    function erroView(m) {
+        modal('<h2>Importar turmas</h2><div class="note" style="margin:10px 0">' + h(m) + '</div><button class="btn blk" data-act="closeModal">Fechar</button>');
+    }
+    function impView(r) {
+        if (r.mesma === false) {
+            erroView('Este ficheiro pertence a outra escola («' + ((r.doc.escola && r.doc.escola.nome) || '?') + '»). Por segurança não pode ser importado aqui. Se foi um engano de envio, peça ao Administrador Geral.');
+            return;
+        }
+        TM.R = r; r.on = {}; r.ac = {};
+        var rows = r.pautas.map(function (p) {
+            var ex = S.pautas.filter(function (x) { return x.id === p.id; })[0];
+            if (!ex) { r.on[p.id] = true; return '<div style="padding:8px 0;border-bottom:1px solid rgba(128,128,128,.25)"><label style="display:flex;gap:10px;align-items:center"><input type="checkbox" data-ti="' + h(p.id) + '" checked><span><b>' + h(rotulo(p)) + '</b> · ' + nAl(p) + ' aluno(s) <span class="mu sm">· nova</span></span></label></div>'; }
+            r.ac[p.id] = 'manter';
+            return '<div style="padding:8px 0;border-bottom:1px solid rgba(128,128,128,.25)"><b>' + h(rotulo(p)) + '</b> · ' + nAl(p) + ' aluno(s) <span class="mu sm">· já existe nesta escola (' + nAl(ex) + ' aluno(s))</span><select data-ta="' + h(p.id) + '" style="width:100%;margin-top:6px;padding:8px"><option value="manter">Manter a actual</option><option value="substituir">Substituir pela do ficheiro</option><option value="copiar">Importar como cópia</option></select></div>';
+        }).join('');
+        var av = (r.avisos || []).slice(); if (r.mesma === null) av.push('Não foi possível confirmar que o ficheiro é desta escola.');
+        modal('<h2>Importar turmas</h2><p class="mu sm">Ficheiro de «' + h((r.doc.escola && r.doc.escola.nome) || '—') + '»' + (r.doc.criado ? ' · ' + h(String(r.doc.criado).slice(0, 10)) : '') + '</p>' +
+            (av.length ? '<div class="note" style="margin:8px 0">' + av.map(h).join('<br>') + '</div>' : '') +
+            '<div style="max-height:46vh;overflow:auto">' + rows + '</div>' +
+            '<button class="btn pri blk" style="margin-top:12px" data-act="tmImpGo">Importar</button><button class="btn blk" style="margin-top:8px" data-act="closeModal">Cancelar</button>');
+    }
+    A.tmImpGo = function () {
+        var r = TM.R; if (!r) return;
+        var subst = r.pautas.filter(function (p) { return r.ac[p.id] === 'substituir'; }).length;
+        if (subst && !window.confirm('Substituir ' + subst + ' turma(s) existente(s) pela versão do ficheiro?\n\nA versão actual fica guardada e pode ser recuperada em «Desfazer a última importação».')) return;
+        var added = [], repl = [];
+        r.pautas.forEach(function (p0) {
+            var ex = S.pautas.filter(function (x) { return x.id === p0.id; })[0], p = clone(p0);
+            if (!ex) { if (r.on[p.id] !== false) { S.pautas.push(p); added.push(p.id); } return; }
+            var a = r.ac[p.id] || 'manter';
+            if (a === 'substituir') { repl.push(clone(ex)); S.pautas[S.pautas.indexOf(ex)] = p; }
+            else if (a === 'copiar') { p.id = uid() + 'c' + added.length; p.turma = (p.turma || '') + ' (cópia)'; (p.alunos || []).forEach(function (al, i) { al.id = uid() + i; }); S.pautas.push(p); added.push(p.id); }
+        });
+        if (!added.length && !repl.length) { toast('Nada para importar.'); closeModal(); return; }
+        TM.undo = { t: Date.now(), added: added, repl: repl };
+        try { localStorage.setItem(UNDO, JSON.stringify(TM.undo)); } catch (e) { }
+        save(); closeModal(); try { render(); } catch (e) { }
+        toast('Importadas ' + added.length + ' turma(s) novas/cópias e substituídas ' + repl.length + '.');
+        TM.R = null;
+    };
+    A.tmUndo = function () {
+        var u = TM.undo; if (!u) { try { u = JSON.parse(localStorage.getItem(UNDO) || 'null'); } catch (e) { u = null; } }
+        if (!u) { toast('Não há importação para desfazer.'); return; }
+        if (!window.confirm('Desfazer a última importação? As turmas importadas serão retiradas e as substituídas voltam à versão anterior.')) return;
+        S.pautas = S.pautas.filter(function (p) { return (u.added || []).indexOf(p.id) < 0; });
+        (u.repl || []).forEach(function (o) {
+            var i = -1; S.pautas.forEach(function (p, k) { if (p.id === o.id) i = k; });
+            if (i >= 0) S.pautas[i] = o; else S.pautas.push(o);
+        });
+        TM.undo = null; try { localStorage.removeItem(UNDO); } catch (e) { }
+        save(); closeModal(); try { render(); } catch (e) { } toast('Importação desfeita.');
+    };
+    document.addEventListener('change', function (e) {
+        var t = e.target; if (!t) return;
+        if (t.id === 'tm_file' && t.files && t.files[0]) {
+            readFile(t.files[0], true, function (txt) {
+                if (txt == null) { toast('Não foi possível ler o ficheiro.'); return; }
+                ler(txt, eu(), function (r) { if (!r.ok) erroView(r.erro); else impView(r); });
+            });
+        } else if (t.id === 'tm_all') {
+            S.pautas.forEach(function (p) { TM.sel[p.id] = t.checked; });
+            Array.prototype.forEach.call(document.querySelectorAll('input[data-tm]'), function (c) { c.checked = t.checked; });
+            var s = document.getElementById('tm_sum'); if (s) s.textContent = resumoSel();
+        } else if (t.getAttribute && t.getAttribute('data-tm') !== null) {
+            TM.sel[t.getAttribute('data-tm')] = t.checked;
+            var s2 = document.getElementById('tm_sum'); if (s2) s2.textContent = resumoSel();
+        } else if (t.getAttribute && t.getAttribute('data-ti') !== null && TM.R) {
+            TM.R.on[t.getAttribute('data-ti')] = t.checked;
+        } else if (t.getAttribute && t.getAttribute('data-ta') !== null && TM.R) {
+            TM.R.ac[t.getAttribute('data-ta')] = t.value;
+        }
+    });
+    var vB = vBackup;
+    vBackup = function () {
+        var x = vB.apply(this, arguments);
+        if (typeof x !== 'string' || !SESSAO || SESSAO.perfil === 'admin_geral') return x;
+        return x + '<div class="card" style="margin-top:14px"><b>Turmas: exportar e importar</b><p class="mu sm" style="line-height:1.5;margin:6px 0 10px">Passe uma ou mais turmas (todos os dados dos alunos) para um ficheiro, ou carregue-as noutro equipamento da mesma escola.</p><button class="btn pri blk" data-act="tmExp">Exportar turmas (ficheiro)</button>' +
+            (podeImportar() ? '<button class="btn blk" style="margin-top:10px" data-act="tmImp">Importar turmas (ficheiro)</button>' : '') + '</div>';
+    };
+
+    /* ---------------- ADMINISTRADOR GERAL: restauro remoto + envio de turmas ---------------- */
+    var RR = { esc: '', msg: '', busy: false };
+    function ehAdmin() { return !!SESSAO && SESSAO.perfil === 'admin_geral' && SESSAO.remoto; }
+    function fn(b) {
+        return srvApi('POST', '/functions/v1/backup_servidor', b).then(function (r) {
+            var j = (r && r.j) || {};
+            if (!r || !r.ok || j.ok === false) throw { msg: j.erro || j.message || (r && r.st === 404 ? 'A função «backup_servidor» ainda não está publicada.' : 'Operação não concluída.') };
+            return j;
+        });
+    }
+    function chave(t) {
+        return new Promise(function (ok) {
+            var d = document.createElement('div');
+            d.style.cssText = 'position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(0,0,0,.5);padding:16px';
+            d.innerHTML = '<form style="background:#fff;color:#111;border-radius:18px;padding:18px;max-width:380px;width:100%"><p style="margin:0 0 10px;font-weight:600">' + h(t) + '</p><input type="password" autocomplete="off" style="width:100%;padding:10px;border-radius:10px;border:1px solid #bbb;box-sizing:border-box"><div style="display:flex;gap:8px;margin-top:12px"><button type="button" data-n style="flex:1;padding:10px;border-radius:10px;border:1px solid #bbb;background:#fff;color:#111">Cancelar</button><button type="submit" style="flex:1;padding:10px;border-radius:10px;border:0;background:#6b3fc4;color:#fff">Confirmar</button></div></form>';
+            document.body.appendChild(d);
+            var i = d.querySelector('input'); i.focus();
+            function fim(v) { d.remove(); ok(v); }
+            d.querySelector('form').addEventListener('submit', function (e) { e.preventDefault(); fim(i.value.trim()); });
+            d.querySelector('[data-n]').addEventListener('click', function () { fim(''); });
+        });
+    }
+    function validarChave(k, acao, alvo) {
+        return srvApi('POST', '/functions/v1/admin_master_validate', { chave_mestra: k, acao: acao, alvo_id: alvo }).then(function (v) {
+            var j = (v && v.j) || {}; if (!v || !v.ok || j.valido === false) throw { msg: j.erro || 'Chave-mestra inválida.' };
+        });
+    }
+    function msg(m) { RR.msg = m; var p = document.getElementById('rr_msg'); if (p) { p.textContent = m; p.style.display = m ? 'block' : 'none'; } }
+    function escAlvo() {
+        var s = document.getElementById('rr_sel'), id = s ? s.value : RR.esc, o = s && s.selectedOptions && s.selectedOptions[0];
+        var t = o ? o.textContent : '', m = /^(.*) \(([^()]*)\)$/.exec(t) || [];
+        return id ? { id: id, nome: m[1] || t, codigo: m[2] || '' } : null;
+    }
+    function restaurarUltimo() {
+        var a = escAlvo(); if (!a) { msg('Escolha primeiro a escola.'); return; }
+        RR.busy = true; msg('A procurar o último backup…');
+        srvApi('GET', '/rest/v1/backup_registo?select=id,escola_nome,criado_em,tipo&escola_id=eq.' + encodeURIComponent(a.id) + '&estado=eq.ok&caminho=not.is.null&tipo=neq.pre_restauro&order=criado_em.desc&limit=1').then(function (r) {
+            var b = r.ok && r.j && r.j[0];
+            if (!b) throw { msg: 'Esta escola ainda não tem backup no servidor. Crie um agora (botão «Desta escola») ou peça à escola para abrir a app com internet.' };
+            return fn({ acao: 'previa', backup_id: b.id }).then(function (p) {
+                var dt = new Date(b.criado_em).toLocaleString('pt-PT', { dateStyle: 'short', timeStyle: 'short' });
+                var linhas = (p.tabelas || []).map(function (t) { return t + ': backup ' + (p.no_backup[t] || 0) + ' · agora ' + (p.atuais[t] || 0); }).join('\n');
+                if (!window.confirm('Restaurar «' + a.nome + '» com o backup de ' + dt + '?\n\n' + linhas + '\n\nOs registos do backup substituem os de igual identificação NESTA escola; os restantes ficam. Nenhuma outra escola é tocada. É criado antes um backup de segurança.')) throw { msg: 'Restauro cancelado.' };
+                return chave('Chave-mestra para restaurar (validada no servidor):').then(function (k) {
+                    if (!k) throw { msg: 'Restauro cancelado.' };
+                    msg('A restaurar…');
+                    return fn({ acao: 'restaurar', backup_id: b.id, chave_mestra: k }).then(function (j) {
+                        var e = Object.keys(j.erros || {});
+                        return 'Restauro concluído (' + dt + ')' + (e.length ? ' com erros em: ' + e.join(', ') : '') + '. A escola entra no novo equipamento com a sua conta e os dados descarregam sozinhos. Se o equipamento foi roubado, termine as sessões e mude as palavras-passe das contas da escola.';
+                    });
+                });
+            });
+        }).then(function (m) { msg(m); }, function (e) { msg((e && e.msg) || 'Operação não concluída.'); }).then(function () { RR.busy = false; var l = document.querySelector('[data-bk="load"]'); if (l) l.click(); });
+    }
+    function enviarFicheiro(file) {
+        var a = escAlvo(); if (!a) { msg('Escolha primeiro a escola de destino.'); return; }
+        readFile(file, true, function (txt) {
+            if (txt == null) { msg('Não foi possível ler o ficheiro.'); return; }
+            ler(txt, a, function (r) {
+                if (!r.ok) { msg(r.erro); return; }
+                var mesma = r.mesma === true, n = r.pautas.length, al = r.pautas.reduce(function (s, p) { return s + nAl(p); }, 0), org = (r.doc.escola && r.doc.escola.nome) || '?';
+                var pergunta = mesma
+                    ? 'Enviar ' + n + ' turma(s), ' + al + ' aluno(s), para «' + a.nome + '»?\n\nAs turmas com o mesmo identificador serão substituídas pela versão do ficheiro; as restantes da escola ficam como estão.'
+                    : 'ATENÇÃO: este ficheiro é da escola «' + org + '» e o destino é «' + a.nome + '».\n\nOs dados serão acrescentados como turmas NOVAS, com identificadores novos, sem tocar nas turmas existentes de «' + a.nome + '».\n\nEnviar ' + n + ' turma(s), ' + al + ' aluno(s)?';
+                if (!window.confirm(pergunta)) { msg('Envio cancelado.'); return; }
+                chave('Chave-mestra para enviar turmas a esta escola:').then(function (k) {
+                    if (!k) throw { msg: 'Envio cancelado.' };
+                    RR.busy = true; msg('A validar a chave-mestra…');
+                    return validarChave(k, 'enviar_turmas', a.id).then(function () {
+                        msg('A criar o backup de segurança da escola…');
+                        return fn({ acao: 'criar', escola_id: a.id });
+                    }).then(function (j) {
+                        if (!j.feitos) throw { msg: 'Envio cancelado: não foi possível criar o backup de segurança (' + (j.erro_ultimo || 'erro desconhecido') + ').' };
+                        var lista = mesma ? r.pautas : remap(r.pautas).map(function (p) { p.escola = a.nome; return p; });
+                        var ok = 0, falhas = [];
+                        return lista.reduce(function (seq, p, i) {
+                            return seq.then(function () {
+                                msg('A enviar turma ' + (i + 1) + ' de ' + lista.length + '…');
+                                var base = '/rest/v1/pautas?escola_id=eq.' + encodeURIComponent(a.id) + '&id=eq.' + encodeURIComponent(p.id);
+                                return srvApi('GET', base + '&select=versao').then(function (g) {
+                                    var v = g.ok && g.j && g.j[0] && g.j[0].versao;
+                                    var q = v ? srvApi('PATCH', base + '&versao=eq.' + v, { dados: p, apagada: false }, { Prefer: 'return=representation' })
+                                              : srvApi('POST', '/rest/v1/pautas', { escola_id: a.id, id: p.id, dados: p }, { Prefer: 'return=representation' });
+                                    return q.then(function (w) { if (w.ok && w.j && w.j.length) ok++; else falhas.push(rotulo(p)); });
+                                });
+                            });
+                        }, Promise.resolve()).then(function () {
+                            return 'Enviadas ' + ok + ' de ' + lista.length + ' turma(s) para «' + a.nome + '».' + (falhas.length ? ' Falharam: ' + falhas.join(', ') + '.' : '') + ' Backup de segurança criado antes do envio.';
+                        });
+                    });
+                }).then(function (m) { msg(m); }, function (e) { msg((e && e.msg) || (typeof srvErro === 'function' ? srvErro(e) : 'Operação não concluída.')); }).then(function () { RR.busy = false; var l = document.querySelector('[data-bk="load"]'); if (l) l.click(); });
+            });
+        });
+    }
+    function injectar() {
+        try {
+            if (!ehAdmin()) return;
+            var g = document.getElementById('gate'); if (!g || !g.classList.contains('on')) return;
+            var gb = g.querySelector('.gb.v2'), t = gb && gb.querySelector('.v2h h1');
+            if (!gb || !t || !/^Backups$/i.test(t.textContent.trim()) || gb.querySelector('#rr_box')) return;
+            var sec = gb.querySelector('section.v2d'), bs = gb.querySelector('#bk_sel'); if (!sec || !bs) return;
+            var box = document.createElement('section'); box.className = 'v2d'; box.id = 'rr_box';
+            box.innerHTML = '<div><h4>Restauro remoto (equipamento perdido ou roubado)</h4><p class="mu sm" style="margin:0 0 8px">A pedido da escola: devolve os dados do último backup do servidor a ESTA escola. Não toca em nenhuma outra.</p>' +
+                '<select id="rr_sel" class="adq">' + bs.innerHTML + '</select><div class="v2row"><button class="v2b pri" data-rr="ultimo">Restaurar o último backup</button></div></div>' +
+                '<div><h4>Enviar turmas a esta escola</h4><p class="mu sm" style="margin:0 0 8px">Ficheiro «Exportar turmas». Da mesma escola: substitui as turmas iguais. De outra escola: entram como turmas novas, sem colisões.</p><button class="v2b" data-rr="enviar">Escolher ficheiro e enviar</button><input type="file" id="rr_file" accept=".json,application/json,text/plain" hidden></div>' +
+                '<p class="v2msg" id="rr_msg" role="status" style="grid-column:1/-1;display:' + (RR.msg ? 'block' : 'none') + '">' + h(RR.msg) + '</p>';
+            sec.insertAdjacentElement('afterend', box);
+            var s = box.querySelector('#rr_sel'); s.value = RR.esc || (bs.value || ''); if (s.selectedIndex < 0) s.selectedIndex = 0;
+        } catch (e) { }
+    }
+    document.addEventListener('click', function (e) {
+        var b = e.target.closest && e.target.closest('[data-rr]'); if (!b || !ehAdmin() || RR.busy) return;
+        var a = b.getAttribute('data-rr');
+        if (a === 'ultimo') restaurarUltimo();
+        else if (a === 'enviar') { if (!escAlvo()) { msg('Escolha primeiro a escola de destino.'); return; } var f = document.getElementById('rr_file'); if (f) { f.value = ''; f.click(); } }
+    }, true);
+    document.addEventListener('change', function (e) {
+        var t = e.target; if (!t || !ehAdmin()) return;
+        if (t.id === 'rr_sel') RR.esc = t.value;
+        else if (t.id === 'rr_file' && t.files && t.files[0]) enviarFicheiro(t.files[0]);
+    });
+    var gt = document.getElementById('gate');
+    if (gt) { var ob = new MutationObserver(function () { injectar(); ob.takeRecords(); }); ob.observe(gt, { childList: true, attributes: true, attributeFilter: ['class'] }); }
 })();
 </script>
 </body>
