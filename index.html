@@ -6,7 +6,7 @@
 /* Estabilizador: em ecrãs tácteis, mudanças só de altura (barra de endereço, teclado) já não fazem os módulos trocarem o menu/layout. */
 (function(){var W=window,add=W.addEventListener,coarse=false;try{coarse=matchMedia('(pointer:coarse)').matches}catch(e){}
 if(!coarse||W.addEventListener.__geWrapped)return; /* idempotente: nunca embrulhar duas vezes */
-W.addEventListener=function(t,f,o){if(t==='resize'&&typeof f==='function'&&this===W){var g=function(e){var w=W.innerWidth;if(w===g.w)return;g.w=w;return f.call(this,e)};g.w=W.innerWidth;return add.call(W,t,g,o)}return add.apply(this,arguments)};
+W.addEventListener=function(t,f,o){if(t==='resize'&&typeof f==='function'&&this===W){var LW=function(){return Math.min(document.documentElement.clientWidth||W.innerWidth,W.innerWidth)};var g=function(e){var w=LW();if(w===g.w)return;g.w=w;return f.call(this,e)};g.w=LW();return add.call(W,t,g,o)}return add.apply(this,arguments)};
 W.addEventListener.__geWrapped=true;
 })();
 </script>
@@ -28,9 +28,9 @@ W.addEventListener.__geWrapped=true;
 </script>
 
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,viewport-fit=cover">
 <!-- CSP: 'unsafe-inline' mantido de propósito: 66 scripts inline, ~1173 style="" e 1 onclick inline (página de impressão). Para endurecer: mover os scripts para ficheiros externos (src) e trocar o onclick por addEventListener. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'sha256-W4i7qdG3vCuUNTTrCG46xQIj+aKInBSZ9KNTx3kYLvw=' 'sha256-8lCUqFFgoRkaFfGSPDtjezfVApgbgcFBVkuQ47pEjqY=' 'sha256-KceIVjJNexil+AzbXEVKoeXAr+pPzvCRBIPGUn/Sv3Y=' 'sha256-3RqmWvs7FCtGuIjd4RZ8fx6nvzx2ZHMYhO2QqGY1B10=' 'sha256-bVwYP53sDOGazQ5MBuEOz9pKQOIAfy8kTtIh0cIhOjY=' 'sha256-x/qgNv6i9UcDf2UjvqcINdHWiPxgUMmVzylMEyKuKKo=' 'sha256-f+XSv3ejSqgEnGtGB27XSNFAlbOpV2SuDS8ov6VrrRY=' 'sha256-BoWg3tJa73CDGh3YQp5uA9S0oUB7PfpUELraZ949usg=' 'sha256-4L6Bjf9Qpd+ACUspTV2/OdWwwK9IqLzXJdJhSmPzG90=' 'sha256-JZswidyLEEdoVp7R9ZAdnkgXtmJuvMGau4LFukVC8Tc=' 'sha256-AUt4JvEbl+BeB63hRrQKBmDU2D6ydj7zlFKVwA3cdtI=' 'sha256-0k7wwU2DDkzD9fQ3bMNu8Gy+99eABnPL2PDDdOt0OTc=' 'sha256-p6cJUKyKO6wZU4e9Jo9VfjMLWNwRijQkGGRlEFYiN7E=' 'sha256-tnPutFBhrCBqK11HMF0tIyD4oRhxTG2oPaQts/eepwQ=' 'sha256-qdv2OPj6k8TCjLoKk5rkd5tBJs9efgEp/WkDILu+Qxo=' 'sha256-EWH7uBcGw5DAVLb+iyg3wxYLaEcbfY713pQQ0clVo50=' 'sha256-FcipVqXBx6IHNO3TNwPPQa0RP2PiCjlUa50a9cE37C8=' 'sha256-BdRsKXeE2tWywb5iRFEqfjZZhxO9QtfCWEAhmqD0vvw=' 'sha256-poU2EZF5cL6TIWCLWSDvzocGX6jXd0Iqe4L/c0+ztQA=' 'sha256-PRcVpuB9gpLpmYAc4eeuoHy3DCPZwWi0vwWY+9F8MW4=' 'sha256-xfUjcBE4RYY6yoQUw27jtghEfcmtc2q3iljk/wNq2dw=' 'sha256-cHTwAszLvllR3Q2JpxwvC6i36WM3QOc6utIaXuqAQHc=' 'sha256-HG0HFZ1PiGw3/jxUFsD2bKlSvCYBKoiNVamZxMvP1V4=' 'sha256-gnjwdNeXEdHZyrnzLSx/USBx8V/C6z0yDbf5lF4ORhA=' 'sha256-T+2EwGq5UGtp4YG144HCMAyI1ENbrFn8L9UpMxgFFKs=' 'sha256-UDfTsSlW9B+EFfhtx5ycjHF3vZCl5FQC5Hvp10vETQk=' 'sha256-Yk0xpOtLgkdP5r40hrfzApKlGViL0iv2O8GgO1Xlogg=' 'sha256-xhimLAp5p3Viqde9CDKVzt4xZ0ttXcxnsJolV6M3XyY=' 'sha256-uJ9bttZKyjdEWbfItC9OI/zwCFNbOLPXLe3u4oK7emg=' 'sha256-FfdY2jOfsS8y1/5qdeM4OwrZyQEkzjcj4H/+zjFJS6E=' 'sha256-0IV2Cuuz8Xi3IcHLvyOq5w+TE2WZfhkxW0UlJqLZs3I=' 'sha256-Ij9Pjf/V1+rmhakob/F1nlALoBCPr/cFajzadWvRLAo=' 'sha256-iRm3mfEObyJCOgTQ1NuX/oO2opwb1q4iYdxnKRfHLzc=' 'sha256-SbL9UKVY9ONjNSvx8/OvYOq7gB3J29bbzFDsu7TVVaU=' 'sha256-gyzDidkC58M1B54BWkGjHJ58BHOFxpeAMrL8y0zj4Co=' 'sha256-wIr8O8OmYhIrQEBaS1FIfCpqrR1dwg8O0jCxVhXQXO0=' 'sha256-9Gv41wFgdJO1BhiQtMoZRbdA1Y4mXH0gTIlZQxncX00=' 'sha256-sWazxVLIUpwhUwZgXNC8FYo+eDtcWlAmr4EkbNSO4kc=' 'sha256-YKySNnjriEqYPHgVhrC472Q3XndSBwlUDhl2ZozqHgY=' 'sha256-ZbdyIcFrV08ivnTxc7wZ2ObdBZyPUd2Amv71g3OX2TA=' 'sha256-nyTLkW5S0q1c/ttDL9kmOW4FC62iabZjiJIM1F1oVqA=' 'sha256-CUBClhxACl25926CuFIRl1kq9h0iIxN78iOZ6Nq04GU=' 'sha256-KPuBXsSio+33QRX/LVcl7CT2JPSXHgZOJd4Q7id1Ucs=' 'sha256-j2d0le5Z39P1Sf2uZs2gQThDNY+E9+HNZqnCsxwdwnY=' 'sha256-hXn7ipRjAhT4lcEQmLiBVKX2n7jgRtF8v+d7O2AR2U4=' 'sha256-+ccZhlKVoJKWdMOPRalr0t8sk0Z3/2jSlinlpnJBJAk=' 'sha256-ZXEGPyZpJLQZBeYplakvhohYKiLQI/woegMtiGjRpDA=' 'sha256-hz+fYDUSyfgHHFvNjvYMHd9envgYJMcwDsNzpMwgoOs=' 'sha256-VoEgynzOb0V1g52E3Xs23MFWdFiOTlCCKnoOKfUzAHc=' 'sha256-qnwL6zhhjo2C7r9T2SQSLhgVq8izgUGwwrEaJs6Y+No=' 'sha256-jCdonwoKgqVYv38iCQi9TJDxCL5C2xXjk0xknVVa01Y=' 'sha256-w+lCRbdjO6sC+UJg/uyTvfSWkakEoTwhFoHnymeyJhc=' 'sha256-LoLPXxFIoJxc2F7ii/uZPp6giay+dF8T/WfiQ6HgYoU=' 'sha256-uTfb3vl9ytfkA9Z/NR70i7HomhZBaXOT7SG8ucAhXLc=' 'sha256-TKlyFA/a8p500MyUV6qBd2f3Dkn7XpSxKMCRGRE9sOk=' 'sha256-hKH9Mpd4E++uYhdrF/C0F3CFmA3skl56XyEgkuKML/0=' 'sha256-FwlE0d7dPwDOirT4EAG08/KHFXRq7RJuL2BIMgNv9PE=' 'sha256-ODidBbpLe3IQ5F/I5vlUBTODlEVvOs/iDIpgRbfd5E0=' 'sha256-2Tmh4VT+z8OjhKSWYrI6USDRuRMsfhWUi1OOTcxQ/6Q=' 'sha256-IT2XTPOUKF+hJK7IgrnzewJy5nZSOl/A3cBWh1dLjD4=' 'sha256-U7pzZuImcW4LS5jic5lHRhHhlXKnkVeu4Jz390pkiDQ=' 'sha256-U0UJg+B5N8maNctKPlr4usIWLUv6nwn+mfRZ+mN/ttk=' 'sha256-1CSUlRdl2DsNnLloCqHF1Ac495oozEOob+asWeMEQM0=' 'sha256-Wcc4AJlPG1AiNaGWmoZe3BQg7j4gBPF4k7AG2ffCqs4=' 'sha256-4gTYDwYGikonF3aYZxZK+l6kN2P+SLeOXtTiWREEFUU=' 'sha256-GoRfFISVYBOLwm6KREymh8cuDO/fPg0wyb8tHPG1tP8=' 'sha256-fGVVCUdbq8aHZ/gpfnTlcI6aY0jS5GEejZl76JpibB0=' 'sha256-5/PZebspmJMtZiA+oI11HHiSYRIv1xjf7pS8RAF1SoM=' 'sha256-eXyOMcmIzfjbiRIVkUThXUdmqy9D7gjCxNx16wuVB6U=' 'sha256-vcZ+yAfI30cvZe9z1sAJGgWOKdTQhMTUynGwenV201M=' 'sha256-GfIaxDrYzS7gxjB/WDx0P33ovj4TPX1cp9vqYT8VGzc=' 'sha256-LM+4egu9M1uNZweJp9z8tRs0HZvsmJVUz1tH8btYsm4=' 'sha256-N5gSMkDLV4/ux8+DXdWltXRqqxAcKZugpTao95VhbHA=' 'sha256-pBZoH4DTRUgkFEIdXfcn03tr73+Vr7axvVIoYxwId3k=' 'sha256-OX3Dw/wpgYr6CZRXvUY5lo2gpvx/H6FhmfkvMz3D09w=' 'sha256-ummyyCakuraT64pR1dJBW2QCT39hi/1753ee7AHvObA=' 'sha256-y34pFhlyIjpQro/jEG6pBddbJLLSORYuElpvs73lTrs=' 'sha256-9yu31iO7hwN1G+Gwt8pVmPbxflDY/qtTgBELw4Zqltw=' 'sha256-bg+mmapNH+2YpBc8D0pWEzvPcpyCz3/fBor9hwPlOJQ=' 'sha256-0gCkX7HUPsXelOgTnUvLYQ18aYSP4tvTL+E+7whiagA=' 'sha256-nF6T4W36uSE1ufTytZ0ge12HYM0NrmL42TM2wujgfLM=' 'sha256-g60IESiREKvAV1M/ix2bku4mfKiTIbIxzGmAVHoA/XA=' 'sha256-i/CQ8gWMieBX8CZExb87qRdTAQa6hAwS2rLN3GwV7Aw=' 'sha256-cfjrhQyIrai3AgANSXePrHJcM36LdHpZ4zzQKvJWby0=' 'sha256-JKwEM6kgrKD5a6iaAGOOjoIq2grFPj1Czw/4LEyhkCs=' 'sha256-IcS2c7+HRPK4Q09yxBf13j4Jo634JXe7NaV2djqTYAA='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' https://svvphyiotfbqhxclspqj.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'sha256-W4i7qdG3vCuUNTTrCG46xQIj+aKInBSZ9KNTx3kYLvw=' 'sha256-KcXSPOZGm6bVsq94YKpIr3OSHldrwu5HDDc1JC3Gv3k=' 'sha256-KceIVjJNexil+AzbXEVKoeXAr+pPzvCRBIPGUn/Sv3Y=' 'sha256-3RqmWvs7FCtGuIjd4RZ8fx6nvzx2ZHMYhO2QqGY1B10=' 'sha256-bVwYP53sDOGazQ5MBuEOz9pKQOIAfy8kTtIh0cIhOjY=' 'sha256-x/qgNv6i9UcDf2UjvqcINdHWiPxgUMmVzylMEyKuKKo=' 'sha256-gjAUQkLm4r4yICw2RywQaPOUbqSVAeAIBvSbQrYQG2U=' 'sha256-BoWg3tJa73CDGh3YQp5uA9S0oUB7PfpUELraZ949usg=' 'sha256-4L6Bjf9Qpd+ACUspTV2/OdWwwK9IqLzXJdJhSmPzG90=' 'sha256-JZswidyLEEdoVp7R9ZAdnkgXtmJuvMGau4LFukVC8Tc=' 'sha256-AUt4JvEbl+BeB63hRrQKBmDU2D6ydj7zlFKVwA3cdtI=' 'sha256-0k7wwU2DDkzD9fQ3bMNu8Gy+99eABnPL2PDDdOt0OTc=' 'sha256-p6cJUKyKO6wZU4e9Jo9VfjMLWNwRijQkGGRlEFYiN7E=' 'sha256-tnPutFBhrCBqK11HMF0tIyD4oRhxTG2oPaQts/eepwQ=' 'sha256-qdv2OPj6k8TCjLoKk5rkd5tBJs9efgEp/WkDILu+Qxo=' 'sha256-OPHM/hQF4sSW7bUAR3Jk2WVt7Uh90WnCKunp5+vLCow=' 'sha256-FcipVqXBx6IHNO3TNwPPQa0RP2PiCjlUa50a9cE37C8=' 'sha256-BdRsKXeE2tWywb5iRFEqfjZZhxO9QtfCWEAhmqD0vvw=' 'sha256-poU2EZF5cL6TIWCLWSDvzocGX6jXd0Iqe4L/c0+ztQA=' 'sha256-PRcVpuB9gpLpmYAc4eeuoHy3DCPZwWi0vwWY+9F8MW4=' 'sha256-xfUjcBE4RYY6yoQUw27jtghEfcmtc2q3iljk/wNq2dw=' 'sha256-cHTwAszLvllR3Q2JpxwvC6i36WM3QOc6utIaXuqAQHc=' 'sha256-HG0HFZ1PiGw3/jxUFsD2bKlSvCYBKoiNVamZxMvP1V4=' 'sha256-gnjwdNeXEdHZyrnzLSx/USBx8V/C6z0yDbf5lF4ORhA=' 'sha256-T+2EwGq5UGtp4YG144HCMAyI1ENbrFn8L9UpMxgFFKs=' 'sha256-UDfTsSlW9B+EFfhtx5ycjHF3vZCl5FQC5Hvp10vETQk=' 'sha256-Yk0xpOtLgkdP5r40hrfzApKlGViL0iv2O8GgO1Xlogg=' 'sha256-xhimLAp5p3Viqde9CDKVzt4xZ0ttXcxnsJolV6M3XyY=' 'sha256-uJ9bttZKyjdEWbfItC9OI/zwCFNbOLPXLe3u4oK7emg=' 'sha256-FfdY2jOfsS8y1/5qdeM4OwrZyQEkzjcj4H/+zjFJS6E=' 'sha256-0IV2Cuuz8Xi3IcHLvyOq5w+TE2WZfhkxW0UlJqLZs3I=' 'sha256-Ij9Pjf/V1+rmhakob/F1nlALoBCPr/cFajzadWvRLAo=' 'sha256-iRm3mfEObyJCOgTQ1NuX/oO2opwb1q4iYdxnKRfHLzc=' 'sha256-SbL9UKVY9ONjNSvx8/OvYOq7gB3J29bbzFDsu7TVVaU=' 'sha256-gyzDidkC58M1B54BWkGjHJ58BHOFxpeAMrL8y0zj4Co=' 'sha256-wIr8O8OmYhIrQEBaS1FIfCpqrR1dwg8O0jCxVhXQXO0=' 'sha256-9Gv41wFgdJO1BhiQtMoZRbdA1Y4mXH0gTIlZQxncX00=' 'sha256-sWazxVLIUpwhUwZgXNC8FYo+eDtcWlAmr4EkbNSO4kc=' 'sha256-YKySNnjriEqYPHgVhrC472Q3XndSBwlUDhl2ZozqHgY=' 'sha256-ZbdyIcFrV08ivnTxc7wZ2ObdBZyPUd2Amv71g3OX2TA=' 'sha256-nyTLkW5S0q1c/ttDL9kmOW4FC62iabZjiJIM1F1oVqA=' 'sha256-CUBClhxACl25926CuFIRl1kq9h0iIxN78iOZ6Nq04GU=' 'sha256-KPuBXsSio+33QRX/LVcl7CT2JPSXHgZOJd4Q7id1Ucs=' 'sha256-j2d0le5Z39P1Sf2uZs2gQThDNY+E9+HNZqnCsxwdwnY=' 'sha256-hXn7ipRjAhT4lcEQmLiBVKX2n7jgRtF8v+d7O2AR2U4=' 'sha256-+ccZhlKVoJKWdMOPRalr0t8sk0Z3/2jSlinlpnJBJAk=' 'sha256-ZXEGPyZpJLQZBeYplakvhohYKiLQI/woegMtiGjRpDA=' 'sha256-hz+fYDUSyfgHHFvNjvYMHd9envgYJMcwDsNzpMwgoOs=' 'sha256-VoEgynzOb0V1g52E3Xs23MFWdFiOTlCCKnoOKfUzAHc=' 'sha256-qnwL6zhhjo2C7r9T2SQSLhgVq8izgUGwwrEaJs6Y+No=' 'sha256-jCdonwoKgqVYv38iCQi9TJDxCL5C2xXjk0xknVVa01Y=' 'sha256-xk3bPp9L74fP1mgYyheyxTnv1dUMUjxsbkKfi4KNS30=' 'sha256-LoLPXxFIoJxc2F7ii/uZPp6giay+dF8T/WfiQ6HgYoU=' 'sha256-uTfb3vl9ytfkA9Z/NR70i7HomhZBaXOT7SG8ucAhXLc=' 'sha256-gm4JCLVNe8QNF9t81A8B3LUvCdK1gWo9M7ipjYaj4z4=' 'sha256-hKH9Mpd4E++uYhdrF/C0F3CFmA3skl56XyEgkuKML/0=' 'sha256-FwlE0d7dPwDOirT4EAG08/KHFXRq7RJuL2BIMgNv9PE=' 'sha256-ODidBbpLe3IQ5F/I5vlUBTODlEVvOs/iDIpgRbfd5E0=' 'sha256-nuh/61OSvrEb6xPWtHN6J063oCOc6TL7OFiBEVM0mhg=' 'sha256-IT2XTPOUKF+hJK7IgrnzewJy5nZSOl/A3cBWh1dLjD4=' 'sha256-U7pzZuImcW4LS5jic5lHRhHhlXKnkVeu4Jz390pkiDQ=' 'sha256-U0UJg+B5N8maNctKPlr4usIWLUv6nwn+mfRZ+mN/ttk=' 'sha256-1CSUlRdl2DsNnLloCqHF1Ac495oozEOob+asWeMEQM0=' 'sha256-Wcc4AJlPG1AiNaGWmoZe3BQg7j4gBPF4k7AG2ffCqs4=' 'sha256-4gTYDwYGikonF3aYZxZK+l6kN2P+SLeOXtTiWREEFUU=' 'sha256-GoRfFISVYBOLwm6KREymh8cuDO/fPg0wyb8tHPG1tP8=' 'sha256-fGVVCUdbq8aHZ/gpfnTlcI6aY0jS5GEejZl76JpibB0=' 'sha256-5/PZebspmJMtZiA+oI11HHiSYRIv1xjf7pS8RAF1SoM=' 'sha256-eXyOMcmIzfjbiRIVkUThXUdmqy9D7gjCxNx16wuVB6U=' 'sha256-vcZ+yAfI30cvZe9z1sAJGgWOKdTQhMTUynGwenV201M=' 'sha256-GfIaxDrYzS7gxjB/WDx0P33ovj4TPX1cp9vqYT8VGzc=' 'sha256-LM+4egu9M1uNZweJp9z8tRs0HZvsmJVUz1tH8btYsm4=' 'sha256-N5gSMkDLV4/ux8+DXdWltXRqqxAcKZugpTao95VhbHA=' 'sha256-pBZoH4DTRUgkFEIdXfcn03tr73+Vr7axvVIoYxwId3k=' 'sha256-OX3Dw/wpgYr6CZRXvUY5lo2gpvx/H6FhmfkvMz3D09w=' 'sha256-ummyyCakuraT64pR1dJBW2QCT39hi/1753ee7AHvObA=' 'sha256-y34pFhlyIjpQro/jEG6pBddbJLLSORYuElpvs73lTrs=' 'sha256-9yu31iO7hwN1G+Gwt8pVmPbxflDY/qtTgBELw4Zqltw=' 'sha256-bg+mmapNH+2YpBc8D0pWEzvPcpyCz3/fBor9hwPlOJQ=' 'sha256-0gCkX7HUPsXelOgTnUvLYQ18aYSP4tvTL+E+7whiagA=' 'sha256-nF6T4W36uSE1ufTytZ0ge12HYM0NrmL42TM2wujgfLM=' 'sha256-g60IESiREKvAV1M/ix2bku4mfKiTIbIxzGmAVHoA/XA=' 'sha256-i/CQ8gWMieBX8CZExb87qRdTAQa6hAwS2rLN3GwV7Aw=' 'sha256-cfjrhQyIrai3AgANSXePrHJcM36LdHpZ4zzQKvJWby0=' 'sha256-JKwEM6kgrKD5a6iaAGOOjoIq2grFPj1Czw/4LEyhkCs=' 'sha256-IcS2c7+HRPK4Q09yxBf13j4Jo634JXe7NaV2djqTYAA='; script-src-attr 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' https://svvphyiotfbqhxclspqj.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0038ff"><style id="az-hide">html{visibility:hidden}:root:root:root:root{background:#E3ECFF!important}:root:root:root:root[data-theme="dark"]{background:#050505!important}</style><script>setTimeout(function(){var e=document.getElementById("az-hide");if(e)e.remove()},2500)</script>
 <meta name="mobile-web-app-capable" content="yes">
@@ -62,7 +62,7 @@ function m(o,k){return(o===ls&&SC[k])?k+'@'+slot:k}
 P.getItem=function(k){return g.call(this,m(this,k))};P.setItem=function(k,v){return st.call(this,m(this,k),v)};P.removeItem=function(k){return rm.call(this,m(this,k))};
 }catch(e){}})();</script>
 <script id="resp360-dev">/* Layout pc|android por LARGURA (>=900px). Distinto do ge-resize-guard, que filtra resizes por TIPO DE PONTEIRO (pointer:coarse). Critérios diferentes de propósito. */
-try{localStorage.setItem('pauta_dispositivo_v1',(window.innerWidth>=900)?'pc':'android')}catch(e){}</script>
+try{localStorage.setItem('pauta_dispositivo_v1',(Math.min(document.documentElement.clientWidth||window.innerWidth,window.innerWidth)>=900)?'pc':'android')}catch(e){}</script>
 <title>Gestão Escolar 360°</title>
 <script>
 /* Segurança: só aceita imagens data: em base64 (evita injecção de HTML/atributos via backups adulterados) */
@@ -6027,7 +6027,18 @@ function srvPush(E, M, rel) {
                 });
             }
             return srvApi('PATCH', '/rest/v1/pautas?escola_id=eq.' + E + '&id=eq.' + encodeURIComponent(p.id) + '&versao=eq.' + m.v, { dados: p }, { Prefer: 'return=representation' }).then(function (r) {
-                if (r.ok && r.j && r.j.length) { M[p.id] = { v: r.j[0].versao, h: h }; rel.push++; } else if (r.ok) { if (SESSAO.perfil === 'professor') rel.recus = (rel.recus || 0) + 1; else rel.conf++; } else srvFalha(rel, 'pauta «' + (p.turma || p.id) + '»', r);
+                if (r.ok && r.j && r.j.length) { M[p.id] = { v: r.j[0].versao, h: h }; rel.push++; return; }
+                if (r.ok && SESSAO.perfil !== 'professor') {
+                    /* v6.3.4: 0 linhas alteradas = versão diferente OU pauta inexistente no servidor. Se não existe, cria-a; só é conflito se existir. */
+                    return srvApi('GET', '/rest/v1/pautas?select=versao&escola_id=eq.' + E + '&id=eq.' + encodeURIComponent(p.id)).then(function (g) {
+                        if (g.ok && g.j && g.j.length) { rel.conf++; return; }
+                        if (!g.ok) { srvFalha(rel, 'pauta «' + (p.turma || p.id) + '»', g); return; }
+                        return srvApi('POST', '/rest/v1/pautas', { escola_id: E, id: p.id, dados: p }, { Prefer: 'return=representation' }).then(function (r3) {
+                            if (r3.ok && r3.j && r3.j[0]) { M[p.id] = { v: r3.j[0].versao, h: h }; rel.push++; } else srvFalha(rel, 'pauta «' + (p.turma || p.id) + '»', r3);
+                        });
+                    });
+                }
+                if (r.ok) { rel.recus = (rel.recus || 0) + 1; } else srvFalha(rel, 'pauta «' + (p.turma || p.id) + '»', r);
             });
         });
     });
@@ -6053,6 +6064,12 @@ function srvSync(manual) {
         return srvApi('GET', '/rest/v1/pautas?select=id,versao,apagada&escola_id=eq.' + E);
     }).then(function (r) {
         if (!r.ok) throw { msg: 'Erro ao ler os dados do servidor.' };
+        /* v6.3.4: pautas que este dispositivo dá como já enviadas mas que NÃO existem no servidor (servidor trocado/reposto, cópia de segurança restaurada...)
+           deixam de ser tratadas como «enviadas»: voltam a ser criadas no servidor, para o Administrador Geral as ver. */
+        if (SESSAO.perfil === 'adjunto') {
+            var noSrv = {}; (r.j || []).forEach(function (x) { noSrv[x.id] = 1; });
+            Object.keys(M).forEach(function (id) { if (!noSrv[id] && S.pautas.some(function (p) { return p.id === id; })) { delete M[id]; rel.recria = (rel.recria || 0) + 1; } });
+        }
         return srvPull(r.j || [], E, M, rel);
     }).then(function () { return srvPush(E, M, rel); }).then(function () {
         SRV.busy = false; save(); lsSet('ge360_srv_ult', Date.now());
@@ -16000,7 +16017,7 @@ html[data-theme="dark"] #rsnav button.on{color:#fff;background:rgba(154,110,230,
 (function(){
 var de=document.documentElement,b=document.body;
 function pageBg(){try{var c=getComputedStyle(b).backgroundColor;if(c&&!/rgba\(.*,\s*0\)|transparent/.test(c))de.style.setProperty('--rs-page',c)}catch(e){}}
-function cls(){var w=innerWidth;de.classList.toggle('rs-d',w>=1024);de.classList.toggle('rs-t',w>=768&&w<1024);de.classList.toggle('rs-m',w<768);pageBg()}
+function cls(){var w=Math.min(document.documentElement.clientWidth||window.innerWidth,window.innerWidth);de.classList.toggle('rs-d',w>=1024);de.classList.toggle('rs-t',w>=768&&w<1024);de.classList.toggle('rs-m',w<768);pageBg()}
 cls();addEventListener('resize',cls);addEventListener('orientationchange',function(){setTimeout(cls,200)});
 new MutationObserver(pageBg).observe(de,{attributes:true,attributeFilter:['data-theme']});
 var nav=document.createElement('nav');nav.id='rsnav';nav.setAttribute('aria-label','Navegação');b.appendChild(nav);
@@ -17221,7 +17238,7 @@ html.rs-xl:root #app .grid,html.rs-xl:root .dash-section .grid{grid-template-col
 
     /* classes de orientação/altura/largura (complementam rs-m / rs-t / rs-d) */
     function medir() {
-        var w = window.innerWidth, h = window.innerHeight;
+        var w = Math.min(document.documentElement.clientWidth||window.innerWidth,window.innerWidth), h = window.innerHeight;
         de.classList.toggle('rs-land', w > h); de.classList.toggle('rs-port', w <= h);
         de.classList.toggle('rs-short', h <= 520); de.classList.toggle('rs-xl', w >= 1600);
     }
@@ -17257,7 +17274,7 @@ html.rs-xl:root #app .grid,html.rs-xl:root .dash-section .grid{grid-template-col
     var obs = null, agendado = 0;
     function sync() {
         var app = document.getElementById('app'); if (!app) return;
-        var movel = de.classList.contains('rs-m') || (!de.classList.contains('rs-t') && !de.classList.contains('rs-d') && window.innerWidth < 768);
+        var movel = de.classList.contains('rs-m') || (!de.classList.contains('rs-t') && !de.classList.contains('rs-d') && Math.min(document.documentElement.clientWidth||window.innerWidth,window.innerWidth) < 768);
         if (movel) desfazer(app); else envolver(app);
         if (obs) obs.takeRecords();
     }
@@ -17933,7 +17950,7 @@ var de=document.documentElement,raf=window.requestAnimationFrame||function(f){re
 
 /* 1. Classes de dispositivo e orientação no <html> */
 function classes(){
- var w=innerWidth,h=innerHeight,L=w>h;
+ var w=Math.min(document.documentElement.clientWidth||window.innerWidth,window.innerWidth),h=innerHeight,L=w>h;
  var m=w<768,t=w>=768&&w<1024,d=w>=1024;
  [['rs-mobile',m],['rs-tablet',t],['rs-desktop',d],['rs-landscape',L],['rs-portrait',!L],['rs-short',h<=520],['rs-xl',w>=1600]]
   .forEach(function(p){de.classList.toggle(p[0],p[1])});
@@ -17942,7 +17959,7 @@ var tm=null,lastO=null;
 function onChange(){
  clearTimeout(tm);
  tm=setTimeout(function(){
-  var o=innerWidth>innerHeight;
+  var o=Math.min(document.documentElement.clientWidth||window.innerWidth,window.innerWidth)>innerHeight;
   classes();
   if(lastO!==null&&o!==lastO){ /* rodou: fecha menu aberto e reinicia a transição */
    try{if(typeof menuFecha==='function')menuFecha()}catch(e){}
@@ -17951,7 +17968,7 @@ function onChange(){
   lastO=o;
  },120);
 }
-classes();lastO=innerWidth>innerHeight;
+classes();lastO=Math.min(document.documentElement.clientWidth||window.innerWidth,window.innerWidth)>innerHeight;
 addEventListener('resize',onChange);addEventListener('orientationchange',onChange);
 try{screen.orientation&&screen.orientation.addEventListener&&screen.orientation.addEventListener('change',onChange)}catch(e){}
 
