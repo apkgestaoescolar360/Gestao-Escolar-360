@@ -20120,6 +20120,8 @@ html:not(#a):not(#b):not(#c) body:not(#a):not(#b):not(#c){background:transparent
 #apBtn{display:none;position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:60;width:46px;height:46px;border-radius:14px;place-items:center;cursor:pointer;padding:0;
  border:1px solid rgba(var(--az-600-rgb),.35);background:rgba(255,255,255,.92);color:var(--az-600);box-shadow:0 6px 18px rgba(var(--az-950-rgb),.25)}
 body:not(.side) #apBtn{display:grid}
+/* v6.3.8: no telemóvel o painel do Administrador tem a barra de separadores em baixo (#ge-nav); o botão flutuante «Aparência» cobria o separador «Ferramentas». Sobe acima da barra. */
+@media(max-width:1023.98px){body.ge-as #apBtn{bottom:calc(82px + env(safe-area-inset-bottom,0px))}}
 #apBtn svg{width:22px;height:22px;display:block}
 html[data-theme="dark"] #apBtn{background:rgba(5,5,5,.88);color:var(--az-400);border-color:rgba(var(--az-500-rgb),.45)}
 #apOv{position:fixed;inset:0;z-index:2147482000;display:none;align-items:flex-end;justify-content:center;background:rgba(var(--az-950-rgb),.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
